@@ -1,3 +1,7 @@
-<h1 class="text-3xl font-bold underline">
-    Hello MagicBoard!
-</h1>
+<script lang="ts">
+    import Canvas from "$lib/components/Canvas.svelte";
+    import { svgs } from "$lib/store/svgStore";
+
+</script>
+
+<Canvas {svgs}></Canvas>
