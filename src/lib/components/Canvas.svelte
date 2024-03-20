@@ -2,16 +2,19 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { svgs } from '$lib/stores/svgStore.js';
+    
+    
 
     /***************************************************/
     /******************** VARIABLES ********************/
     /***************************************************/
-    let canvas: any;
-    let ctx: any;
+    let canvas: HTMLCanvasElement;
+    let ctx: CanvasRenderingContext2D | null;
     let isDragging = false;
     let offsetX = 0, offsetY = 0; // View offset
     let startX: number, startY: number; // Starting positions for dragging
-    let imageCache = new Map(); // Cache for the loaded images
+    let imageCache = new Map<number, HTMLImageElement>(); // Cache for the loaded images
+
 
     
     /**************************************************/
@@ -22,20 +25,27 @@
         drawCanvas(); // Initial draw
     });
 
+
+
     /**************************************************************************/
     /******************** REDRAW CANVAS IF CHANES TO STORE ********************/
     /**************************************************************************/
     // Reactive statement to redraw canvas when svgs store updates
-    $: {
-        if (ctx) {
+    $: if (canvas !== undefined) {
+        ctx = canvas.getContext('2d');
+        if (ctx !== null) {
             drawCanvas();
         }
-    };
+    }
 
+
+    
     /************************************************/
     /******************** CANVAS ********************/
     /************************************************/
     function drawCanvas() {
+        if (ctx === null) return;
+
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawGrid();
         $svgs.forEach(({ svg, x, y, id }) => { // Assuming each SVG has a unique ID
@@ -61,6 +71,8 @@
 
     function drawCachedSVG(id: number, x: number, y: number) {
         const img = imageCache.get(id);
+
+        if (ctx === null) return;
         if (img) {
             ctx.drawImage(img, x + offsetX, y + offsetY);
         }
@@ -94,6 +106,8 @@
     const dotSize = 2; // Radius of each dot
 
     function drawGrid() {
+        if (ctx === null) return;
+
         for (let x = 0; x < canvas.width; x += gridSpacing) {
             for (let y = 0; y < canvas.height; y += gridSpacing) {
                 ctx.beginPath();
