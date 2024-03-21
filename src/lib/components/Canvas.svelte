@@ -81,13 +81,13 @@
     /**********************************************/
     /******************** DRAG ********************/
     /**********************************************/
-    function startDrag(e: any) {
+    function startDrag(e: MouseEvent) {
         isDragging = true;
         startX = e.clientX - offsetX;
         startY = e.clientY - offsetY;
     }
 
-    function onDrag(e: any) {
+    function onDrag(e: MouseEvent) {
         if (isDragging) {
             offsetX = e.clientX - startX;
             offsetY = e.clientY - startY;
