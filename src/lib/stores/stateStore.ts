@@ -1,3 +1,5 @@
+// Store to handle global state
+
 import { writable } from 'svelte/store';
 
 export const zoomLevel = writable(100);
