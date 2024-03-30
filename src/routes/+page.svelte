@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Canvas from "$lib/components/Canvas.svelte";
-    import { svgs } from "$lib/stores/svgStore";
-
+	import CanvasV2 from '$lib/components/CanvasV2.svelte';
+	import UI from '$lib/components/UI.svelte';
 </script>
 
-<Canvas {svgs}></Canvas>
+<CanvasV2></CanvasV2>
+<UI></UI>
