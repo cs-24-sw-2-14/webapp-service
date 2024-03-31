@@ -13,9 +13,3 @@
 		{@html icon}
 	</button>
 </div>
-
-<style>
-	.icon-fill {
-		fill: black;
-	}
-</style>
