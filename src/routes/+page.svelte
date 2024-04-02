@@ -1,1 +1,1 @@
-<h1>LGTM</h1>
+<h1>This is the start page header</h1>

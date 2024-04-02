@@ -5,7 +5,7 @@
 	import { serverId } from '$lib/stores/stateStore';
 	export let data;
 
-	serverId.set(data.props.slug);
+	serverId.set(data.slug);
 </script>
 
 <CanvasV2></CanvasV2>

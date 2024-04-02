@@ -25,7 +25,7 @@
 		transition:fade={{ delay: 250, duration: 300 }}
 		class="fixed top-0 right-0 flex items-center h-8 px-6 py-8 m-4 font-bold bg-green-500 rounded-md mt-36"
 	>
-		Copied successfully
+		URL copied!
 	</div>
 {/if}
 
