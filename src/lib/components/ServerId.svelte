@@ -7,8 +7,7 @@
 	let isClicked = false;
 
 	function copyUrl() {
-		let url: string = '64.227.121.226:3000/';
-		url += $serverId;
+		let url: string = window.location.href;
 
 		navigator.clipboard.writeText(url);
 
