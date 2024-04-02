@@ -3,6 +3,7 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { serverId } from '$lib/stores/stateStore';
 	import { fade } from 'svelte/transition';
+	import { quadOut } from 'svelte/easing';
 
 	let isClicked = false;
 
@@ -22,7 +23,7 @@
 <!-- Simple box where the user can se the server ID -->
 {#if isClicked}
 	<div
-		transition:fade={{ delay: 250, duration: 300 }}
+		transition:fade={{ delay: 250, duration: 400, easing: quadOut }}
 		class="fixed top-0 right-0 flex items-center h-8 px-6 py-8 m-4 font-bold bg-green-500 rounded-md mt-36"
 	>
 		URL copied!
