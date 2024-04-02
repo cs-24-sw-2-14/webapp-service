@@ -38,7 +38,7 @@
 	</div>
 
 	<!-- Who is online? -->
-	<div class="fixed top-0 right-0 z-20 mr-14 mt-2">
+	<div class="fixed top-0 right-0 z-20 mt-2 mr-14">
 		<OnlineUsers users={onlineUsers} />
 	</div>
 </div>

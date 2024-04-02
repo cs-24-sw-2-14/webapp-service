@@ -4,7 +4,7 @@ import { writable } from 'svelte/store';
 
 export const zoomLevel = writable(100);
 
-export const serverId = writable("EC18BA");
+export const serverId = writable(" ");
 
 export const viewChat = writable(false);
 
