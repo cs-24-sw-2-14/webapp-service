@@ -1,1 +1,5 @@
-<h1>This is the start page header</h1>
+<script>
+	import FrontPage from '$lib/components/FrontPage.svelte';
+</script>
+
+<FrontPage></FrontPage>
