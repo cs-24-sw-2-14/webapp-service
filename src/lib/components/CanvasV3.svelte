@@ -57,8 +57,8 @@
 		canvasView.update((current: CanvasView) => {
 			return {
 				...current,
-				x: $canvasView.x - (event.clientX - startX) / ($canvasView.scale / 100),
-				y: $canvasView.y - (event.clientY - startY) / ($canvasView.scale / 100)
+				x: $canvasView.x - (event.clientX - startX),
+				y: $canvasView.y - (event.clientY - startY)
 			};
 		});
 
@@ -80,7 +80,7 @@
 	xmlns="http://www.w3.org/2000/svg"
 	width="100%"
 	height="100%"
-	viewBox={`${$canvasView.x - $canvasView.width / ((2 * $canvasView.scale) / 100)} ${$canvasView.y - $canvasView.height / ((2 * $canvasView.scale) / 100)} ${$canvasView.width / ($canvasView.scale / 100)} ${$canvasView.height / ($canvasView.scale / 100)}`}
+	viewBox={`${$canvasView.x} ${$canvasView.y} ${$canvasView.width} ${$canvasView.height}`}
 	on:mousedown={handleMouseDown}
 	on:mousemove={handleMouseMove}
 	on:mouseup={handleMouseUp}
@@ -102,8 +102,8 @@
 
 	<!-- Render background pattern -->
 	<rect
-		x={$canvasView.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
-		y={$canvasView.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
+		x={$canvasView.x}
+		y={$canvasView.y}
 		width="100%"
 		height="100%"
 		fill="url(#pattern-circles)"
