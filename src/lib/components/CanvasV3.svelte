@@ -8,6 +8,10 @@
 	let startX: number, startY: number;
 
 	onMount(() => {
+		resizeCanvas();
+	});
+
+	function resizeCanvas() {
 		canvasView.update((current: CanvasView) => {
 			return {
 				...current,
@@ -15,7 +19,7 @@
 				height: window.innerHeight
 			};
 		});
-	});
+	}
 
 	function handleMouseDown(event: MouseEvent) {
 		if ($toolState.pan) {
@@ -81,6 +85,7 @@
 	on:mousemove={handleMouseMove}
 	on:mouseup={handleMouseUp}
 	on:mouseleave={handleMouseLeave}
+	on:resize={resizeCanvas}
 >
 	<!-- Define the pattern for the dotted background -->
 	<pattern
