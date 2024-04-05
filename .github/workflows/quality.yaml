@@ -21,9 +21,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
+          cache: 'pnpm'
       - name: Install dependencies
         run: npm install -D
       - name: Check formatting with Prettier
         run: npm prettier:check:ci
-

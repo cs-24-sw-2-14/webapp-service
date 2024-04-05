@@ -1,7 +1,7 @@
 export function load({ params }) {
-  const slug = params.slug;
+	const slug = params.slug;
 
-  return {
-    slug
-  }
+	return {
+		slug
+	};
 }
