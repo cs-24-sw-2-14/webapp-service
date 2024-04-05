@@ -115,7 +115,7 @@
 			{@html svgObj.svg}
 		</g>
 	{/each}
-</svg>/style>
+</svg>
 
 <style>
 	.draggable {
