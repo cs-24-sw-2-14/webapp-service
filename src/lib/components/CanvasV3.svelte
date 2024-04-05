@@ -97,7 +97,7 @@
 		patternUnits="userSpaceOnUse"
 		patternContentUnits="userSpaceOnUse"
 	>
-		<circle cx="10" cy="10" r="1.5" fill="#000" />
+		<circle cx="10" cy="10" r="1.5" fill="#8c8c8c" />
 	</pattern>
 
 	<!-- Render background pattern -->
