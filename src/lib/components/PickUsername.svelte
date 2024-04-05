@@ -3,13 +3,8 @@
 
 <main>
 	<div class="mid-box">
-		<h1>Welcome <br />to MagicBoard!</h1>
-		<div class="inner-box">
-			<button id="create-button" class="button">Create Board</button>
-		</div>
-		<div class="inner-box-code">
-			<button id="join-button" class="button">Insert Code to Join Board</button>
-		</div>
+		<h1>Name Yourself.</h1>
+		<input type="text" placeholder="LigmaNuts13" />
 	</div>
 </main>
 
@@ -44,35 +39,25 @@
 
 	h1 {
 		/* Style header */
-		font-size: 3rem;
+		font-size: 2.9rem;
 		width: 100%; /* Ensure the header spans the width of the box */
 		text-align: center; /* Center the header text */
-		margin-top: 0; /* Adjust spacing as needed */
+		margin-top: 50px; /* Adjust spacing as needed */
 		font-weight: bold;
+		letter-spacing: 0.8px;
 	}
 
-	#create-button {
-		/* Style button */
-		margin-top: 35px;
-		background-color: #5ba4fc;
-	}
-
-	#join-button {
-		margin-top: 25px;
-		background-color: #53d769;
-	}
-
-	.button {
-		padding: 12px 65px;
-		font-size: 1.29rem;
-		text-align: center;
-		box-sizing: border-box;
+	input[type='text'] {
 		width: 100%;
+		padding: 13px 20px;
+		margin: 30px 0;
+		width: 375px;
+		height: 53px;
 		border-radius: 4px;
 		outline: 1.5px solid#283747;
-		font-weight: bold;
 		color: #595959;
-		word-spacing: 2px;
 		letter-spacing: 0.6px;
+		word-spacing: 2px;
+		font-size: larger;
 	}
 </style>
