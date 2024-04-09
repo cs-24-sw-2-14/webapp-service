@@ -4,20 +4,7 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import OnlineUsers from '$lib/components/OnlineUsers.svelte';
 	import { settings } from '$lib/stores/stateStore';
-	import type { OnlineUser } from '$lib/stores/stateStore';
-	import { onlineUsers } from '$lib/stores/stateStore';
-	
-	onlineUsers.update((current: OnlineUser[])=> {
-		return [
-		{ name: 'Elma Vukicevic', color: 'bg-blue-500', border: 'border-blue-800' },
-		{ name: 'Amalie Jensen', color: 'bg-red-500', border: 'border-red-800' },
-		{ name: 'Cecilie Lassen', color: 'bg-green-500', border: 'border-green-800' },
-		{ name: 'Kresten Sckerl', color: 'bg-orange-500', border: 'border-orange-800' },
-		{ name: 'Mads Fagerlund', color: 'bg-purple-500', border: 'border-purple-800' },
-		{ name: 'Marc Nygaard', color: 'bg-pink-500', border: 'border-pink-800' },
-		{ name: 'Thorbjørn Larsen', color: 'bg-yellow-500', border: 'border-yellow-800' }
-	];
-	})
+
 
 	
 
