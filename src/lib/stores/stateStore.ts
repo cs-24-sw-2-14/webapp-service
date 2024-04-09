@@ -48,6 +48,7 @@ export interface OnlineUser{
 	name:string;
 	color:string;
 	border:string;
-
-
 }
+
+export const onlineUsers = writable<OnlineUser[]>;
+
