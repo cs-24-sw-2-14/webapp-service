@@ -43,3 +43,11 @@ export function activateTool(tool: keyof ToolStates) {
 		return { ...current, pencil: false, erase: false, pan: false, move: false, [tool]: true };
 	});
 }
+ 
+export interface OnlineUser{
+	name:string;
+	color:string;
+	border:string;
+
+
+}
