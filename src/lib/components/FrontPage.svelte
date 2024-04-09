@@ -1,5 +1,13 @@
 <script lang="ts">
-    
+	let inputfield: string;
+
+    function redirect() { 
+        let url: string = window.location.href;
+
+        url += inputfield;
+
+        window.location.replace(url);
+    }
 </script>
 
 <link
@@ -17,12 +25,13 @@
 			</div>
 			<div class="inner-box-code">
 				<div class="flex flex-col justify-center w-96" style="font-family: 'Roboto', sans-serif">
-					<p class="mt-6 text-lg font-bold text-center">Insert Code to Join Board</p>
+					<p class="mt-6 text-lg font-bold text-center text-gray-800">Insert Code to Join Board</p>
 					<input
+						bind:value={inputfield}
 						class="h-8 px-4 py-6 border-2 rounded-md w-96 border-slate-200"
 						placeholder="Insert code"
 					/>
-					<button id="join-button" class="w-10 button"> Join Board</button>
+					<button id="join-button" class="w-10 button" on:click={redirect}> Join Board</button>
 				</div>
 			</div>
 		</div>
