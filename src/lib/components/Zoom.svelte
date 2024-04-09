@@ -1,25 +1,32 @@
 <script lang="ts">
 	import MenuButton from './MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-	import { zoomLevel } from '$lib/stores/stateStore';
+	import { canvasView } from '$lib/stores/stateStore';
+	import type { CanvasView } from '$lib/stores/stateStore';
 
 	// Function to increment zoom level
 	function zoomIn() {
-		zoomLevel.update((level) => {
-			if (level < 200) {
-				return level + 25;
+		canvasView.update((current: CanvasView) => {
+			if (current.scale < 200) {
+				return {
+					...current,
+					scale: current.scale + 25
+				};
 			}
-			return 200;
+			return current;
 		});
 	}
 
 	// Function to decrement zoom level
 	function zoomOut() {
-		zoomLevel.update((level) => {
-			if (level > 25) {
-				return level - 25;
+		canvasView.update((current: CanvasView) => {
+			if (current.scale > 25) {
+				return {
+					...current,
+					scale: current.scale - 25
+				};
 			}
-			return 25;
+			return current;
 		});
 	}
 </script>
@@ -28,6 +35,6 @@
 	class="fixed bottom-0 left-0 m-4 h-[56px] rounded-lg bg-zinc-800 z-10 flex items-center justify-center gap-2 p-2 text-white font-mono font-semibold"
 >
 	<MenuButton icon={Icons.zoom_out} on:click={zoomOut}></MenuButton>
-	<p class="mx-2">{$zoomLevel}%</p>
+	<p class="mx-2">{$canvasView.scale}%</p>
 	<MenuButton icon={Icons.zoom_in} on:click={zoomIn}></MenuButton>
 </div>
