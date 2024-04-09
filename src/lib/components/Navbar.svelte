@@ -4,13 +4,10 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import OnlineUsers from '$lib/components/OnlineUsers.svelte';
 	import { settings } from '$lib/stores/stateStore';
+	import type { OnlineUser } from '$lib/stores/stateStore';
 
 	// TODO: SHOULD BE A STORE!!!
-	interface OnlineUser {
-		name: string;
-		color: string;
-		border: string;
-	}
+	
 
 	let onlineUsers: OnlineUser[] = [
 		{ name: 'Elma Vukicevic', color: 'bg-blue-500', border: 'border-blue-800' },
