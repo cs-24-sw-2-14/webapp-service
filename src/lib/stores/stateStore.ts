@@ -50,5 +50,5 @@ export interface OnlineUser{
 	border:string;
 }
 
-export const onlineUsers = writable<OnlineUser[]>;
+export const onlineUsers = writable<OnlineUser[]>([]);
 
