@@ -2,14 +2,29 @@
     
 </script>
 
+<link
+	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+	rel="stylesheet"
+/>
+
 <main>
 	<div class="mid-box">
-		<h1>Welcome <br />to MagicBoard!</h1>
-		<div class="inner-box">
-			<button id="create-button" class="button">Create Board</button>
-		</div>
-		<div class="inner-box-code">
-			<button id="join-button" class="button">Insert Code to Join Board</button>
+		<div style="transform: translateY(-15px);">
+			<h1 style="font-size: 4.6rem;">Welcome</h1>
+			<h1 style="transform: translateY(-20px);">to MagicBoard!</h1>
+			<div class="inner-box">
+				<button id="create-button" class="button">Create Board</button>
+			</div>
+			<div class="inner-box-code">
+				<div class="flex flex-col justify-center w-96" style="font-family: 'Roboto', sans-serif">
+					<p class="mt-6 text-lg font-bold text-center">Insert Code to Join Board</p>
+					<input
+						class="h-8 px-4 py-6 border-2 rounded-md w-96 border-slate-200"
+						placeholder="Insert code"
+					/>
+					<button id="join-button" class="w-10 button"> Join Board</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </main>
@@ -45,24 +60,12 @@
 
 	h1 {
 		/* Style header */
-		font-size: 3rem;
+		font-size: 2.75rem;
 		width: 100%; /* Ensure the header spans the width of the box */
 		text-align: center; /* Center the header text */
 		margin-top: 0; /* Adjust spacing as needed */
 		font-weight: bold;
 	}
-
-	#create-button {
-		/* Style button */
-		margin-top: 35px;
-		background-color: #5ba4fc;
-	}
-
-	#join-button {
-		margin-top: 25px;
-		background-color: #53d769;
-	}
-
 	.button {
 		padding: 12px 65px;
 		font-size: 1.29rem;
@@ -75,5 +78,18 @@
 		color: #595959;
 		word-spacing: 2px;
 		letter-spacing: 0.6px;
+	}
+
+	#create-button {
+		/* Style button */
+		background-color: #5ba4fc;
+	}
+
+	#join-button {
+		background-color: #53d769;
+		width: 200px;
+		height: 50px;
+		padding: 0;
+		margin: 8px auto;
 	}
 </style>
