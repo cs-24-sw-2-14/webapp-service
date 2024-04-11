@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MenuButton from './MenuButton.svelte';
+	import MenuButton from '$lib/components/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { canvasView } from '$lib/stores/stateStore';
 	import type { CanvasView } from '$lib/stores/stateStore';
