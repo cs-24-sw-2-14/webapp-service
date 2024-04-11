@@ -3,6 +3,12 @@
 
 	$: {
 		inputfield = inputfield.toUpperCase();
+		if (!checkHexa(inputfield)) {
+			inputfield = inputfield.slice(0, -1);
+		}
+		if (inputfield.length > 6) {
+			inputfield = inputfield.slice(0, -1);
+		}
 	}
 
 	function redirect() {
@@ -47,14 +53,6 @@
 					<p class="mt-6 text-lg font-bold text-center text-gray-800">Insert Code to Join Board</p>
 					<input
 						bind:value={inputfield}
-						on:input={() => {
-							if (!checkHexa(inputfield)) {
-								inputfield = inputfield.slice(0, -1);
-							}
-							if (inputfield.length > 6){
-								inputfield = inputfield.slice(0, -1);
-							}
-						}}
 						class="h-8 px-4 py-6 border-2 rounded-md w-96 border-slate-200"
 						placeholder="Insert code"
 					/>
