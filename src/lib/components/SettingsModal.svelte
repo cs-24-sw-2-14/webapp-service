@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { settings } from '$lib/stores/stateStore';
+	import ColorPicker from './ColorPicker.svelte';
 	export let showModal = $settings;
 
 	let code = '';
@@ -74,6 +75,10 @@
 			</div>
 
 			<div class="h-[2px] w-full bg-zinc-700 flex my-10 rounded mx-auto"></div>
+
+
+			<!-- Color Picker -->
+			<ColorPicker></ColorPicker>	
 
 			<!-- User Information Section -->
 			<h2 class="text-lg font-semibold mb-2 text-zinc-300">Update user-information</h2>
