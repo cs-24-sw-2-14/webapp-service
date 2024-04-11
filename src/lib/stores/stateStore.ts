@@ -43,3 +43,13 @@ export function activateTool(tool: keyof ToolStates) {
 		return { ...current, pencil: false, erase: false, pan: false, move: false, [tool]: true };
 	});
 }
+
+export interface User {
+	username: string;
+	color: string;
+}
+
+export const user = writable<User>({
+	username: "",
+	color: "",
+});
