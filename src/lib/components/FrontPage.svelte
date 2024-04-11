@@ -51,6 +51,9 @@
 							if (!checkHexa(inputfield)) {
 								inputfield = inputfield.slice(0, -1);
 							}
+							if (inputfield.length > 6){
+								inputfield = inputfield.slice(0, -1);
+							}
 						}}
 						class="h-8 px-4 py-6 border-2 rounded-md w-96 border-slate-200"
 						placeholder="Insert code"
