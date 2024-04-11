@@ -1,29 +1,23 @@
 <script lang="ts">
-
 	let inputfield: string = '';
 
 	$: {
-			inputfield = inputfield.toUpperCase();
+		inputfield = inputfield.toUpperCase();
 	}
 
 	function redirect() {
 		let url: string = window.location.href;
 
-		if (checkHexa()) {
+		if (inputfield.length == 6) {
 			url += inputfield;
-		}
 
-		window.location.replace(url);
+			window.location.replace(url);
+		}
 	}
 
-	function checkHexa() {
-		let len = inputfield.length;
-		if (len != 6) {
-			return false;
-		}
-
-		for (let i = 0; i < len; i++) {
-			let charCode = inputfield.charCodeAt(i);
+	function checkHexa(input: string) {
+		for (let i = 0; i < input.length; i++) {
+			let charCode = input.charCodeAt(i);
 
 			//check if char is between 0 and 9 or A and F
 			if (!(charCode >= 48 && charCode <= 57) && !(charCode >= 65 && charCode <= 70)) {
@@ -53,6 +47,11 @@
 					<p class="mt-6 text-lg font-bold text-center text-gray-800">Insert Code to Join Board</p>
 					<input
 						bind:value={inputfield}
+						on:input={() => {
+							if (!checkHexa(inputfield)) {
+								inputfield = inputfield.slice(0, -1);
+							}
+						}}
 						class="h-8 px-4 py-6 border-2 rounded-md w-96 border-slate-200"
 						placeholder="Insert code"
 					/>
