@@ -4,7 +4,7 @@
 
 import { onlineUsers } from '$lib/stores/stateStore';
 import type { User } from '$lib/stores/stateStore';
-import { color } from '../color';
+import { colors } from '../color';
 
 	interface OnlineUser {
 		name: string;

@@ -1,26 +1,17 @@
 
-export enum color {
-	red = "red-500",
-	orange = "orange-500",
-	yellow = "amber-400",
-	brown = "yellow-900",
-	lime = "lime-500",
-	green = "green-500",
-	teal = "teal-400",
-	blue = "blue-500",
-	purple = "purple-500",
-	pink = "pink-500",
-};
+function createColor(name: string, bg: string, border: string) {
+    return {name: name, bg: bg, border: border}
+}
 
-export enum borderColor{
-	red = "red-800",
-	orange = "orange-800",
-	yellow = "amber-700",
-	brown = "orange-950",
-	lime = "lime-800",
-	green = "green-800",
-	teal = "teal-700",
-	blue = "blue-800",
-	purple = "purple-800",
-	pink = "pink-800",
-};
+export let colors = [
+    createColor("red", "red-500", "red-800"),
+    createColor("orange","orange-500", "orange-800"),
+    createColor("yellow", "amber-400", "amber-700"),
+    createColor("lime", "lime-500", "lime-800"),
+    createColor("green", "green-500", "green-800"),
+    createColor("teal", "teal-400", "teal-700"),
+    createColor("brown", "yellow-900", "amber-950"),
+    createColor("blue", "blue-500", "blue-800"),
+    createColor("purple", "purple-500", "purple-800"),
+    createColor("pink", "pink-500", "pink-800"),
+]
