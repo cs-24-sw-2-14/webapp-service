@@ -1,13 +1,38 @@
 <script lang="ts">
-	let inputfield: string;
+	let inputfield: string = '';
 
-    function redirect() { 
-        let url: string = window.location.href;
+	$: {
+		inputfield = inputfield.toUpperCase();
+		if (!checkHexa(inputfield)) {
+			inputfield = inputfield.slice(0, -1);
+		}
+		if (inputfield.length > 6) {
+			inputfield = inputfield.slice(0, -1);
+		}
+	}
 
-        url += inputfield;
+	function redirect() {
+		let url: string = window.location.href;
 
-        window.location.replace(url);
-    }
+		if (inputfield.length == 6) {
+			url += inputfield;
+
+			window.location.replace(url);
+		}
+	}
+
+	function checkHexa(input: string) {
+		for (let i = 0; i < input.length; i++) {
+			let charCode = input.charCodeAt(i);
+
+			//check if char is between 0 and 9 or A and F
+			if (!(charCode >= 48 && charCode <= 57) && !(charCode >= 65 && charCode <= 70)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 </script>
 
 <link
