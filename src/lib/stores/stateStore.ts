@@ -1,6 +1,8 @@
 // Store to handle global state
 
 import { writable } from 'svelte/store';
+import { color } from "../color";
+
 
 export const serverId = writable('');
 
@@ -43,3 +45,16 @@ export function activateTool(tool: keyof ToolStates) {
 		return { ...current, pencil: false, erase: false, pan: false, move: false, [tool]: true };
 	});
 }
+
+
+export interface User{
+	name:string;
+	color:color;
+	border:string;
+}
+
+
+
+export const onlineUsers = writable<User[]>([]);
+
+export const user = writable<User>();

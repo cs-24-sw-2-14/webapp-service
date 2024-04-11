@@ -1,4 +1,11 @@
+
+
 <script lang="ts">
+
+import { onlineUsers } from '$lib/stores/stateStore';
+import type { User } from '$lib/stores/stateStore';
+import { color } from '../color';
+
 	interface OnlineUser {
 		name: string;
 		color: string;
