@@ -1,12 +1,11 @@
 <script lang="ts">
-	
-	let inputfield: string;
 
-	//$: inputfield.toUpperCase();
+	let inputfield: string = '';
 
+	$: {
+			inputfield = inputfield.toUpperCase();
+	}
 
-
-	
 	function redirect() {
 		let url: string = window.location.href;
 
@@ -27,7 +26,7 @@
 			let charCode = inputfield.charCodeAt(i);
 
 			//check if char is between 0 and 9 or A and F
-			if (!(charCode >= 48 && charCode <= 57) && !(charCode >= 65 && charCode <= 70)) { 
+			if (!(charCode >= 48 && charCode <= 57) && !(charCode >= 65 && charCode <= 70)) {
 				return false;
 			}
 		}
