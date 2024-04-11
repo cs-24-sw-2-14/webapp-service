@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onlineUsers } from '$lib/stores/stateStore';
-	import type { OnlineUser } from '$lib/stores/stateStore';
+	import type { User } from '$lib/stores/stateStore';
 	import { color } from '../color';
 
-	onlineUsers.update((current: OnlineUser[]) => {
+	onlineUsers.update((current: User[]) => {
 		return [
 			{ name: 'Elma Vukicevic', color: color.red, border: 'border-blue-800' },
 			{ name: 'Amalie Jensen', color: color.red, border: 'border-red-800' },
@@ -28,7 +28,7 @@
 <div class="relative h-10">
 	{#each $onlineUsers as user, i (user.name)}
 		<div 
-			class={`w-10 h-10 rounded-full text-white text-center text-sm font-mono leading-[38px] absolute border-2 ${user.border} ring-gray-800 ring-2 bg-${user.color}-500`}
+			class={`w-10 h-10 rounded-full text-white text-center text-sm font-mono leading-[38px] absolute border-2 ${user.border} ring-gray-800 ring-2 bg-[${user.color}]-500`}
 			style="left: {i * 8}px; transform: translateX({-i * 100}%);"
 		>
 			{getInitials(user.name)}

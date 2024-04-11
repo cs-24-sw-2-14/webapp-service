@@ -46,11 +46,11 @@ export function activateTool(tool: keyof ToolStates) {
 }
 
  
-export interface OnlineUser{
+export interface User{
 	name:string;
 	color:color;
 	border:string;
 }
 
-export const onlineUsers = writable<OnlineUser[]>([]);
+export const onlineUsers = writable<User[]>([]);
 
