@@ -1,3 +1,4 @@
+import type { Color } from "$lib/stores/stateStore"
 
 function createColor(name: string, bg: string, border: string) {
     return {name: name, bg: bg, border: border}

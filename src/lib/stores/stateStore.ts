@@ -46,15 +46,21 @@ export function activateTool(tool: keyof ToolStates) {
 	});
 }
 
+export interface Color {
+    name: string;
+    bg: string;
+    border: string;
+
+}
 
 export interface User{
 	name:string;
-	color:string;
-	border:string;
+	color:Color;
 }
-
-
 
 export const onlineUsers = writable<User[]>([]);
 
-export const user = writable<User>();
+export const user = writable<User>({
+	name: "Amalie",
+	color: {name: "red", bg: "red-500", border: "red-800"}
+});
