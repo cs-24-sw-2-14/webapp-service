@@ -52,3 +52,5 @@ export const canvasMousePosition = writable<CanvasMousePosition>({
   y: 0,
 });
 
+export const canvasMouseDown = writable(false)
+
