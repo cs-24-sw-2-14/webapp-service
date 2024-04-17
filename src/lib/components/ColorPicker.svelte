@@ -34,7 +34,8 @@
 				{#each colors.slice(row * 5, row * 5 + 5) as color}
 					<td
 						><button
-							class={`bg-${color.bg} border-${color.border} border-2 hover:border-4`}
+							style={`background-color: ${color.bg}; border-color: ${color.border};`}
+							class={`border-2 hover:border-4`}
 							disabled={colorChosen(color, $user, $onlineUsers)}
 							on:click={() => {
 								colorClicked(color);
@@ -48,6 +49,10 @@
 </div>
 
 <style>
+	.color {
+		background-color: #ef4444;
+	}
+
 	/* Centering styles */
 	.container {
 		display: flex;
@@ -63,8 +68,7 @@
 		vertical-align: middle; /* Align vertically */
 		position: relative; /* Set position to relative */
 		overflow: hidden; /* Allow content to overflow */
-        margin: 0.5em; /* Add margin around the button */
-
+		margin: 0.5em; /* Add margin around the button */
 	}
 
 	button:disabled::after {
@@ -76,6 +80,5 @@
 		font-size: 300%; /* Increase font size */
 		z-index: 1; /* Ensure X appears above button */
 		color: #27272a; /* Set color to grey */
-
 	}
 </style>
