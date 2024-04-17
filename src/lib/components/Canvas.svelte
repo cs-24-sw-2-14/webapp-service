@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { toolState, ToolState, canvasView, mouseEvents } from '$lib/stores/stateStore';
+	import {
+		toolState,
+		ToolState,
+		canvasView,
+		mouseEvents,
+		currentSvgElementIndex
+	} from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
 
@@ -17,6 +23,7 @@
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
 	class:draggable={$toolState === ToolState.pan}
 	role="application"
@@ -59,8 +66,15 @@
 	/>
 
 	<!-- Render the SVGs -->
-	{#each $svgs as svgObj}
-		<g transform={`translate(${svgObj.x}, ${svgObj.y})`}>
+	{#each $svgs as svgObj, index}
+		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<g
+			transform={`translate(${svgObj.x}, ${svgObj.y})`}
+			on:mouseover={() => {
+				$currentSvgElementIndex = index;
+			}}
+		>
 			{@html svgObj.svg}
 		</g>
 	{/each}

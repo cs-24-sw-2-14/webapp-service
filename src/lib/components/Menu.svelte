@@ -3,15 +3,12 @@
 
 	import MenuButton from './MenuButton.svelte';
 	import Pan from '$lib/components/tools/Pan.svelte';
+	import Move from '$lib/components/tools/Move.svelte';
 	import Draw from '$lib/components/tools/Draw.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 
 	function handleClickErase() {
 		$toolState = ToolState.erase;
-	}
-
-	function handleClickMove() {
-		$toolState = ToolState.move;
 	}
 </script>
 
@@ -33,9 +30,7 @@
 	<Pan />
 
 	<!-- Button for moving elements -->
-	<MenuButton isActive={$toolState === ToolState.move} icon={Icons.move} on:click={handleClickMove}
-	></MenuButton>
-
+	<Move />
 	<!-- SPACE -->
 	<div class="border-white border-r-[1.5px] h-6 mx-2"></div>
 
