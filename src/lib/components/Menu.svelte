@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { toolState, ToolState } from '$lib/stores/stateStore';
-	// import type { ToolState } from '$lib/stores/stateStore';
 
 	import MenuButton from './MenuButton.svelte';
 	import Pan from '$lib/components/tools/Pan.svelte';
