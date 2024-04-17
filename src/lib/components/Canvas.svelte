@@ -23,6 +23,7 @@
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
 	class:draggable={$toolState === ToolState.pan}
 	role="application"
@@ -65,8 +66,15 @@
 	/>
 
 	<!-- Render the SVGs -->
-	{#each $svgs as svgObj}
-		<g transform={`translate(${svgObj.x}, ${svgObj.y})`}>
+	{#each $svgs as svgObj, index}
+		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
+		<!-- svelte-ignore a11y-no-static-element-interactions -->
+		<g
+			transform={`translate(${svgObj.x}, ${svgObj.y})`}
+			on:mouseover={() => {
+				$currentSvgElementIndex = index;
+			}}
+		>
 			{@html svgObj.svg}
 		</g>
 	{/each}
