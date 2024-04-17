@@ -1,23 +1,17 @@
 <script lang="ts">
-	import { toolState, activateTool } from '$lib/stores/stateStore';
+	import { toolState, ToolState } from '$lib/stores/stateStore';
 
 	import MenuButton from './MenuButton.svelte';
+	import Pan from '$lib/components/tools/Pan.svelte';
+	import Draw from '$lib/components/tools/Draw.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 
-	function handleClickPencil() {
-		activateTool('pencil');
-	}
-
 	function handleClickErase() {
-		activateTool('erase');
-	}
-
-	function handleClickPan() {
-		activateTool('pan');
+		$toolState = ToolState.erase;
 	}
 
 	function handleClickMove() {
-		activateTool('move');
+		$toolState = ToolState.move;
 	}
 </script>
 
@@ -26,18 +20,20 @@
 	class="fixed bottom-0 left-1/2 mb-4 rounded-lg bg-zinc-800 z-10 transform -translate-x-1/2 flex items-center gap-2 p-2"
 >
 	<!-- Button for drawing -->
-	<MenuButton isActive={$toolState['pencil']} icon={Icons.pencil} on:click={handleClickPencil}
-	></MenuButton>
+	<Draw />
 
 	<!-- Button for erasing -->
-	<MenuButton isActive={$toolState['erase']} icon={Icons.erase} on:click={handleClickErase}
+	<MenuButton
+		isActive={$toolState === ToolState.erase}
+		icon={Icons.erase}
+		on:click={handleClickErase}
 	></MenuButton>
 
 	<!-- Button for panning around -->
-	<MenuButton isActive={$toolState['pan']} icon={Icons.pan} on:click={handleClickPan}></MenuButton>
+	<Pan />
 
 	<!-- Button for moving elements -->
-	<MenuButton isActive={$toolState['move']} icon={Icons.move} on:click={handleClickMove}
+	<MenuButton isActive={$toolState === ToolState.move} icon={Icons.move} on:click={handleClickMove}
 	></MenuButton>
 
 	<!-- SPACE -->

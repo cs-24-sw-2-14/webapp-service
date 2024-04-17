@@ -1,33 +1,21 @@
 <script lang="ts">
-	import MenuButton from './MenuButton.svelte';
+	import MenuButton from '$lib/components/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { canvasView } from '$lib/stores/stateStore';
-	import type { CanvasView } from '$lib/stores/stateStore';
+
+	const MAX_ZOOM = 200;
+	const MIN_ZOOM = 25;
 
 	// Function to increment zoom level
 	function zoomIn() {
-		canvasView.update((current: CanvasView) => {
-			if (current.scale < 200) {
-				return {
-					...current,
-					scale: current.scale + 25
-				};
-			}
-			return current;
-		});
+		if ($canvasView.scale >= MAX_ZOOM) return;
+		$canvasView = { ...$canvasView, scale: $canvasView.scale + 25 };
 	}
 
 	// Function to decrement zoom level
 	function zoomOut() {
-		canvasView.update((current: CanvasView) => {
-			if (current.scale > 25) {
-				return {
-					...current,
-					scale: current.scale - 25
-				};
-			}
-			return current;
-		});
+		if ($canvasView.scale <= MIN_ZOOM) return;
+		$canvasView = { ...$canvasView, scale: $canvasView.scale - 25 };
 	}
 </script>
 
