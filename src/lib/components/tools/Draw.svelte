@@ -13,7 +13,7 @@
 	import { svgs } from '$lib/stores/svgStore';
 
 	let pathString = '';
-	let currentId = 0;
+	let currentIndex = 0;
 
 	canvasMouseDown.subscribe(startDraw);
 	canvasMousePosition.subscribe(doDraw);
@@ -27,13 +27,12 @@
 
 	function startDraw(mouseDown: boolean) {
 		if (!mouseDown || $toolState !== ToolState.draw) return;
-		currentId = Math.floor(Math.random() * 1000000);
 		const new_svg_element: Svg = {
 			svg: ``,
 			x: 0,
 			y: 0
 		};
-		currentId = $svgs.length;
+		currentIndex = $svgs.length;
 		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
 		pathString = `M${x},${y}`;
 		$svgs = [...$svgs, new_svg_element];
@@ -47,12 +46,12 @@
 
 	function stopDraw(mouseDown: boolean) {
 		if (!mouseDown) {
-			currentId = 0;
+			currentIndex = 0;
 			pathString = '';
 		}
 	}
 
-	$: $svgs[currentId].svg =
+	$: $svgs[currentIndex].svg =
 		`<path d="${pathString}" stroke="black" fill="transparent" stroke-width="5"/>`;
 </script>
 
