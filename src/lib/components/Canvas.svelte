@@ -1,128 +1,77 @@
-<!-- SvgCanvas.svelte -->
 <script lang="ts">
+	import { toolState, canvasView, mouseEvents } from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
 
-	/***************************************************/
-	/******************** VARIABLES ********************/
-	/***************************************************/
-	let canvas: HTMLCanvasElement;
-	let ctx: CanvasRenderingContext2D | null;
-	let isDragging = false;
-	let offsetX = 0,
-		offsetY = 0; // View offset
-	let startX: number, startY: number; // Starting positions for dragging
-	let imageCache = new Map<number, HTMLImageElement>(); // Cache for the loaded images
-
-	/**************************************************/
-	/******************** ON MOUNT ********************/
-	/**************************************************/
 	onMount(() => {
-		ctx = canvas.getContext('2d');
-		drawCanvas(); // Initial draw
+		resizeCanvas();
 	});
 
-	/**************************************************************************/
-	/******************** REDRAW CANVAS IF CHANES TO STORE ********************/
-	/**************************************************************************/
-	// Reactive statement to redraw canvas when svgs store updates
-	$: if (canvas !== undefined) {
-		ctx = canvas.getContext('2d');
-		if (ctx !== null) {
-			drawCanvas();
-		}
-	}
-
-	/************************************************/
-	/******************** CANVAS ********************/
-	/************************************************/
-	function drawCanvas() {
-		if (ctx === null) return;
-
-		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		drawGrid();
-		$svgs.forEach(({ svg, x, y, id }) => {
-			// Assuming each SVG has a unique ID
-			if (!imageCache.has(id)) {
-				loadAndCacheSVG(svg, id);
-			}
-			drawCachedSVG(id, x, y);
-		});
-	}
-
-	function loadAndCacheSVG(svg: string, id: number) {
-		const img = new Image();
-		const svgBlob = new Blob([svg], { type: 'image/svg+xml;charset=utf-8' });
-		const url = URL.createObjectURL(svgBlob);
-
-		img.onload = () => {
-			imageCache.set(id, img);
-			URL.revokeObjectURL(url);
-			drawCanvas(); // Redraw when new image is loaded
+	function resizeCanvas() {
+		$canvasView = {
+			...$canvasView,
+			width: window.innerWidth,
+			height: window.innerHeight
 		};
-		img.src = url;
-	}
-
-	function drawCachedSVG(id: number, x: number, y: number) {
-		const img = imageCache.get(id);
-
-		if (ctx === null) return;
-		if (img) {
-			ctx.drawImage(img, x + offsetX, y + offsetY);
-		}
-	}
-
-	/**********************************************/
-	/******************** DRAG ********************/
-	/**********************************************/
-	function startDrag(e: any) {
-		isDragging = true;
-		startX = e.clientX - offsetX;
-		startY = e.clientY - offsetY;
-	}
-
-	function onDrag(e: any) {
-		if (isDragging) {
-			offsetX = e.clientX - startX;
-			offsetY = e.clientY - startY;
-			drawCanvas(); // Call drawCanvas to include the offsets
-		}
-	}
-
-	function stopDrag() {
-		isDragging = false;
-	}
-
-	/**********************************************/
-	/******************** GRID ********************/
-	/**********************************************/
-	const gridSpacing = 50; // Space between dots
-	const dotSize = 2; // Radius of each dot
-
-	function drawGrid() {
-		if (ctx === null) return;
-
-		for (let x = 0; x < canvas.width; x += gridSpacing) {
-			for (let y = 0; y < canvas.height; y += gridSpacing) {
-				ctx.beginPath();
-				ctx.arc(x + (offsetX % gridSpacing), y + (offsetY % gridSpacing), dotSize, 0, 2 * Math.PI);
-				ctx.fill();
-			}
-		}
 	}
 </script>
 
-<div class="flex items-center justify-center h-screen">
-	<div class="border-4 border-black">
-		<canvas
-			bind:this={canvas}
-			width="1200"
-			height="800"
-			on:mousedown={startDrag}
-			on:mousemove={onDrag}
-			on:mouseup={stopDrag}
-			on:mouseleave={stopDrag}
-		>
-		</canvas>
-	</div>
-</div>
+<!-- transform={`scale(${})`} -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<svg
+	class:draggable={$toolState.pan}
+	role="application"
+	aria-label="Interactive infinite whiteboard with draggable grid"
+	xmlns="http://www.w3.org/2000/svg"
+	width="100%"
+	height="100%"
+	viewBox={`
+  ${$canvasView.x - $canvasView.width / ((2 * $canvasView.scale) / 100)} 
+  ${$canvasView.y - $canvasView.height / ((2 * $canvasView.scale) / 100)} 
+  ${$canvasView.width / ($canvasView.scale / 100)} 
+  ${$canvasView.height / ($canvasView.scale / 100)}
+`}
+	on:mousedown={mouseEvents.down}
+	on:mousemove={mouseEvents.move}
+	on:mouseup={mouseEvents.up}
+	on:mouseleave={mouseEvents.up}
+	on:resize={resizeCanvas}
+>
+	<!-- Define the pattern for the dotted background -->
+	<pattern
+		id="pattern-circles"
+		x="0"
+		y="0"
+		width="50"
+		height="50"
+		patternUnits="userSpaceOnUse"
+		patternContentUnits="userSpaceOnUse"
+	>
+		<circle cx="10" cy="10" r="1.5" fill="#8c8c8c" />
+	</pattern>
+
+	<!-- Render background pattern -->
+	<rect
+		x={$canvasView.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
+		y={$canvasView.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
+		width="100%"
+		height="100%"
+		fill="url(#pattern-circles)"
+	/>
+
+	<!-- Render the SVGs -->
+	{#each $svgs as svgObj}
+		<g transform={`translate(${svgObj.x}, ${svgObj.y})`}>
+			{@html svgObj.svg}
+		</g>
+	{/each}
+</svg>
+
+<style>
+	.draggable {
+		cursor: grab;
+	}
+	.draggable:active {
+		cursor: grabbing;
+	}
+</style>
