@@ -2,32 +2,17 @@
 	import MenuButton from '$lib/components/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { canvasView } from '$lib/stores/stateStore';
-	import type { CanvasView } from '$lib/stores/stateStore';
 
 	// Function to increment zoom level
 	function zoomIn() {
-		canvasView.update((current: CanvasView) => {
-			if (current.scale < 200) {
-				return {
-					...current,
-					scale: current.scale + 25
-				};
-			}
-			return current;
-		});
+		if ($canvasView.scale >= 200) return;
+		$canvasView = { ...$canvasView, scale: $canvasView.scale + 25 };
 	}
 
 	// Function to decrement zoom level
 	function zoomOut() {
-		canvasView.update((current: CanvasView) => {
-			if (current.scale > 25) {
-				return {
-					...current,
-					scale: current.scale - 25
-				};
-			}
-			return current;
-		});
+		if ($canvasView.scale <= 25) return;
+		$canvasView = { ...$canvasView, scale: $canvasView.scale - 25 };
 	}
 </script>
 
