@@ -1,5 +1,11 @@
 <script lang="ts">
-	import { toolState, ToolState, canvasView, mouseEvents } from '$lib/stores/stateStore';
+	import {
+		toolState,
+		ToolState,
+		canvasView,
+		mouseEvents,
+		currentSvgElementIndex
+	} from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
 
