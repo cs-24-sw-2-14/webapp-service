@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { toolState, activateTool } from '$lib/stores/stateStore';
+	import { toolState, ToolState } from '$lib/stores/stateStore';
+	// import type { ToolState } from '$lib/stores/stateStore';
 
 	import MenuButton from './MenuButton.svelte';
 	import Pan from '$lib/components/tools/Pan.svelte';
@@ -7,11 +8,11 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 
 	function handleClickErase() {
-		activateTool('erase');
+		$toolState = ToolState.erase;
 	}
 
 	function handleClickMove() {
-		activateTool('move');
+		$toolState = ToolState.move;
 	}
 </script>
 
@@ -23,14 +24,14 @@
 	<Draw />
 
 	<!-- Button for erasing -->
-	<MenuButton isActive={$toolState['erase']} icon={Icons.erase} on:click={handleClickErase}
+	<MenuButton isActive={$toolState === ToolState.pan} icon={Icons.erase} on:click={handleClickErase}
 	></MenuButton>
 
 	<!-- Button for panning around -->
 	<Pan />
 
 	<!-- Button for moving elements -->
-	<MenuButton isActive={$toolState['move']} icon={Icons.move} on:click={handleClickMove}
+	<MenuButton isActive={$toolState === ToolState.move} icon={Icons.move} on:click={handleClickMove}
 	></MenuButton>
 
 	<!-- SPACE -->

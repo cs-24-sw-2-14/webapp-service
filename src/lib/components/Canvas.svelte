@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toolState, canvasView, mouseEvents } from '$lib/stores/stateStore';
+	import { toolState, ToolState, canvasView, mouseEvents } from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
 
@@ -17,7 +17,7 @@
 </script>
 
 <svg
-	class:draggable={$toolState.pan}
+	class:draggable={$toolState === ToolState.pan}
 	role="application"
 	aria-label="Interactive infinite whiteboard with draggable grid"
 	xmlns="http://www.w3.org/2000/svg"

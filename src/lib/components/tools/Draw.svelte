@@ -3,7 +3,7 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		activateTool,
+		ToolState,
 		canvasMousePosition,
 		canvasMouseDown,
 		canvasView
@@ -14,10 +14,6 @@
 
 	let pathString = '';
 	let currentId = 0;
-	let lastMousePosition: CanvasMousePosition = {
-		x: 0,
-		y: 0
-	};
 
 	canvasMouseDown.subscribe(startDraw);
 	canvasMousePosition.subscribe(doDraw);
@@ -30,7 +26,7 @@
 	}
 
 	function startDraw(mouseDown: boolean) {
-		if (!mouseDown) return;
+		if (!mouseDown || $toolState !== ToolState.draw) return;
 		currentId = Math.floor(Math.random() * 1000000);
 		const new_svg_element: Svg = {
 			svg: ``,
@@ -44,7 +40,7 @@
 	}
 
 	function doDraw(pos: CanvasMousePosition) {
-		if (!$canvasMouseDown || !$toolState.draw) return;
+		if (!$canvasMouseDown || $toolState !== ToolState.draw) return;
 		const { x, y } = mouseToSvgCoordinates(pos);
 		pathString += `L${x},${y}`;
 	}
@@ -61,9 +57,9 @@
 </script>
 
 <MenuButton
-	isActive={$toolState.draw}
+	isActive={$toolState === ToolState.draw}
 	icon={Icons.pencil}
 	on:click={() => {
-		activateTool('draw');
+		$toolState = ToolState.draw;
 	}}
 ></MenuButton>

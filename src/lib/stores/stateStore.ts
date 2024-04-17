@@ -24,25 +24,9 @@ export const canvasView = writable<CanvasView>({
   scale: 100
 });
 
-export interface ToolStates {
-  draw: boolean;
-  erase: boolean;
-  pan: boolean;
-  move: boolean;
-}
+export enum ToolState { draw, erase, pan, move }
 
-export const toolState = writable<ToolStates>({
-  draw: false,
-  erase: false,
-  pan: true,
-  move: false
-});
-
-export function activateTool(tool: keyof ToolStates) {
-  toolState.update((current) => {
-    return { ...current, draw: false, erase: false, pan: false, move: false, [tool]: true };
-  });
-}
+export const toolState = writable<ToolState>(ToolState.pan);
 
 export interface CanvasMousePosition {
   x: number;

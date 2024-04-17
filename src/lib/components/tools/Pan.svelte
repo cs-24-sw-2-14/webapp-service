@@ -3,7 +3,7 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		activateTool,
+		ToolState,
 		canvasView,
 		canvasMousePosition,
 		canvasMouseDown
@@ -15,7 +15,7 @@
 	canvasMousePosition.subscribe(doDrag);
 
 	function startDrag(isDown: boolean) {
-		if (!$toolState.pan) return;
+		if ($toolState !== ToolState.pan) return;
 		if (isDown) {
 			startX = $canvasMousePosition.x;
 			startY = $canvasMousePosition.y;
@@ -23,7 +23,7 @@
 	}
 
 	function doDrag(pos: CanvasMousePosition) {
-		if (!$canvasMouseDown || !$toolState.pan) return;
+		if (!$canvasMouseDown || $toolState !== ToolState.pan) return;
 		$canvasView = {
 			...$canvasView,
 			x: $canvasView.x - (pos.x - startX) / ($canvasView.scale / 100),
@@ -35,9 +35,9 @@
 </script>
 
 <MenuButton
-	isActive={$toolState['pan']}
+	isActive={$toolState === ToolState.pan}
 	icon={Icons.pan}
 	on:click={() => {
-		activateTool('pan');
+		$toolState = ToolState.pan;
 	}}
 ></MenuButton>
