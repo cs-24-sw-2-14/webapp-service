@@ -24,7 +24,10 @@
 	<Draw />
 
 	<!-- Button for erasing -->
-	<MenuButton isActive={$toolState === ToolState.pan} icon={Icons.erase} on:click={handleClickErase}
+	<MenuButton
+		isActive={$toolState === ToolState.erase}
+		icon={Icons.erase}
+		on:click={handleClickErase}
 	></MenuButton>
 
 	<!-- Button for panning around -->
