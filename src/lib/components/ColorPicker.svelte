@@ -25,16 +25,9 @@
 			};
 		});
 	}
-
-    function getButtonInner(color: Color, user: User, onlineUsers: User[]) {
-        if (colorChosen(color, $user, $onlineUsers)) {
-            return "X"
-        }
-        return ""
-    }
 </script>
 
-<div>
+<div class="container">
 	<table>
 		{#each [0, 1, 2] as row}
 			<tr>
@@ -46,7 +39,7 @@
 							on:click={() => {
 								colorClicked(color);
 							}}
-						>{getButtonInner(color, $user, $onlineUsers)}</button></td
+						></button></td
 					>
 				{/each}
 			</tr>
@@ -55,13 +48,34 @@
 </div>
 
 <style>
+	/* Centering styles */
+	.container {
+		display: flex;
+		justify-content: center; /* Center horizontally */
+		align-items: center; /* Center vertically */
+	}
+
+	/* Button styles */
 	button {
 		border-radius: 50%;
-		padding: 1em;
+		width: 2.5em;
+		height: 2.5em;
+		vertical-align: middle; /* Align vertically */
+		position: relative; /* Set position to relative */
+		overflow: hidden; /* Allow content to overflow */
+        margin: 0.5em; /* Add margin around the button */
+
 	}
-	button:disabled,
-	button[disabled] {
-		border-radius: 50%;
-        
+
+	button:disabled::after {
+		content: '✕'; /* Add 'X' content */
+		position: absolute; /* Set position to absolute */
+		top: 45%; /* Align to the center vertically */
+		left: 50%; /* Align to the center horizontally */
+		transform: translate(-50%, -50%); /* Center the content */
+		font-size: 300%; /* Increase font size */
+		z-index: 1; /* Ensure X appears above button */
+		color: #27272a; /* Set color to grey */
+
 	}
 </style>

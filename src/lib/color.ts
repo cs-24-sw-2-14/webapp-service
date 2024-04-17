@@ -5,8 +5,8 @@ function createColor(name: string, bg: string, border: string) {
 }
 
 export let colors = [
-    createColor("red", "red-500", "red-800"),
-    createColor("orange","orange-500", "orange-800"),
+    createColor("red", "mainRed", "[borderRed]"),
+    createColor("orange","mainOrange", "orange-800"),
     createColor("yellow", "amber-400", "amber-700"),
     createColor("lime", "lime-500", "lime-800"),
     createColor("green", "green-500", "green-800"),
@@ -15,4 +15,16 @@ export let colors = [
     createColor("blue", "blue-500", "blue-800"),
     createColor("purple", "purple-500", "purple-800"),
     createColor("pink", "pink-500", "pink-800"),
+/*
+    createColor("red","mainRed","borderRed"),
+    createColor("","","borderOrange"),
+    createColor("","","borderYellow"),
+    createColor("","","borderLime"),
+    createColor("","","borderGreen"),
+    createColor("","","borderTeal"),
+    createColor("","","borderBrown"),
+    createColor("","","borderBlue"),
+    createColor("","","borderPurple"),
+    createColor("","","borderPink"),
+*/
 ]

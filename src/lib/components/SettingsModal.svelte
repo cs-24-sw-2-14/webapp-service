@@ -4,9 +4,7 @@
 	export let showModal = $settings;
 
 	let code = '';
-	let username = 'Many5900';
-	let firstName = 'Marc';
-	let lastName = 'Nygaard';
+	let username = 'Enter username here';
 
 	// Function to handle modal content click
 	function handleModalContentClick(event: MouseEvent) {
@@ -61,7 +59,7 @@
 				</button>
 			</div>
 
-			<div class="h-[2px] w-full bg-zinc-700 flex my-10 rounded mx-auto"></div>
+			<div class="h-[2px] w-full bg-zinc-700 flex my-5 rounded mx-auto"></div>
 
 			<!-- Create New Whiteboard Section -->
 			<h2 class="text-lg font-semibold mb-2 text-zinc-300">Create a new magicboard</h2>
@@ -74,14 +72,10 @@
 				</button>
 			</div>
 
-			<div class="h-[2px] w-full bg-zinc-700 flex my-10 rounded mx-auto"></div>
+			<div class="h-[2px] w-full bg-zinc-700 flex my-5 rounded mx-auto"></div>
 
-
-			<!-- Color Picker -->
-			<ColorPicker></ColorPicker>
-			
 			<!-- User Information Section -->
-			<h2 class="text-lg font-semibold mb-2 text-zinc-300">Update user-information</h2>
+			<h2 class="text-lg font-semibold mb-2 text-zinc-300">User-customization</h2>
 			<div>
 				<div>
 					<label for="username" class="font-bold text-zinc-300">Username:</label>
@@ -93,28 +87,10 @@
 						class="mt-1 p-2 border rounded w-full placeholder-zinc-700 bg-zinc-500 border-none focus:outline-none focus:ring-0 focus:border-none text-zinc-700"
 					/>
 				</div>
-				<div class="flex space-x-4 mt-4">
-					<div class="flex-1">
-						<label for="firstName" class="font-bold text-zinc-300">First Name:</label>
-						<input
-							type="text"
-							id="firstName"
-							bind:value={firstName}
-							placeholder="First Name"
-							class="mt-1 p-2 border rounded w-full placeholder-zinc-700 bg-zinc-500 border-none focus:outline-none focus:ring-0 focus:border-none text-zinc-700"
-						/>
-					</div>
-					<div class="flex-1">
-						<label for="lastName" class="font-bold text-zinc-300">Last Name:</label>
-						<input
-							type="text"
-							id="lastName"
-							bind:value={lastName}
-							placeholder="Last Name"
-							class="mt-1 p-2 border rounded w-full placeholder-zinc-700 bg-zinc-500 border-none focus:outline-none focus:ring-0 focus:border-none text-zinc-700"
-						/>
-					</div>
-				</div>
+
+				<!-- Color Picker -->
+				<ColorPicker></ColorPicker>
+
 				<button
 					class="mt-4 px-4 py-2 bg-yellow-500 rounded shadow hover:bg-yellow-600 w-full"
 					on:click={updateUserInfo}
