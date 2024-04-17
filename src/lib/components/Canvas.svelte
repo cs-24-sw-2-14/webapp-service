@@ -16,6 +16,7 @@
 	}
 </script>
 
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <svg
 	class:draggable={$toolState === ToolState.pan}
 	role="application"
