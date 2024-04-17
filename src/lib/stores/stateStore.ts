@@ -43,10 +43,12 @@ export function activateTool(tool: keyof ToolStates) {
     return { ...current, draw: false, erase: false, pan: false, move: false, [tool]: true };
   });
 }
+
 export interface CanvasMousePosition {
   x: number;
   y: number;
 }
+
 export const canvasMousePosition = writable<CanvasMousePosition>({
   x: 0,
   y: 0,
