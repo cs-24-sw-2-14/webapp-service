@@ -3,15 +3,18 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { canvasView } from '$lib/stores/stateStore';
 
+	const MAX_ZOOM = 200;
+	const MIN_ZOOM = 25;
+
 	// Function to increment zoom level
 	function zoomIn() {
-		if ($canvasView.scale >= 200) return;
+		if ($canvasView.scale >= MAX_ZOOM) return;
 		$canvasView = { ...$canvasView, scale: $canvasView.scale + 25 };
 	}
 
 	// Function to decrement zoom level
 	function zoomOut() {
-		if ($canvasView.scale <= 25) return;
+		if ($canvasView.scale <= MIN_ZOOM) return;
 		$canvasView = { ...$canvasView, scale: $canvasView.scale - 25 };
 	}
 </script>
