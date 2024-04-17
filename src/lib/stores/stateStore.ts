@@ -54,3 +54,10 @@ export const canvasMousePosition = writable<CanvasMousePosition>({
 
 export const canvasMouseDown = writable(false)
 
+export const mouseEvents = {
+  down: () => canvasMouseDown.set(true),
+  move: (event: MouseEvent) => canvasMousePosition.update(() => {
+    return { x: event.clientX, y: event.clientY };
+  }),
+  up: () => canvasMouseDown.set(false),
+};
