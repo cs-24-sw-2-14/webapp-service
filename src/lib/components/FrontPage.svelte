@@ -2,7 +2,8 @@
 	let inputfield: string = '';
 
 	let color: string;
-
+	let boardCheckerEndpointUrl =
+		'https://64.227.121.226:1337/v1/board/czech_uid?board_uid={inputfield}';
 	$: {
 		inputfield = inputfield.toUpperCase();
 		if (!checkHexa(inputfield)) {
@@ -40,9 +41,7 @@
 
 	async function boardExists() {
 		try {
-			const response = await fetch(
-				'https://64.227.121.226:1337/v1/board/czech_uid?board_uid={inputfield}'
-			);
+			const response = await fetch(boardCheckerEndpointUrl);
 			if (!response.ok) {
 				throw new Error(`haha dont work`);
 			}
