@@ -1,10 +1,8 @@
-import type { Color } from "$lib/stores/stateStore"
-
 function createColor(name: string, bg: string, border: string) {
     return {name: name, bg: bg, border: border}
 }
 
-export let colors = [
+export const colors = [
     createColor("red", "#ef4444", "#991b1b"),
     createColor("orange","#f97316", "#9a3412"),
     createColor("yellow", "#fbbf24", "#b45309"),
