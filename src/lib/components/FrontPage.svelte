@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { checkHexa } from '$lib/ts/checkHexa';
+
 	let inputfield: string = '';
 
 	let color: string;
@@ -53,6 +55,7 @@
 			console.error('Some Error Occured:', error);
 		}
 	}
+
 </script>
 
 <link
