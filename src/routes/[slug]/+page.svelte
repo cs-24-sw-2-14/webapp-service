@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CanvasV3 from '$lib/components/CanvasV3.svelte';
+	import Canvas from '$lib/components/Canvas.svelte';
 	import UI from '$lib/components/UI.svelte';
 
 	import { serverId } from '$lib/stores/stateStore';
@@ -8,5 +8,5 @@
 	serverId.set(data.slug);
 </script>
 
-<CanvasV3></CanvasV3>
+<Canvas></Canvas>
 <UI></UI>

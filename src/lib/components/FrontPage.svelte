@@ -1,13 +1,27 @@
 <script lang="ts">
-	let inputfield: string;
+	import { checkHexa } from '$lib/ts/checkHexa';
 
-    function redirect() { 
-        let url: string = window.location.href;
+	let inputfield: string = '';
 
-        url += inputfield;
+	$: {
+		inputfield = inputfield.toUpperCase();
+		if (!checkHexa(inputfield)) {
+			inputfield = inputfield.slice(0, -1);
+		}
+		if (inputfield.length > 6) {
+			inputfield = inputfield.slice(0, -1);
+		}
+	}
 
-        window.location.replace(url);
-    }
+	function redirect() {
+		let url: string = window.location.href;
+
+		if (inputfield.length == 6) {
+			url += inputfield;
+
+			window.location.replace(url);
+		}
+	}
 </script>
 
 <link
