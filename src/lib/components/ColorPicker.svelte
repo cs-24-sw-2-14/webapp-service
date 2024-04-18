@@ -35,9 +35,9 @@ enum DisabledBy{
 					<td>
 						<button
 							style={`background-color: ${color.bg}; border-color: ${color.border};`}
-							disabled={colorChosen(color, $user, $onlineUsers)!= DisabledBy.NotDisabled}
-							class:disabled-by-user={colorChosen(color, $user, $onlineUsers)===DisabledBy.CurrentUser}
-							class:disabled-by-other-user={colorChosen(color, $user, $onlineUsers)===DisabledBy.OtherUser}
+							disabled={colorChosen(color, $user, $onlineUsers) !== DisabledBy.NotDisabled}
+							class:disabled-by-user={colorChosen(color, $user, $onlineUsers) === DisabledBy.CurrentUser}
+							class:disabled-by-other-user={colorChosen(color, $user, $onlineUsers) === DisabledBy.OtherUser}
 
 							on:click={() => {
 								$user = {...$user, color: color};
