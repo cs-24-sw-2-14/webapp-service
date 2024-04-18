@@ -62,16 +62,20 @@
 		position: relative; 
 		overflow: hidden; /* Allow content to overflow */
 		margin: 0.5em; /* Add margin around the button */
+		
 	}
 
 	/* Color-button when disabled style*/
 	button:disabled::after {
 		content: '✕'; /* Add 'X' as button-content */
 		position: absolute;
-		top: 45%; /* Align to the center vertically - usually 50% but the X is not full height and so needs to be raised a bit*/
+		font-weight:900;
+		top: 40%; /* Align to the center vertically - usually 50% but the X is not full height and so needs to be raised a bit*/
 		transform: translate(-50%, -50%); /* Center the content */
-		font-size: 300%; /* Increase font size */
+		font-size: 370%; /* Increase font size */
 		z-index: 1; /* Ensure X appears above button */
 		color: #27272a; /* Set color to dark grey */
+		border:2px;
+		pointer-events: none;
 	}
 </style>

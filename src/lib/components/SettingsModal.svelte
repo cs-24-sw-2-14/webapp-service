@@ -49,7 +49,7 @@
 					id="code"
 					bind:value={code}
 					placeholder="Enter code"
-					class="placeholder-zinc-700 p-2 border rounded w-full bg-zinc-500 border-none focus:outline-none focus:ring-0 focus:border-none text-zinc-700"
+					class="placeholder-zinc-300 p-2 border rounded w-full bg-zinc-500 border-none focus:outline-none focus:ring-0 focus:border-none text-zinc-300"
 				/>
 				<button
 					class="px-4 py-2 w-24 bg-blue-500 rounded shadow hover:bg-blue-600"
@@ -59,7 +59,7 @@
 				</button>
 			</div>
 
-			<div class="h-[2px] w-full bg-zinc-700 flex my-5 rounded mx-auto"></div>
+			<div class="h-[0.1rem] w-full bg-zinc-700 flex my-5 rounded mx-auto"></div>
 
 			<!-- Create New Whiteboard Section -->
 			<h2 class="text-lg font-semibold mb-2 text-zinc-300">Create a new magicboard</h2>
@@ -72,7 +72,7 @@
 				</button>
 			</div>
 
-			<div class="h-[2px] w-full bg-zinc-700 flex my-5 rounded mx-auto"></div>
+			<div class="h-[0.1rem] w-full bg-zinc-700 flex my-5 rounded mx-auto"></div>
 
 			<!-- User Information Section -->
 			<h2 class="text-lg font-semibold mb-2 text-zinc-300">User-customization</h2>

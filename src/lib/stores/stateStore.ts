@@ -57,13 +57,6 @@ export interface User{
 	color: Color;
 }
 
-export const onlineUsers = writable<User[]>([{
-	name: "Amalie",
-	color: {name: "red", bg: "#ef4444", border: "#991b1b"}
-},
-{
-	name: "Mads",
-	color: {name: "orange", bg: "#f97316", border: "#9a3412"}
-}]);
+export const onlineUsers = writable<User[]>([]);
 
 export const user = writable<User>();
