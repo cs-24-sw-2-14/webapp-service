@@ -1,7 +1,6 @@
 // Store to handle global state
 
 import { writable } from 'svelte/store';
-import { colors } from "../color";
 
 
 export const serverId = writable('');
