@@ -6,16 +6,16 @@
 	/* Checks if a color is chosen and returns true or false so the color-button gets disabled */
 	function colorChosen(color: Color, user: User, onlineUsers: User[]) {
 		if (user?.color?.name === color.name) {
-			return true;
+			return 1;
 		}
 
 		for (let i = 0; i < onlineUsers.length; i++) {
 			const onlineUser = onlineUsers[i];
 			if (onlineUser?.color?.name === color.name) {
-				return true;
+				return 2;
 			}
 		}
-		return false;
+		return 0;
 	}
 </script>
 
@@ -28,8 +28,10 @@
 					<td>
 						<button
 							style={`background-color: ${color.bg}; border-color: ${color.border};`}
-							class={`border-2 hover:border-4`}
-							disabled={colorChosen(color, $user, $onlineUsers)}
+							disabled={colorChosen(color, $user, $onlineUsers)>0}
+							class:disabled-by-user={colorChosen(color, $user, $onlineUsers)===1}
+							class:disabled-by-other-user={colorChosen(color, $user, $onlineUsers)===2}
+
 							on:click={() => {
 								$user = {...$user, color: color};
 							}}>
@@ -42,10 +44,6 @@
 </div>
 
 <style>
-	.color {
-		background-color: #ef4444;
-	}
-
 	/* Container-div for the table to center it */
 	.container {
 		display: flex;
@@ -62,11 +60,20 @@
 		position: relative; 
 		overflow: hidden; /* Allow content to overflow */
 		margin: 0.5em; /* Add margin around the button */
-		
+		border-width: 0.15em;
 	}
+	
+	/* Apply thicker border on hover for enabled buttons */
+	button:not(:disabled):hover {
+    border-width: 0.3em; /* Increase border thickness on hover */
+    }
+
+	.disabled-by-user {
+        border-width: 0.5em; /* Set border width to 2px for buttons disabled by other users */
+    }
 
 	/* Color-button when disabled style*/
-	button:disabled::after {
+    .disabled-by-other-user::after{
 		content: '✕'; /* Add 'X' as button-content */
 		position: absolute;
 		font-weight:900;
@@ -74,8 +81,9 @@
 		transform: translate(-50%, -50%); /* Center the content */
 		font-size: 370%; /* Increase font size */
 		z-index: 1; /* Ensure X appears above button */
-		color: #27272a; /* Set color to dark grey */
-		border:2px;
 		pointer-events: none;
+		color: #27272a; /* Set color to dark grey */
 	}
+
+	
 </style>
