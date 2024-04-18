@@ -1,8 +1,7 @@
 <script lang="ts">
 	let inputfield: string = '';
 
-
-  let color:string;
+	let color: string;
 
 	$: {
 		inputfield = inputfield.toUpperCase();
@@ -13,23 +12,18 @@
 			inputfield = inputfield.slice(0, -1);
 		}
 
-    if(boardExists() === true){
-      color = "green-500"
-
-    }else{
-      color = "red-500"
-    }
+		if (boardExists() === true) {
+			color = 'green-500';
+		} else {
+			color = 'red-500';
+		}
 	}
-
 
 	function redirect() {
 		let url: string = window.location.href;
 
 		if (inputfield.length == 6) {
 			url += inputfield;
-
-
-
 
 			window.location.replace(url);
 		}
@@ -48,38 +42,20 @@
 		return true;
 	}
 
+	async function boardExists() {
+		try {
+			const response = await fetch(`https://64.227.121.226:1337/v1/board/czech_uid`);
+			if (!response.ok) {
+				throw new Error(`haha dont work`);
+			}
 
-  async function boardExists() {
-    try {
-        const response = await fetch(`https://64.227.121.226:1337/v1/board/czech_uid`);
-        if (!response.ok) {
-            throw new Error(
-              `haha dont work`       
-        );
-        }
-
-        const data = await response.json();
-        console.log(data.completed)
-        return data.completed;
-    } catch (error) {
-        console.error('Some Error Occured:', error);
-    }
-}
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
+			const data = await response.json();
+			console.log(data.completed);
+			return data.completed;
+		} catch (error) {
+			console.error('Some Error Occured:', error);
+		}
+	}
 </script>
 
 <link
@@ -93,8 +69,8 @@
 			<h1 style="font-size: 4.6rem;">Welcome</h1>
 			<h1 style="transform: translateY(-20px);">to MagicBoard!</h1>
 			<div class="inner-box">
-				<button id="create-button" class="button">Create Board</button>	
-      </div>
+				<button id="create-button" class="button">Create Board</button>
+			</div>
 			<div class="inner-box-code">
 				<div class="flex flex-col justify-center w-96" style="font-family: 'Roboto', sans-serif">
 					<p class="mt-6 text-lg font-bold text-center text-gray-800">Insert Code to Join Board</p>
@@ -103,9 +79,7 @@
 						class="h-8 px-4 py-6 border-2 rounded-md w-96 border-slate-200"
 						placeholder="Insert code"
 					/>
-           <div class="w-8 h-8 bg-{color}"></div>
-
-			
+					<div class="w-8 h-8 bg-{color}"></div>
 
 					<button id="join-button" class="w-10 button" on:click={redirect}> Join Board</button>
 				</div>
