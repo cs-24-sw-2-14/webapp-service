@@ -47,7 +47,6 @@
 	function stopDraw(mouseDown: boolean) {
 		if (!mouseDown) {
 			currentIndex = null;
-			pathString = '';
 		}
 	}
 
