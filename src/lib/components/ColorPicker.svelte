@@ -3,19 +3,26 @@
 	import { colors } from '../color';
 	import type { User, Color } from '$lib/stores/stateStore';
 
+enum DisabledBy{
+	CurrentUser,
+	OtherUser,
+	NotDisabled,	
+}
+
+
 	/* Checks if a color is chosen and returns true or false so the color-button gets disabled */
 	function colorChosen(color: Color, user: User, onlineUsers: User[]) {
 		if (user?.color?.name === color.name) {
-			return 1;
+			return DisabledBy.CurrentUser;
 		}
 
 		for (let i = 0; i < onlineUsers.length; i++) {
 			const onlineUser = onlineUsers[i];
 			if (onlineUser?.color?.name === color.name) {
-				return 2;
+				return DisabledBy.OtherUser;
 			}
 		}
-		return 0;
+		return DisabledBy.NotDisabled;
 	}
 </script>
 
@@ -28,9 +35,9 @@
 					<td>
 						<button
 							style={`background-color: ${color.bg}; border-color: ${color.border};`}
-							disabled={colorChosen(color, $user, $onlineUsers)>0}
-							class:disabled-by-user={colorChosen(color, $user, $onlineUsers)===1}
-							class:disabled-by-other-user={colorChosen(color, $user, $onlineUsers)===2}
+							disabled={colorChosen(color, $user, $onlineUsers) !== DisabledBy.NotDisabled}
+							class:disabled-by-user={colorChosen(color, $user, $onlineUsers) === DisabledBy.CurrentUser}
+							class:disabled-by-other-user={colorChosen(color, $user, $onlineUsers) === DisabledBy.OtherUser}
 
 							on:click={() => {
 								$user = {...$user, color: color};
