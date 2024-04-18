@@ -5,27 +5,17 @@
 
 	/* Checks if a color is chosen and returns true or false so the color-button gets disabled */
 	function colorChosen(color: Color, user: User, onlineUsers: User[]) {
-		if (user && user.color && user.color.name === color.name) {
+		if (user?.color?.name === color.name) {
 			return true;
 		}
 
 		for (let i = 0; i < onlineUsers.length; i++) {
 			const onlineUser = onlineUsers[i];
-			if (onlineUser && onlineUser.color && onlineUser.color.name === color.name) {
+			if (onlineUser?.color?.name === color.name) {
 				return true;
 			}
 		}
 		return false;
-	}
-
-	/* Changes the users color to the color they picked */
-	function colorClicked(color: Color) {
-		user.update((current: User) => {
-			current.color = color;
-			return {
-				...current
-			};
-		});
 	}
 </script>
 
@@ -41,7 +31,7 @@
 							class={`border-2 hover:border-4`}
 							disabled={colorChosen(color, $user, $onlineUsers)}
 							on:click={() => {
-								colorClicked(color);
+								$user = {...$user, color: color};
 							}}>
 						</button>
 					</td>

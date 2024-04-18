@@ -4,7 +4,7 @@
 	export let showModal = $settings;
 
 	let code = '';
-	let username = 'Enter username here';
+	let username = '';
 
 	// Function to handle modal content click
 	function handleModalContentClick(event: MouseEvent) {
@@ -84,7 +84,7 @@
 						id="username"
 						bind:value={username}
 						placeholder="Username"
-						class="mt-1 p-2 border rounded w-full placeholder-zinc-700 bg-zinc-500 border-none focus:outline-none focus:ring-0 focus:border-none text-zinc-700"
+						class="mt-1 p-2 border rounded w-full placeholder-zinc-300 bg-zinc-500 border-none focus:outline-none focus:ring-0 focus:border-none text-zinc-300"
 					/>
 				</div>
 
