@@ -12,11 +12,7 @@
 			inputfield = inputfield.slice(0, -1);
 		}
 
-		if (boardExists() === true) {
-			color = 'green-500';
-		} else {
-			color = 'red-500';
-		}
+		color = boardExists() === true ? 'green-500' : 'red-500';
 	}
 
 	function redirect() {
@@ -44,7 +40,9 @@
 
 	async function boardExists() {
 		try {
-			const response = await fetch(`https://64.227.121.226:1337/v1/board/czech_uid`);
+			const response = await fetch(
+				'https://64.227.121.226:1337/v1/board/czech_uid?board_uid={inputfield}'
+			);
 			if (!response.ok) {
 				throw new Error(`haha dont work`);
 			}
