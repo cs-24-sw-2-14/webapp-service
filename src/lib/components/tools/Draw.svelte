@@ -13,7 +13,7 @@
 	import { svgs } from '$lib/stores/svgStore';
 
 	let pathString = '';
-	let currentIndex = 0;
+	let currentIndex: number | null = null;
 
 	canvasMouseDown.subscribe(startDraw);
 	canvasMousePosition.subscribe(doDraw);
@@ -46,13 +46,17 @@
 
 	function stopDraw(mouseDown: boolean) {
 		if (!mouseDown) {
-			currentIndex = 0;
+			currentIndex = null;
 			pathString = '';
 		}
 	}
 
-	$: $svgs[currentIndex].svg =
-		`<path d="${pathString}" stroke="black" fill="transparent" stroke-width="5"/>`;
+	$: {
+		if (currentIndex) {
+			$svgs[currentIndex].svg =
+				`<path d="${pathString}" stroke="black" fill="transparent" stroke-width="5"/>`;
+		}
+	}
 </script>
 
 <MenuButton
