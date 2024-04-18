@@ -2,6 +2,7 @@
 
 import { writable } from 'svelte/store';
 
+
 export const serverId = writable('');
 
 export const viewChat = writable(false);
@@ -38,6 +39,22 @@ export const canvasMousePosition = writable<CanvasMousePosition>({
   y: 0,
 });
 
+export interface Color {
+    name: string;
+    bg: string;
+    border: string;
+
+}
+
+export interface User{
+	name: string;
+	color: Color;
+}
+
+export const onlineUsers = writable<User[]>([]);
+
+export const user = writable<User>();
+
 export const canvasMouseDown = writable(false)
 
 export const mouseEvents = {
@@ -49,3 +66,4 @@ export const mouseEvents = {
 };
 
 export const currentSvgElementIndex = writable<number | null>(null)
+
