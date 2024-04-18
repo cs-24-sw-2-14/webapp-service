@@ -12,9 +12,9 @@
 		if (inputfield.length > 6) {
 			inputfield = inputfield.slice(0, -1);
 		}
-    if(boardExists()){
+
+    if(boardExists() === true){
       color = "green-500"
-      console.log(boardExists())
 
     }else{
       color = "red-500"
@@ -51,7 +51,7 @@
 
   async function boardExists() {
     try {
-        const response = await fetch(`http://64.227.121.226/v1/board/czech_uid?board_uid=${inputfield}`);
+        const response = await fetch(`https://64.227.121.226:1337/v1/board/czech_uid`);
         if (!response.ok) {
             throw new Error(
               `haha dont work`       
@@ -59,7 +59,8 @@
         }
 
         const data = await response.json();
-        return data.results[0];
+        console.log(data.completed)
+        return data.completed;
     } catch (error) {
         console.error('Some Error Occured:', error);
     }
@@ -102,7 +103,7 @@
 						class="h-8 px-4 py-6 border-2 rounded-md w-96 border-slate-200"
 						placeholder="Insert code"
 					/>
-                        <div class="w-8 h-8 bg-{color}"></div>
+           <div class="w-8 h-8 bg-{color}"></div>
 
 			
 
