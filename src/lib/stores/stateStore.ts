@@ -48,4 +48,4 @@ export const mouseEvents = {
   up: () => canvasMouseDown.set(false),
 };
 
-export const currentSvgElementIndex = writable(0)
+export const currentSvgElementIndex = writable<number | null>(null)
