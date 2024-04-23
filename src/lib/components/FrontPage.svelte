@@ -32,7 +32,7 @@
 		try {
 			const response = await fetch(boardCheckerEndpointUrl);
 			if (!response.ok) {
-				throw new Error(`haha dont work`);
+				throw new Error(`unable to fetch boardCheckerEndpointUrl`);
 			}
 
 			const data = await response.json();
