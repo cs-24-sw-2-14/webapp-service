@@ -33,8 +33,12 @@
 
 		return true;
 	}
-	
+
+
 </script>
+
+<svelte:window on:keydown={(event)=>{if(event.key === "Enter") redirect()}} />
+<!--It is an eventlistener. When the key "Enter" is pressed down, it will run the redirect fuction.-->
 
 <!--<link
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
@@ -72,7 +76,7 @@
 <style>
 	main {
 		display: flex; /* Establishes a flex container */
-		   /*flex-direction: column;*/
+		/*flex-direction: column;*/
 		justify-content: center; /* Centers children horizontally in the container */
 		align-items: center; /* Centers children vertically in the container */
 		min-height: 100vh; /* Ensures the <main> element covers the viewport height */
@@ -81,19 +85,19 @@
 	}
 
 	.mid-box {
-		border-radius: 7%; /*Rounds the edges*/ 
-		  /*width: 37%;*/
-		  /*height: 27%;*/
-		background-color: #ffffff; 
+		border-radius: 7%; /*Rounds the edges*/
+		/*width: 37%;*/
+		/*height: 27%;*/
+		background-color: #ffffff;
 		padding: 1.3em; /* Adds some spacing inside the box */
-		  /*box-sizing: border-box; /* Ensures padding is included in the width/height calculations */
-		  /*transform: translateY(0%);*/
+		/*box-sizing: border-box; /* Ensures padding is included in the width/height calculations */
+		/*transform: translateY(0%);*/
 		min-width: 30em; /*Gives the mid-box a minimum width*/
 	}
 
 	h1 {
 		/* Style header */
-		font-size: 400%; 
+		font-size: 400%;
 		width: 100%; /* Ensure the header spans the width of the box */
 		text-align: center; /* Center the header text */
 		margin-top: 0; /* Adjust spacing as needed */
@@ -119,13 +123,12 @@
 		width: 90%;
 		padding: 0.3em;
 		text-align: center;
-	
 	}
 
 	.boxes {
 		display: flex; /*Establishes a flex container*/
 		justify-content: space-evenly; /*It does so there is equal space around the items*/
-		   /*transform: translateY(0%);*/
+		/*transform: translateY(0%);*/
 	}
 
 	.button {
@@ -133,12 +136,12 @@
 		padding: 7%; /*Makes space around the content (text) in the buttons*/
 		font-size: 1.29rem; /*The size of the text*/
 		/*box-sizing: border-box;*/
-		width: 90%; 
+		width: 90%;
 		border-radius: 0.5em; /*rounds the edges*/
 		font-weight: bold; /*Makes the text bold*/
 		/*color: #232323;*/
 		word-spacing: 0.2em; /*Space between words*/
-		margin-top: 10%; /*There is a 10% margin from the top of the buttons to other items*/ 
+		margin-top: 10%; /*There is a 10% margin from the top of the buttons to other items*/
 		margin-bottom: 5%; /*There is a 5% margin from the bottom of the buttons to the bottom of the box*/
 		justify-content: center; /*The text in the buttons is in the center of the button*/
 	}
@@ -146,7 +149,7 @@
 	.join-box {
 		display: flex; /*Establishes a flex container*/
 		flex-direction: column; /*The items in the box fellows the direction of a column*/
-		background-color: #ffffff; /*The color of the background*/
+		background-color: #ffffff;
 		border-left: 0.25em solid #363636; /*The border to the left side is black*/
 		align-items: center; /*The items in the box is in the center*/
 		width: 100%;
@@ -156,7 +159,7 @@
 	.create-box {
 		display: flex; /*Establishes a flex container*/
 		flex-direction: column; /*The items in the box fellows the direction of a column*/
-		background-color: #ffffff; /*The color of the background*/
+		background-color: #ffffff;
 		border-right: 0.25em solid #363636; /*The border to the right side is black*/
 		align-items: center; /*The items in the box is in the center*/
 		width: 100%;
@@ -164,12 +167,12 @@
 	}
 
 	#create-button {
-		background-color: #5ba4fc; /*The color of the background*/
+		background-color: #5ba4fc;
 		outline: 0.1em solid#1a6cbe; /*An outline in the color blue*/
 	}
 
 	#join-button {
-		background-color: #53d769; /*The color of the background*/ 
+		background-color: #53d769;
 		outline: 0.1em solid#13864d; /*An outline in the color green*/
 	}
 </style>
