@@ -17,8 +17,8 @@ import { onlineUsers } from '$lib/stores/stateStore';
 <div class="relative h-10">
 	{#each $onlineUsers as user, i (user.name)}
 		<div
-			class={`w-10 h-10 rounded-full text-white text-center text-sm font-mono leading-[2.7em] absolute ${user.color.bg} border-2 ${user.color.border} ring-gray-800 ring-2`}
-			style="left: {i * 0.7}em; transform: translateX({-i * 100}%);"
+			class={`w-10 h-10 rounded-full text-white text-center text-sm font-mono leading-[2.7em] absolute ring-gray-800 ring-2`}
+			style={`left: ${i * 0.7}em; transform: translateX(${-i * 100}%); background-color: ${user.color.bg}; border-color: ${user.color.border}; border-width: 0.2em`}
 		>
 			{getInitials(user.name)}
 		</div>
