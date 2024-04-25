@@ -9,10 +9,9 @@
 		canvasView
 	} from '$lib/stores/stateStore';
 	import type { CanvasMousePosition } from '$lib/stores/stateStore';
-	import type { Svg } from '$lib/stores/svgStore';
-	import { svgs } from '$lib/stores/svgStore';
+	import type { Drawing } from '$lib/stores/svgStore';
+	import { drawings, CoordinateType } from '$lib/stores/svgStore';
 
-	let pathString = '';
 	let currentIndex: number | null = null;
 
 	canvasMouseDown.subscribe(startDraw);
@@ -25,36 +24,42 @@
 		return { x: tx, y: ty };
 	}
 
-	function startDraw(mouseDown: boolean) {
-		if (!mouseDown || $toolState !== ToolState.draw) return;
-		const new_svg_element: Svg = {
-			svg: ``,
-			x: 0,
-			y: 0
-		};
-		currentIndex = $svgs.length;
-		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
-		pathString = `M${x},${y}`;
-		$svgs = [...$svgs, new_svg_element];
-	}
-
-	function doDraw(pos: CanvasMousePosition) {
+	function startDraw() {
 		if (!$canvasMouseDown || $toolState !== ToolState.draw) return;
-		const { x, y } = mouseToSvgCoordinates(pos);
-		pathString += `L${x},${y}`;
+		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+		const new_drawing: Drawing = {
+			path: [
+				{
+					type: CoordinateType.moveto,
+					x: x,
+					y: y
+				}
+			],
+			stroke: 'black',
+			fill: 'transparent',
+			strokeWidth: 7,
+			placement: { x: 0, y: 0 }
+		};
+		currentIndex = $drawings.length;
+		$drawings = [...$drawings, new_drawing];
 	}
 
-	function stopDraw(mouseDown: boolean) {
-		if (!mouseDown) {
-			currentIndex = null;
-		}
+	function doDraw() {
+		if (!$canvasMouseDown || $toolState !== ToolState.draw || currentIndex === null) return;
+		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+		$drawings[currentIndex].path = [
+			...$drawings[currentIndex].path,
+			{
+				type: CoordinateType.lineto,
+				x: x,
+				y: y
+			}
+		];
 	}
 
-	$: {
-		if (currentIndex) {
-			$svgs[currentIndex].svg =
-				`<path d="${pathString}" stroke="black" fill="transparent" stroke-width="5"/>`;
-		}
+	function stopDraw() {
+		if ($canvasMouseDown || $toolState !== ToolState.draw) return;
+		currentIndex = null;
 	}
 </script>
 

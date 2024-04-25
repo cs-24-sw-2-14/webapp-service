@@ -13,7 +13,7 @@
 	import { svgs } from '$lib/stores/svgStore';
 
 	let startX: number, startY: number;
-	let currentIndex = 0;
+	let currentIndex: number | null = null;
 
 	canvasMouseDown.subscribe(startMove);
 	canvasMousePosition.subscribe(doMove);
@@ -27,7 +27,7 @@
 	}
 
 	function doMove(pos: CanvasMousePosition) {
-		if (!$canvasMouseDown || $toolState !== ToolState.move) return;
+		if (!$canvasMouseDown || $toolState !== ToolState.move || !currentIndex) return;
 		$svgs[currentIndex] = {
 			...$svgs[currentIndex],
 			x: $svgs[currentIndex].x + (pos.x - startX) / ($canvasView.scale / 100),

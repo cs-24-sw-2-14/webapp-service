@@ -4,10 +4,12 @@
 		ToolState,
 		canvasView,
 		mouseEvents,
-		currentSvgElementIndex
+		currentSvgElementIndex,
+		canvasMousePosition,
+		type CanvasMousePosition
 	} from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
-	import { svgs } from '$lib/stores/svgStore.js';
+	import { drawings } from '$lib/stores/svgStore.js';
 
 	onMount(() => {
 		resizeCanvas();
@@ -19,6 +21,41 @@
 			width: window.innerWidth,
 			height: window.innerHeight
 		};
+	}
+
+	let lastSvgElement: EventTarget;
+
+	$: {
+		console.log($currentSvgElementIndex);
+	}
+
+	canvasMousePosition.subscribe(check);
+
+	function drawBoundingBox(svgRect) {
+		const boundingBox = document.createElement('div');
+		boundingBox.style.position = 'absolute';
+		boundingBox.style.left = `${svgRect.left}px`;
+		boundingBox.style.top = `${svgRect.top}px`;
+		boundingBox.style.width = `${svgRect.width}px`;
+		boundingBox.style.height = `${svgRect.height}px`;
+		boundingBox.style.border = '1px solid red';
+		document.body.appendChild(boundingBox);
+	}
+
+	function check(pos: CanvasMousePosition) {
+		if (!lastSvgElement) return;
+		const node = lastSvgElement as HTMLElement;
+		const svgRect = node.getBoundingClientRect();
+		// drawBoundingBox(svgRect);
+		console.log(pos, svgRect);
+		if (
+			pos.x < svgRect.left ||
+			pos.x > svgRect.right ||
+			pos.y < svgRect.top ||
+			pos.y > svgRect.bottom
+		) {
+			$currentSvgElementIndex = null;
+		}
 	}
 </script>
 
@@ -66,12 +103,14 @@
 	/>
 
 	<!-- Render the SVGs -->
-	{#each $svgs as svgObj, index}
+	{#each $drawings as drawing, index}
 		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<g
 			transform={`translate(${svgObj.x}, ${svgObj.y})`}
-			on:mouseover={() => {
+			on:mouseover={(event) => {
+				if (!event.target) return;
+				lastSvgElement = event.target;
 				$currentSvgElementIndex = index;
 			}}
 		>

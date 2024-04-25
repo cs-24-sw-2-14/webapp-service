@@ -7,4 +7,31 @@ export interface Svg {
   y: number;
 }
 
-export const svgs = writable<Svg[]>([]);
+export enum CoordinateType {
+  start,
+  middle,
+  end,
+}
+
+export interface PathCoordinate {
+  type: CoordinateType;
+  x: number;
+  y: number;
+}
+
+export interface PlacementCoordinate {
+  x: number;
+  y: number;
+}
+
+export interface Drawing {
+  path: PathCoordinate[];
+  stroke: string;
+  fill: string;
+  strokeWidth: number;
+  placement: PlacementCoordinate;
+
+}
+
+export const drawings = writable<Drawing[]>([
+]);
