@@ -16,7 +16,8 @@
 
 		boardCheckerEndpointUrl = `https://64.227.121.226:1337/v1/board/exists?board_uid=${inputfield}`;
 
-		color = boardExists() === true ? 'green-500' : 'red-500';
+		boardExists()
+			.then(res => color = res === true ? 'green-500' : 'red-500');
 	}
 
 	function redirect() {
@@ -42,6 +43,8 @@
 		} catch (error) {
 			console.error('Some Error Occured:', error);
 		}
+
+		return false;
 	}
 </script>
 
