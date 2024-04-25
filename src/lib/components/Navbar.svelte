@@ -4,10 +4,11 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import OnlineUsers from '$lib/components/OnlineUsers.svelte';
 	import { settings } from '$lib/stores/stateStore';
+	import { type Username } from '$lib/types';
 
 	// TODO: SHOULD BE A STORE!!!
 	interface OnlineUser {
-		name: string;
+		name: Username;
 		color: string;
 		border: string;
 	}
