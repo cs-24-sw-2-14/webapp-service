@@ -15,6 +15,7 @@ export interface CanvasView {
   width: number; // Default values, will be replaced on mount
   height: number; // Default values, will be replaced on mount
   scale: number;
+  cursor: string;
 }
 
 export const canvasView = writable<CanvasView>({
@@ -22,7 +23,8 @@ export const canvasView = writable<CanvasView>({
   y: 0,
   width: 0,
   height: 0,
-  scale: 100
+  scale: 100,
+  cursor: "pointer"
 });
 
 export enum ToolState { draw, erase, pan, move }
@@ -65,5 +67,12 @@ export const mouseEvents = {
   up: () => canvasMouseDown.set(false),
 };
 
-export const currentSvgElementIndex = writable<number | null>(null)
+export interface DrawingUnderCursor {
+  index: number;
+  eventTarget: EventTarget;
+}
 
+export const drawingsUnderCursor = writable<DrawingUnderCursor[]>([])
+
+
+export const canvasCursor = writable("")
