@@ -3,6 +3,9 @@
 
 	let inputfield: string = '';
 
+	let color: string;
+	let boardCheckerEndpointUrl =
+		'https://64.227.121.226:1337/v1/board/exists?board_uid={inputfield}';
 	$: {
 		inputfield = inputfield.toUpperCase();
 		if (!checkHexa(inputfield)) {
@@ -11,6 +14,8 @@
 		if (inputfield.length > 6) {
 			inputfield = inputfield.slice(0, -1);
 		}
+
+		color = boardExists() === true ? 'green-500' : 'red-500';
 	}
 
 	function redirect() {
@@ -20,6 +25,21 @@
 			url += inputfield;
 
 			window.location.replace(url);
+		}
+	}
+
+	async function boardExists() {
+		try {
+			const response = await fetch(boardCheckerEndpointUrl);
+			if (!response.ok) {
+				throw new Error(`unable to fetch boardCheckerEndpointUrl`);
+			}
+
+			const data = await response.json();
+			console.log(data.completed);
+			return data.completed;
+		} catch (error) {
+			console.error('Some Error Occured:', error);
 		}
 	}
 </script>
@@ -45,6 +65,8 @@
 						class="h-8 px-4 py-6 border-2 rounded-md w-96 border-slate-200"
 						placeholder="Insert code"
 					/>
+					<div class="w-8 h-8 bg-{color}"></div>
+
 					<button id="join-button" class="w-10 button" on:click={redirect}> Join Board</button>
 				</div>
 			</div>
