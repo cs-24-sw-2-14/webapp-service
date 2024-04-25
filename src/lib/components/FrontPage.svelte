@@ -4,8 +4,7 @@
 	let inputfield: string = '';
 
 	let color: string;
-	let boardCheckerEndpointUrl =
-		'https://64.227.121.226:1337/v1/board/exists?board_uid={inputfield}';
+	let boardCheckerEndpointUrl: string;
 	$: {
 		inputfield = inputfield.toUpperCase();
 		if (!checkHexa(inputfield)) {
@@ -15,7 +14,10 @@
 			inputfield = inputfield.slice(0, -1);
 		}
 
-		color = boardExists() === true ? 'green-500' : 'red-500';
+		boardCheckerEndpointUrl = `https://64.227.121.226:1337/v1/board/exists?board_uid=${inputfield}`;
+
+		boardExists()
+			.then(res => color = res === true ? 'green-500' : 'red-500');
 	}
 
 	function redirect() {
@@ -41,6 +43,8 @@
 		} catch (error) {
 			console.error('Some Error Occured:', error);
 		}
+
+		return false;
 	}
 </script>
 
