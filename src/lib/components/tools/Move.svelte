@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MenuButton from '../MenuButton.svelte';
+	import ToolbarButton from '../ToolbarButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
@@ -21,6 +21,7 @@
 	function startMove(isDown: boolean) {
 		if ($toolState !== ToolState.move) return;
 		if (!isDown) return;
+		if ($currentSvgElementIndex === null) return;
 		startX = $canvasMousePosition.x;
 		startY = $canvasMousePosition.y;
 		currentIndex = $currentSvgElementIndex;
@@ -38,10 +39,10 @@
 	}
 </script>
 
-<MenuButton
+<ToolbarButton
 	isActive={$toolState === ToolState.move}
 	icon={Icons.move}
 	on:click={() => {
 		$toolState = ToolState.move;
 	}}
-></MenuButton>
+></ToolbarButton>

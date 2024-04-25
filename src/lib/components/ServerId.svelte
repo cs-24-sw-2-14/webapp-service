@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MenuButton from './MenuButton.svelte';
+	import ToolbarButton from './ToolbarButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { serverId } from '$lib/stores/stateStore';
 	import { fade } from 'svelte/transition';
@@ -33,6 +33,6 @@
 <div
 	class="fixed top-0 right-0 m-4 mt-20 h-[56px] rounded-lg bg-zinc-800 z-10 flex items-center justify-center gap-2 p-2 text-white font-mono font-semibold"
 >
-	<MenuButton icon={Icons.copy} on:click={copyUrl}></MenuButton>
+	<ToolbarButton icon={Icons.copy} on:click={copyUrl}></ToolbarButton>
 	<p class="pr-2 mx-2 font-mono">{$serverId}</p>
 </div>
