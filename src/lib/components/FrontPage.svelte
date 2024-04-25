@@ -1,6 +1,10 @@
 <script lang="ts">
+	import { checkHexa } from '$lib/ts/checkHexa';
+
 	let inputfield: string = '';
 
+	let color: string;
+	let boardCheckerEndpointUrl: string;
 	$: {
 		inputfield = inputfield.toUpperCase();
 		if (!checkHexa(inputfield)) {
@@ -9,6 +13,11 @@
 		if (inputfield.length > 6) {
 			inputfield = inputfield.slice(0, -1);
 		}
+
+		boardCheckerEndpointUrl = `https://64.227.121.226:1337/v1/board/exists?board_uid=${inputfield}`;
+
+		boardExists()
+			.then(res => color = res === true ? 'green-500' : 'red-500');
 	}
 
 	function redirect() {
@@ -21,17 +30,21 @@
 		}
 	}
 
-	function checkHexa(input: string) {
-		for (let i = 0; i < input.length; i++) {
-			let charCode = input.charCodeAt(i);
-
-			//check if char is between 0 and 9 or A and F
-			if (!(charCode >= 48 && charCode <= 57) && !(charCode >= 65 && charCode <= 70)) {
-				return false;
+	async function boardExists() {
+		try {
+			const response = await fetch(boardCheckerEndpointUrl);
+			if (!response.ok) {
+				throw new Error(`unable to fetch boardCheckerEndpointUrl`);
 			}
+
+			const data = await response.json();
+			console.log(data.completed);
+			return data.completed;
+		} catch (error) {
+			console.error('Some Error Occured:', error);
 		}
 
-		return true;
+		return false;
 	}
 
 
