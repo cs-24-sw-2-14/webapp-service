@@ -46,33 +46,41 @@
 
 		return false;
 	}
+
+
 </script>
 
-<link
+<svelte:window on:keydown={(event)=>{if(event.key === "Enter") redirect()}} />
+<!--It is an eventlistener. When the key "Enter" is pressed down, it will run the redirect fuction.-->
+
+<!--<link
 	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
 	rel="stylesheet"
-/>
+/>-->
 
 <main>
 	<div class="mid-box">
-		<div style="transform: translateY(-15px);">
-			<h1 style="font-size: 4.6rem;">Welcome</h1>
-			<h1 style="transform: translateY(-20px);">to MagicBoard!</h1>
-			<div class="inner-box">
+		<h1>Welcome</h1>
+		<!--Text. Header)-->
+		<h2>to MagicBoard</h2>
+		<!--Text. Header)-->
+		<div class="boxes">
+			<!--A div with a class named boxes)-->
+			<div class="create-box">
+				<!--A div with a class named create-box)-->
+				<p>Click to create a new board</p>
+				<!--Text. Paragraph)-->
 				<button id="create-button" class="button">Create Board</button>
+				<!--A button with the id 'create-button' and class 'button'-->
 			</div>
-			<div class="inner-box-code">
-				<div class="flex flex-col justify-center w-96" style="font-family: 'Roboto', sans-serif">
-					<p class="mt-6 text-lg font-bold text-center text-gray-800">Insert Code to Join Board</p>
-					<input
-						bind:value={inputfield}
-						class="h-8 px-4 py-6 border-2 rounded-md w-96 border-slate-200"
-						placeholder="Insert code"
-					/>
-					<div class="w-8 h-8 bg-{color}"></div>
-
-					<button id="join-button" class="w-10 button" on:click={redirect}> Join Board</button>
-				</div>
+			<div class="join-box">
+				<!--A div with a class named join-box)-->
+				<p>Insert Code to Join Board</p>
+				<!--Text. Paragraph)-->
+				<input id="insert-code-box" bind:value={inputfield} placeholder="Insert code" />
+				<button id="join-button" class="button" on:click={redirect}> Join Board</button>
+				<!--A button with the id 'join-button' and class 'button'-->
+				<!--on:click={redirect} does so when the button is clicked on, the function redirect runs-->
 			</div>
 		</div>
 	</div>
@@ -81,64 +89,103 @@
 <style>
 	main {
 		display: flex; /* Establishes a flex container */
+		/*flex-direction: column;*/
 		justify-content: center; /* Centers children horizontally in the container */
 		align-items: center; /* Centers children vertically in the container */
 		min-height: 100vh; /* Ensures the <main> element covers the viewport height */
+		background-image: radial-gradient(#b561ff 25%, #9ef2ff 100%);
+		/*It makes the background have a radial gradient in the chosen colors*/
 	}
 
 	.mid-box {
-		display: flex;
-		border-radius: 6px;
-		flex-direction: column;
-		justify-content: flex-start; /* Aligns children to the start, keeping the header at the top */
-		align-items: center; /* Centers children horizontally */
-		width: 485px;
-		height: 430px;
-		background-color: #e6e6e6;
-		padding: 20px; /* Adds some spacing inside the box */
-		box-sizing: border-box; /* Ensures padding is included in the width/height calculations */
-	}
-
-	.content {
-		flex-grow: 1; /* Allows this div to take up the remaining space */
-		display: flex;
-		justify-content: center; /* Center content horizontally */
-		align-items: center; /* Center content vertically */
-		width: 100%; /* Takes the full width of the parent */
+		border-radius: 7%; /*Rounds the edges*/
+		/*width: 37%;*/
+		/*height: 27%;*/
+		background-color: #ffffff;
+		padding: 1.3em; /* Adds some spacing inside the box */
+		/*box-sizing: border-box; /* Ensures padding is included in the width/height calculations */
+		/*transform: translateY(0%);*/
+		min-width: 30em; /*Gives the mid-box a minimum width*/
 	}
 
 	h1 {
 		/* Style header */
-		font-size: 2.75rem;
+		font-size: 400%;
 		width: 100%; /* Ensure the header spans the width of the box */
 		text-align: center; /* Center the header text */
 		margin-top: 0; /* Adjust spacing as needed */
-		font-weight: bold;
+		font-weight: bold; /*Makes the font bold*/
 	}
-	.button {
-		padding: 12px 65px;
-		font-size: 1.29rem;
+
+	h2 {
+		transform: translateY(-50%); /*It repositions the h2 on the page*/
+		font-size: 200%;
+		width: 100%; /* Ensure the header spans the width of the box */
+		text-align: center; /* Center the header text */
+		margin-top: 0; /* Adjust spacing as needed */
+		font-weight: bold; /*Makes the text bold*/
+	}
+
+	p {
+		margin-top: 1%; /*There is a 1% margin from the top of the paragraphs to the top of the box or other items*/
+		margin-bottom: 5%; /*There is a 5% margin from the bottom of the paragraphs to other items*/
+	}
+	#insert-code-box {
+		border-radius: 0.35em; /*rounds the edges*/
+		outline: 0.1em solid #000000; /*Makes a black outline*/
+		width: 90%;
+		padding: 0.3em;
 		text-align: center;
-		box-sizing: border-box;
+	}
+
+	.boxes {
+		display: flex; /*Establishes a flex container*/
+		justify-content: space-evenly; /*It does so there is equal space around the items*/
+		/*transform: translateY(0%);*/
+	}
+
+	.button {
+		display: flex; /*Establishes a flex container*/
+		padding: 7%; /*Makes space around the content (text) in the buttons*/
+		font-size: 1.29rem; /*The size of the text*/
+		/*box-sizing: border-box;*/
+		width: 90%;
+		border-radius: 0.5em; /*rounds the edges*/
+		font-weight: bold; /*Makes the text bold*/
+		/*color: #232323;*/
+		word-spacing: 0.2em; /*Space between words*/
+		margin-top: 10%; /*There is a 10% margin from the top of the buttons to other items*/
+		margin-bottom: 5%; /*There is a 5% margin from the bottom of the buttons to the bottom of the box*/
+		justify-content: center; /*The text in the buttons is in the center of the button*/
+	}
+
+	.join-box {
+		display: flex; /*Establishes a flex container*/
+		flex-direction: column; /*The items in the box fellows the direction of a column*/
+		background-color: #ffffff;
+		border-left: 0.25em solid #363636; /*The border to the left side is black*/
+		align-items: center; /*The items in the box is in the center*/
 		width: 100%;
-		border-radius: 4px;
-		outline: 1.5px solid#283747;
-		font-weight: bold;
-		color: #595959;
-		word-spacing: 2px;
-		letter-spacing: 0.6px;
+		justify-content: space-between; /*It does so there is space between the items*/
+	}
+
+	.create-box {
+		display: flex; /*Establishes a flex container*/
+		flex-direction: column; /*The items in the box fellows the direction of a column*/
+		background-color: #ffffff;
+		border-right: 0.25em solid #363636; /*The border to the right side is black*/
+		align-items: center; /*The items in the box is in the center*/
+		width: 100%;
+		justify-content: space-between; /*It does so there is space between the items*/
 	}
 
 	#create-button {
-		/* Style button */
 		background-color: #5ba4fc;
+		outline: 0.1em solid#1a6cbe; /*An outline in the color blue*/
 	}
 
 	#join-button {
 		background-color: #53d769;
-		width: 200px;
-		height: 50px;
-		padding: 0;
-		margin: 8px auto;
+		outline: 0.1em solid#13864d; /*An outline in the color green*/
 	}
 </style>
