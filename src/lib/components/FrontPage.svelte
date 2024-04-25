@@ -5,7 +5,7 @@
 
 	let color: string;
 	let boardCheckerEndpointUrl =
-		'https://64.227.121.226:1337/v1/board/czech_uid?board_uid={inputfield}';
+		'https://64.227.121.226:1337/v1/board/exists?board_uid={inputfield}';
 	$: {
 		inputfield = inputfield.toUpperCase();
 		if (!checkHexa(inputfield)) {
