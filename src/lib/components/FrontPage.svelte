@@ -4,7 +4,7 @@
 	let inputfield: string = '';
 
 	let color: string;
-	let boardCheckerEndpointUrl = `https://64.227.121.226:1337/v1/board/exists?board_uid={inputfield}`;
+	let boardCheckerEndpointUrl: string;
 	$: {
 		inputfield = inputfield.toUpperCase();
 		if (!checkHexa(inputfield)) {
@@ -13,6 +13,8 @@
 		if (inputfield.length > 6) {
 			inputfield = inputfield.slice(0, -1);
 		}
+
+		boardCheckerEndpointUrl = `https://64.227.121.226:1337/v1/board/exists?board_uid=${inputfield}`;
 
 		color = boardExists() === true ? 'green-500' : 'red-500';
 	}
