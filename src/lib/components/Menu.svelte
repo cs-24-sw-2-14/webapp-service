@@ -1,15 +1,10 @@
 <script lang="ts">
-	import { toolState, ToolState } from '$lib/stores/stateStore';
-
 	import MenuButton from './MenuButton.svelte';
 	import Pan from '$lib/components/tools/Pan.svelte';
 	import Move from '$lib/components/tools/Move.svelte';
 	import Draw from '$lib/components/tools/Draw.svelte';
+	import Erase from '$lib/components/tools/Erase.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-
-	function handleClickErase() {
-		$toolState = ToolState.erase;
-	}
 </script>
 
 <!-- Menu bar at the center bottom -->
@@ -20,11 +15,7 @@
 	<Draw />
 
 	<!-- Button for erasing -->
-	<MenuButton
-		isActive={$toolState === ToolState.erase}
-		icon={Icons.erase}
-		on:click={handleClickErase}
-	></MenuButton>
+	<Erase />
 
 	<!-- Button for panning around -->
 	<Pan />
