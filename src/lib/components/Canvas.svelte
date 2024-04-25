@@ -4,12 +4,12 @@
 		ToolState,
 		canvasView,
 		mouseEvents,
-		currentSvgElementIndex,
+		drawingsUnderCursor,
 		canvasMousePosition,
 		type CanvasMousePosition
 	} from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
-	import { drawings } from '$lib/stores/svgStore.js';
+	import { drawings, pathToString } from '$lib/stores/svgStore.js';
 
 	onMount(() => {
 		resizeCanvas();
@@ -23,39 +23,23 @@
 		};
 	}
 
-	let lastSvgElement: EventTarget;
+	canvasMousePosition.subscribe(removeElements);
 
-	$: {
-		console.log($currentSvgElementIndex);
-	}
-
-	canvasMousePosition.subscribe(check);
-
-	function drawBoundingBox(svgRect) {
-		const boundingBox = document.createElement('div');
-		boundingBox.style.position = 'absolute';
-		boundingBox.style.left = `${svgRect.left}px`;
-		boundingBox.style.top = `${svgRect.top}px`;
-		boundingBox.style.width = `${svgRect.width}px`;
-		boundingBox.style.height = `${svgRect.height}px`;
-		boundingBox.style.border = '1px solid red';
-		document.body.appendChild(boundingBox);
-	}
-
-	function check(pos: CanvasMousePosition) {
-		if (!lastSvgElement) return;
-		const node = lastSvgElement as HTMLElement;
-		const svgRect = node.getBoundingClientRect();
-		// drawBoundingBox(svgRect);
-		console.log(pos, svgRect);
-		if (
-			pos.x < svgRect.left ||
-			pos.x > svgRect.right ||
-			pos.y < svgRect.top ||
-			pos.y > svgRect.bottom
-		) {
-			$currentSvgElementIndex = null;
-		}
+	function removeElements(pos: CanvasMousePosition) {
+		if (!$drawingsUnderCursor) return;
+		$drawingsUnderCursor.filter((drawing) => {
+			const node = drawing.eventTarget as HTMLElement;
+			const svgRect = node.getBoundingClientRect();
+			if (
+				pos.x < svgRect.left ||
+				pos.x > svgRect.right ||
+				pos.y < svgRect.top ||
+				pos.y > svgRect.bottom
+			) {
+				return false;
+			}
+			return true;
+		});
 	}
 </script>
 
@@ -63,6 +47,7 @@
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
 	class:draggable={$toolState === ToolState.pan}
+	class:erase={$toolState === ToolState.erase}
 	role="application"
 	aria-label="Interactive infinite whiteboard with draggable grid"
 	xmlns="http://www.w3.org/2000/svg"
@@ -102,20 +87,24 @@
 		fill="url(#pattern-circles)"
 	/>
 
-	<!-- Render the SVGs -->
+	<!-- Render the Drawings -->
 	{#each $drawings as drawing, index}
 		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<g
-			transform={`translate(${svgObj.x}, ${svgObj.y})`}
+		<path
+			transform={`translate(${drawing.placement.x}, ${drawing.placement.y})`}
 			on:mouseover={(event) => {
 				if (!event.target) return;
-				lastSvgElement = event.target;
-				$currentSvgElementIndex = index;
+				$drawingsUnderCursor.push({
+					index: index,
+					eventTarget: event.target
+				});
 			}}
-		>
-			{@html svgObj.svg}
-		</g>
+			d={pathToString(drawing.path)}
+			stroke="black"
+			fill="transparent"
+			stroke-width={drawing.strokeWidth}
+		/>
 	{/each}
 </svg>
 
@@ -125,5 +114,11 @@
 	}
 	.draggable:active {
 		cursor: grabbing;
+	}
+	.erase {
+		cursor:
+			url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' ...")
+				16 16,
+			pointer;
 	}
 </style>
