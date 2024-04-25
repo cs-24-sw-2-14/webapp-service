@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MenuButton from '../MenuButton.svelte';
+	import ToolbarButton from '../ToolbarButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
@@ -34,10 +34,10 @@
 	}
 </script>
 
-<MenuButton
+<ToolbarButton
 	isActive={$toolState === ToolState.pan}
 	icon={Icons.pan}
 	on:click={() => {
 		$toolState = ToolState.pan;
 	}}
-></MenuButton>
+></ToolbarButton>

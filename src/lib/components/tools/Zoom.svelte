@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MenuButton from '$lib/components/MenuButton.svelte';
+	import ToolbarButton from '$lib/components/ToolbarButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { canvasView } from '$lib/stores/stateStore';
 
@@ -22,7 +22,7 @@
 <div
 	class="fixed bottom-0 left-0 m-4 h-[56px] rounded-lg bg-zinc-800 z-10 flex items-center justify-center gap-2 p-2 text-white font-mono font-semibold"
 >
-	<MenuButton icon={Icons.zoom_out} on:click={zoomOut}></MenuButton>
+	<ToolbarButton icon={Icons.zoom_out} on:click={zoomOut}></ToolbarButton>
 	<p class="mx-2">{$canvasView.scale}%</p>
-	<MenuButton icon={Icons.zoom_in} on:click={zoomIn}></MenuButton>
+	<ToolbarButton icon={Icons.zoom_in} on:click={zoomIn}></ToolbarButton>
 </div>
