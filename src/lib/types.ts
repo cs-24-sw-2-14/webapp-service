@@ -4,7 +4,7 @@ export interface Color {
 	border: string;
 }
 
-export interface User{
+export interface User {
 	name: Username;
 	color: Color;
 }
@@ -16,7 +16,12 @@ export interface CanvasView {
 	scale: number;
 }
 
-export enum ToolState { draw, erase, pan, move }
+export enum ToolState {
+	draw,
+	erase,
+	pan,
+	move
+}
 
 export interface Coordinate {
 	x: number;

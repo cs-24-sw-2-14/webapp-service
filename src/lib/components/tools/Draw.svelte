@@ -20,7 +20,8 @@
 
 	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
 		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
-		const ty = (pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
+		const ty =
+			(pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
 		return { x: tx, y: ty };
 	}
 

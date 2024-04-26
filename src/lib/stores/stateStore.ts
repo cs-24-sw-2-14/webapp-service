@@ -11,20 +11,20 @@ export const viewChat = writable(false);
 export const settings = writable(false);
 
 export const canvasView = writable<CanvasView>({
-  position: {
-    x: 0,
-    y: 0
-  },
-  width: 0,
-  height: 0,
-  scale: 100
+	position: {
+		x: 0,
+		y: 0
+	},
+	width: 0,
+	height: 0,
+	scale: 100
 });
 
 export const toolState = writable<ToolState>(ToolState.pan);
 
 export const canvasMousePosition = writable<CanvasMousePosition>({
-  x: 0,
-  y: 0,
+	x: 0,
+	y: 0
 });
 
 export const onlineUsers = writable<User[]>([
