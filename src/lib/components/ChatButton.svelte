@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MenuButton from './MenuButton.svelte';
+	import MenuButton from './Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import Ping from './Ping.svelte';
 
