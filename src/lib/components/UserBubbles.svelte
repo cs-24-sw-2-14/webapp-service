@@ -1,5 +1,4 @@
 <script lang="ts">
-
 	import { type User } from '$lib/stores/stateStore';
 
 	// Function to split fullname and combine the first two letter of first and last name
