@@ -1,6 +1,7 @@
 // Store to handle global state
 
 import { writable } from 'svelte/store';
+import { colors } from '$lib/color';
 import { ToolState, type CanvasMousePosition, type User, type CanvasView } from '$lib/types';
 
 export const serverId = writable('');
@@ -26,7 +27,15 @@ export const canvasMousePosition = writable<CanvasMousePosition>({
   y: 0,
 });
 
-export const onlineUsers = writable<User[]>([]);
+export const onlineUsers = writable<User[]>([
+	{ name: 'Elma Vukicevic', color: colors[0] },
+	{ name: 'Amalie Jensen', color: colors[1] },
+	{ name: 'Cecilie Lassen', color: colors[2] },
+	{ name: 'Kresten Sckerl', color: colors[3] },
+	{ name: 'Mads Fagerlund', color: colors[4] },
+	{ name: 'Marc Nygaard', color: colors[5] },
+	{ name: 'Thorbjørn Larsen', color: colors[6] }
+]);
 
 export const user = writable<User>();
 
