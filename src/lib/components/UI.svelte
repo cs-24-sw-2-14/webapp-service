@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Zoom from '$lib/components/tools/Zoom.svelte';
+	import Zoom from '$lib/components/Tools/Zoom.svelte';
 	import ServerId from './ServerId.svelte';
 	import Menu from './Menu.svelte';
 	import ChatButton from './ChatButton.svelte';
