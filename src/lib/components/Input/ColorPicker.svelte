@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { user, onlineUsers } from '$lib/stores/stateStore';
-	import { colors } from '../color';
+	import { colors } from '../../color';
 	import type { User, Color } from '$lib/stores/stateStore';
 
 enum DisabledBy{
