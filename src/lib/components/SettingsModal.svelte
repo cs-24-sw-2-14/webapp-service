@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { settings } from '$lib/stores/stateStore';
-	import ColorPicker from './ColorPicker.svelte';
+	import ColorPicker from './Input/ColorPicker.svelte';
 	export let showModal = $settings;
 
 	let code = '';

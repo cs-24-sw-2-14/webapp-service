@@ -1,32 +1,31 @@
 <script lang="ts">
+	import { afterUpdate } from 'svelte';
+	import { type CanvasMousePosition } from '$lib/stores/stateStore';
+	import { canvasView } from '$lib/stores/stateStore';
+	import { canvasMousePosition } from '$lib/stores/stateStore';
+
+	import { cursors } from '$lib/stores/stateStore';
+
 	export let mouseX: Number;
 	export let mouseY: Number;
 
 	export let name: String;
 	export let color: String;
 
-	import { type CanvasMousePosition } from '$lib/stores/stateStore';
-	import { canvasView } from '$lib/stores/stateStore';
-
-	function globalCoordinates(pos: CanvasMousePosition) {
-		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.x - 10.5;
-		const ty = (pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.y - 11;
-		return { x: tx, y: ty };
-	}
-
 	let cursor: any;
-
+	let textElement: SVGTextElement;
+	let rectElement: SVGRectElement;
 	$: cursor = globalCoordinates($canvasMousePosition);
-
-	import { canvasMousePosition } from '$lib/stores/stateStore';
-
 	$: {
 		console.log(`${cursor.x} : ${cursor.y}`);
 	}
 
-	import { afterUpdate } from 'svelte';
-	let textElement: SVGTextElement;
-	let rectElement: SVGRectElement;
+	function globalCoordinates(pos: CanvasMousePosition) {
+		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.x - 10.5;
+		const ty = (pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.y - 11;
+
+		return { x: tx, y: ty };
+	}
 
 	function adjustBackground() {
 		const bbox = textElement.getBBox();

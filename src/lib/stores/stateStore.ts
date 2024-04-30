@@ -17,6 +17,33 @@ export interface CanvasView {
   scale: number;
 }
 
+export interface Local {
+  posX: number;
+  posY: number;
+  color: string;
+}
+
+export interface Remote {
+  posX: number;
+  posY: number;
+  color: string;
+  name: string;
+}
+
+export interface Cursors {
+  localCursor: Local;
+  remoteCursors: Remote[];
+}
+
+export const cursors = writable<Cursors>({
+  localCursor: {
+    posX: 0,
+    posY: 0,
+    color: '',
+  },
+  remoteCursors: []
+});
+
 export const canvasView = writable<CanvasView>({
   x: 0,
   y: 0,
@@ -46,7 +73,7 @@ export interface Color {
 
 }
 
-export interface User{
+export interface User {
 	name: string;
 	color: Color;
 }
