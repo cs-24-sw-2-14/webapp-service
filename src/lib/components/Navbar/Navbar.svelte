@@ -3,7 +3,7 @@
 	import MenuButton from './MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { settings, onlineUsers } from '$lib/stores/stateStore';
-	import UserBubbles from '$lib/components/UserBubbles.svelte';
+	import UserBubbles from '$lib/components/Navbar/UserBubbles.svelte';
 
 	function handleSettingsClick() {
 		settings.set(!$settings);

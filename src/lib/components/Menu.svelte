@@ -2,10 +2,10 @@
 	import { toolState } from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 
-	import MenuButton from './MenuButton.svelte';
-	import Pan from '$lib/components/tools/Pan.svelte';
-	import Move from '$lib/components/tools/Move.svelte';
-	import Draw from '$lib/components/tools/Draw.svelte';
+	import MenuButton from './Navbar/MenuButton.svelte';
+	import Pan from '$lib/components/Tools/Pan.svelte';
+	import Move from '$lib/components/Tools/Move.svelte';
+	import Draw from '$lib/components/Tools/Draw.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 
 	function handleClickErase() {
