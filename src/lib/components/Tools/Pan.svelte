@@ -3,12 +3,11 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		ToolState,
 		canvasView,
 		canvasMousePosition,
 		canvasMouseDown
 	} from '$lib/stores/stateStore';
-	import type { CanvasMousePosition } from '$lib/stores/stateStore';
+	import { type CanvasMousePosition, ToolState } from '$lib/types';
 	let startX: number, startY: number;
 
 	canvasMouseDown.subscribe(startDrag);
@@ -26,8 +25,10 @@
 		if (!$canvasMouseDown || $toolState !== ToolState.pan) return;
 		$canvasView = {
 			...$canvasView,
-			x: $canvasView.x - (pos.x - startX) / ($canvasView.scale / 100),
-			y: $canvasView.y - (pos.y - startY) / ($canvasView.scale / 100)
+			position: {
+				x: $canvasView.position.x - (pos.x - startX) / ($canvasView.scale / 100),
+				y: $canvasView.position.y - (pos.y - startY) / ($canvasView.scale / 100)
+			}
 		};
 		startX = pos.x;
 		startY = pos.y;

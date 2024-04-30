@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type User } from '$lib/stores/stateStore';
+	import { type User } from '$lib/types';
 
 	// Function to split fullname and combine the first two letter of first and last name
 	function getInitials(name: string) {
