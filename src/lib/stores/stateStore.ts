@@ -25,7 +25,7 @@ export const canvasView = writable<CanvasView>({
   scale: 100
 });
 
-export enum ToolState { draw, erase, pan, move }
+export enum ToolState { draw, erase, pan, move, image }
 
 export const toolState = writable<ToolState>(ToolState.pan);
 
