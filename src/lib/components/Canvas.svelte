@@ -8,6 +8,7 @@
 	} from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
+	import MouseCursor from './MouseCursor.svelte';
 
 	onMount(() => {
 		resizeCanvas();
@@ -25,6 +26,7 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
+	class:draw={$toolState === ToolState.draw}
 	class:draggable={$toolState === ToolState.pan}
 	role="application"
 	aria-label="Interactive infinite whiteboard with draggable grid"
@@ -78,6 +80,9 @@
 			{@html svgObj.svg}
 		</g>
 	{/each}
+
+	<!-- Mouse Cursor (local and remote) -->
+	<MouseCursor mouseX={2} mouseY={2} name="marc" color="orange"></MouseCursor>
 </svg>
 
 <style>
@@ -86,5 +91,9 @@
 	}
 	.draggable:active {
 		cursor: grabbing;
+	}
+
+	.draw {
+		cursor: none;
 	}
 </style>

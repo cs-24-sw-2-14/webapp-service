@@ -1,0 +1,10 @@
+<script lang="ts">
+	import { type CanvasMousePosition } from '$lib/stores/stateStore';
+	import { canvasView } from '$lib/stores/stateStore';
+
+	function globalCoordinates(pos: CanvasMousePosition) {
+		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.x;
+		const ty = (pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.y;
+		return { x: tx, y: ty };
+	}
+</script>
