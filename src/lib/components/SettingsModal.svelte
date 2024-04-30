@@ -37,9 +37,19 @@
 			class="bg-zinc-800 p-6 rounded-lg shadow-lg w-1/3 cursor-default max-w-lg"
 			on:click={handleModalContentClick}
 		>
-			<!-- Modal content... -->
-			<h2 class="text-2xl font-semibold mb-4 text-zinc-300">Settings</h2>
-
+			
+			<div class="flex justify-between"> <!--It is used so h2 and the x-button is beside each other-->
+				<!-- Modal content... -->
+				<h2 class="text-2xl font-semibold mb-4 text-zinc-300">Settings</h2>
+				<button 
+					class="hover:bg-red-600 w-8 h-8 text-white font-semibold -mt-2 -mr-2" 
+					on:click={() => {
+						settings.set(!$settings);
+					}}
+					>X</button
+				> <!-- when you hover over the button the background color changes to red 
+					   on:click inverts the settings value and updates all settings-subscribers-->
+			</div>
 			<!-- ************************************************** -->
 			<!-- Join Whiteboard Section -->
 			<h2 class="text-lg font-semibold mb-2 text-zinc-300">Join an existing magicboard</h2>
