@@ -3,13 +3,12 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		ToolState,
 		canvasMousePosition,
 		canvasMouseDown,
 		canvasView,
 		currentSvgElementIndex
 	} from '$lib/stores/stateStore';
-	import type { CanvasMousePosition } from '$lib/stores/stateStore';
+	import { type CanvasMousePosition, ToolState } from '$lib/types';
 	import { svgs } from '$lib/stores/svgStore';
 
 	let startX: number, startY: number;

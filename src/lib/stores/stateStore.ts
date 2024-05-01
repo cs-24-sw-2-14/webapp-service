@@ -2,6 +2,7 @@
 
 import { writable } from 'svelte/store';
 import { colors } from '$lib/color';
+import { ToolState, type CanvasMousePosition, type User, type CanvasView } from '$lib/types';
 
 export const serverId = writable('');
 
@@ -9,6 +10,7 @@ export const viewChat = writable(false);
 
 export const settings = writable(false);
 
+<<<<<<< HEAD
 export interface CanvasView {
   x: number;
   y: number;
@@ -44,28 +46,26 @@ export const cursors = writable<Cursors>({
   remoteCursors: []
 });
 
+=======
+>>>>>>> main
 export const canvasView = writable<CanvasView>({
-  x: 0,
-  y: 0,
-  width: 0,
-  height: 0,
-  scale: 100
+	position: {
+		x: 0,
+		y: 0
+	},
+	width: 0,
+	height: 0,
+	scale: 100
 });
-
-export enum ToolState { draw, erase, pan, move }
 
 export const toolState = writable<ToolState>(ToolState.pan);
 
-export interface CanvasMousePosition {
-  x: number;
-  y: number;
-}
-
 export const canvasMousePosition = writable<CanvasMousePosition>({
-  x: 0,
-  y: 0,
+	x: 0,
+	y: 0
 });
 
+<<<<<<< HEAD
 export interface Color {
     name: string;
     bg: string;
@@ -78,6 +78,8 @@ export interface User {
 	color: Color;
 }
 
+=======
+>>>>>>> main
 export const onlineUsers = writable<User[]>([
 	{ name: 'Elma Vukicevic', color: colors[0] },
 	{ name: 'Amalie Jensen', color: colors[1] },
