@@ -1,15 +1,14 @@
 <script lang="ts">
-	import MenuButton from '../MenuButton.svelte';
+	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		ToolState,
 		canvasMousePosition,
 		canvasMouseDown,
 		canvasView,
 		drawingsUnderCursor
 	} from '$lib/stores/stateStore';
-	import type { CanvasMousePosition } from '$lib/stores/stateStore';
+	import { type CanvasMousePosition, ToolState } from '$lib/types';
 	import { svgs } from '$lib/stores/svgStore';
 
 	let startX: number, startY: number;

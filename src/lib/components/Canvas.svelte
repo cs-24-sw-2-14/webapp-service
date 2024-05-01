@@ -1,13 +1,13 @@
 <script lang="ts">
 	import {
 		toolState,
-		ToolState,
 		canvasView,
 		mouseEvents,
 		drawingsUnderCursor,
 		canvasMousePosition,
 		type CanvasMousePosition
 	} from '$lib/stores/stateStore';
+	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
 
@@ -54,8 +54,8 @@
 	width="100%"
 	height="100%"
 	viewBox={`
-  ${$canvasView.x - $canvasView.width / ((2 * $canvasView.scale) / 100)} 
-  ${$canvasView.y - $canvasView.height / ((2 * $canvasView.scale) / 100)} 
+  ${$canvasView.position.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
+  ${$canvasView.position.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
   ${$canvasView.width / ($canvasView.scale / 100)} 
   ${$canvasView.height / ($canvasView.scale / 100)}
 `}
@@ -80,8 +80,8 @@
 
 	<!-- Render background pattern -->
 	<rect
-		x={$canvasView.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
-		y={$canvasView.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
+		x={$canvasView.position.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
+		y={$canvasView.position.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
 		width="100%"
 		height="100%"
 		fill="url(#pattern-circles)"

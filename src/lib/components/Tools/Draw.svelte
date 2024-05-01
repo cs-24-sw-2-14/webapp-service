@@ -1,9 +1,8 @@
 <script lang="ts">
-	import MenuButton from '../MenuButton.svelte';
+	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		ToolState,
 		canvasMousePosition,
 		canvasMouseDown,
 		canvasView
@@ -26,8 +25,9 @@
 	canvasMouseDown.subscribe(stopDraw);
 
 	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
-		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.x;
-		const ty = (pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.y;
+		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
+		const ty =
+			(pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
 		return { x: tx, y: ty };
 	}
 

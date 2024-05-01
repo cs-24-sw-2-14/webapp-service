@@ -1,7 +1,8 @@
 // Store to handle global state
 
 import { writable } from 'svelte/store';
-
+import { colors } from '$lib/color';
+import { ToolState, type CanvasMousePosition, type User, type CanvasView } from '$lib/types';
 
 export const boardId = writable('');
 
@@ -27,18 +28,11 @@ export const canvasView = writable<CanvasView>({
   cursor: "pointer"
 });
 
-export enum ToolState { draw, erase, pan, move }
-
 export const toolState = writable<ToolState>(ToolState.pan);
 
-export interface CanvasMousePosition {
-  x: number;
-  y: number;
-}
-
 export const canvasMousePosition = writable<CanvasMousePosition>({
-  x: 0,
-  y: 0,
+	x: 0,
+	y: 0
 });
 
 export interface Color {
