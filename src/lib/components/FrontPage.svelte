@@ -160,7 +160,7 @@
 		display: flex; /*Establishes a flex container*/
 		flex-direction: column; /*The items in the box fellows the direction of a column*/
 		background-color: #ffffff;
-		border-right: 0.2em solid #363636; /*The border to the right side is black*/
+		border-right: 0.075em solid #363636; /*The border to the right side is black*/
 		align-items: center; /*The items in the box is in the center*/
 		width: 100%;
 		justify-content: space-between; /*It does so there is space between the items*/
