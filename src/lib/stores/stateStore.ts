@@ -3,7 +3,7 @@
 import { writable } from 'svelte/store';
 
 
-export const serverId = writable('');
+export const boardId = writable('');
 
 export const viewChat = writable(false);
 
@@ -42,15 +42,15 @@ export const canvasMousePosition = writable<CanvasMousePosition>({
 });
 
 export interface Color {
-    name: string;
-    bg: string;
-    border: string;
+  name: string;
+  bg: string;
+  border: string;
 
 }
 
-export interface User{
-	name: string;
-	color: Color;
+export interface User {
+  name: string;
+  color: Color;
 }
 
 export const onlineUsers = writable<User[]>([]);
