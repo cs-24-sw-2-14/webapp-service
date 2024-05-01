@@ -9,7 +9,7 @@
 		type CanvasMousePosition
 	} from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
-	import { drawings, pathToString } from '$lib/stores/svgStore.js';
+	import { svgs } from '$lib/stores/svgStore.js';
 
 	onMount(() => {
 		resizeCanvas();
@@ -88,11 +88,11 @@
 	/>
 
 	<!-- Render the Drawings -->
-	{#each $drawings as drawing, index}
+	{#each $svgs as svg, index}
 		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<path
-			transform={`translate(${drawing.placement.x}, ${drawing.placement.y})`}
+		<g
+			transform={`translate(${svg.x}, ${svg.y})`}
 			on:mouseover={(event) => {
 				if (!event.target) return;
 				$drawingsUnderCursor.push({
@@ -100,11 +100,9 @@
 					eventTarget: event.target
 				});
 			}}
-			d={pathToString(drawing.path)}
-			stroke="black"
-			fill="transparent"
-			stroke-width={drawing.strokeWidth}
-		/>
+		>
+			{@html svg.svg}
+		</g>
 	{/each}
 </svg>
 
