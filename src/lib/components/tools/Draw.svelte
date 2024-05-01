@@ -9,10 +9,17 @@
 		canvasView
 	} from '$lib/stores/stateStore';
 	import type { CanvasMousePosition } from '$lib/stores/stateStore';
-	import type { Drawing } from '$lib/stores/svgStore';
-	import { drawings, CoordinateType } from '$lib/stores/svgStore';
+	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
+	import { socket } from '$lib/websocket';
 
-	let currentIndex: number | null = null;
+	let currentCommandId = writable<number | null>(null);
+
+	onMount(() => {
+		socket.on('startDrawSuccess', (data) => {
+			$currentCommandId = data.commandId;
+		});
+	});
 
 	canvasMouseDown.subscribe(startDraw);
 	canvasMousePosition.subscribe(doDraw);
@@ -27,39 +34,28 @@
 	function startDraw() {
 		if (!$canvasMouseDown || $toolState !== ToolState.draw) return;
 		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
-		const new_drawing: Drawing = {
-			path: [
-				{
-					type: CoordinateType.moveto,
-					x: x,
-					y: y
-				}
-			],
+		socket.emit('startDraw', {
+			placement: { x: 0, y: 0 },
+			path: { x: x, y: y },
 			stroke: 'black',
 			fill: 'transparent',
-			strokeWidth: 7,
-			placement: { x: 0, y: 0 }
-		};
-		currentIndex = $drawings.length;
-		$drawings = [...$drawings, new_drawing];
+			strokeWidth: 7
+		});
 	}
 
 	function doDraw() {
-		if (!$canvasMouseDown || $toolState !== ToolState.draw || currentIndex === null) return;
+		if (!$canvasMouseDown || $toolState !== ToolState.draw || currentCommandId === null) return;
 		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
-		$drawings[currentIndex].path = [
-			...$drawings[currentIndex].path,
-			{
-				type: CoordinateType.lineto,
-				x: x,
-				y: y
-			}
-		];
+
+		socket.emit('doDraw', {
+			x: x,
+			y: y
+		});
 	}
 
 	function stopDraw() {
 		if ($canvasMouseDown || $toolState !== ToolState.draw) return;
-		currentIndex = null;
+		$currentCommandId = null;
 	}
 </script>
 
