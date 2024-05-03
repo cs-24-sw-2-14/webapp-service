@@ -4,6 +4,13 @@ import { writable } from 'svelte/store';
 import { colors } from '$lib/color';
 import { ToolState, type CanvasMousePosition, type User, type CanvasView } from '$lib/types';
 
+export enum Page{
+  PickerPage,
+  CanvasPage
+}
+
+export const currentPage = writable(Page.PickerPage);
+
 export const serverId = writable('');
 
 export const viewChat = writable(false);
@@ -37,7 +44,7 @@ export const onlineUsers = writable<User[]>([
 	{ name: 'Thorbjørn Larsen', color: colors[6] }
 ]);
 
-export const user = writable<User>();
+export const user = writable<User>({name:'', color: null});
 
 export const canvasMouseDown = writable(false)
 

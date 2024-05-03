@@ -5,8 +5,8 @@ export interface Color {
 }
 
 export interface User {
-	name: Username;
-	color: Color;
+	name: string;
+	color: null | Color;
 }
 
 export interface CanvasView {
@@ -29,4 +29,3 @@ export interface Coordinate {
 }
 
 export type CanvasMousePosition = Coordinate;
-export type Username = string;
