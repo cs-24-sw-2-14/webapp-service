@@ -10,6 +10,7 @@
 	import { type CanvasMousePosition, ToolState } from '$lib/types';
 	import type { Svg } from '$lib/stores/svgStore';
 	import { svgs } from '$lib/stores/svgStore';
+	import { chosenColor } from '$lib/stores/stateStore';
 
 	let pathString = '';
 	let currentIndex: number | null = null;
@@ -53,7 +54,7 @@
 	$: {
 		if (currentIndex) {
 			$svgs[currentIndex].svg =
-				`<path d="${pathString}" stroke="black" fill="transparent" stroke-width="5"/>`;
+				`<path d="${pathString}" stroke="${$chosenColor}" fill="transparent" stroke-width="5"/>`;
 		}
 	}
 </script>

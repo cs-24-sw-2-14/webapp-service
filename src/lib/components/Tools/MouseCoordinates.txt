@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type CanvasMousePosition } from '$lib/stores/stateStore';
+	import { type CanvasMousePosition } from '$lib/types';
 	import { canvasView } from '$lib/stores/stateStore';
 
 	function globalCoordinates(pos: CanvasMousePosition) {

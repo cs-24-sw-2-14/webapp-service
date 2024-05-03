@@ -3,7 +3,8 @@
 		toolState,
 		canvasView,
 		mouseEvents,
-		currentSvgElementIndex
+		currentSvgElementIndex,
+		cursors
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
@@ -82,7 +83,7 @@
 	{/each}
 
 	<!-- Mouse Cursor (local and remote) -->
-	<MouseCursor mouseX={2} mouseY={2} name="marc" color="orange"></MouseCursor>
+	<MouseCursor></MouseCursor>
 </svg>
 
 <style>
