@@ -4,25 +4,25 @@
 	import {
 		toolState,
 		canvasView,
-		canvasMousePosition,
-		canvasMouseDown
+		canvasCursorPosition,
+		canvasTouchDown
 	} from '$lib/stores/stateStore';
 	import { type CanvasMousePosition, ToolState } from '$lib/types';
 	let startX: number, startY: number;
 
-	canvasMouseDown.subscribe(startDrag);
-	canvasMousePosition.subscribe(doDrag);
+	canvasTouchDown.subscribe(startDrag);
+	canvasCursorPosition.subscribe(doDrag);
 
 	function startDrag(isDown: boolean) {
 		if ($toolState !== ToolState.pan) return;
 		if (isDown) {
-			startX = $canvasMousePosition.x;
-			startY = $canvasMousePosition.y;
+			startX = $canvasCursorPosition.x;
+			startY = $canvasCursorPosition.y;
 		}
 	}
 
 	function doDrag(pos: CanvasMousePosition) {
-		if (!$canvasMouseDown || $toolState !== ToolState.pan) return;
+		if (!$canvasTouchDown || $toolState !== ToolState.pan) return;
 		$canvasView = {
 			...$canvasView,
 			position: {

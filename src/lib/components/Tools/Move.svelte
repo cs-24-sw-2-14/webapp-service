@@ -3,8 +3,8 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasMousePosition,
-		canvasMouseDown,
+		canvasCursorPosition,
+		canvasTouchDown,
 		canvasView,
 		currentSvgElementIndex
 	} from '$lib/stores/stateStore';
@@ -14,19 +14,19 @@
 	let startX: number, startY: number;
 	let currentIndex = 0;
 
-	canvasMouseDown.subscribe(startMove);
-	canvasMousePosition.subscribe(doMove);
+	canvasTouchDown.subscribe(startMove);
+	canvasCursorPosition.subscribe(doMove);
 
 	function startMove(isDown: boolean) {
 		if ($toolState !== ToolState.move) return;
 		if (!isDown) return;
-		startX = $canvasMousePosition.x;
-		startY = $canvasMousePosition.y;
+		startX = $canvasCursorPosition.x;
+		startY = $canvasCursorPosition.y;
 		currentIndex = $currentSvgElementIndex;
 	}
 
 	function doMove(pos: CanvasMousePosition) {
-		if (!$canvasMouseDown || $toolState !== ToolState.move) return;
+		if (!$canvasTouchDown || $toolState !== ToolState.move) return;
 		$svgs[currentIndex] = {
 			...$svgs[currentIndex],
 			x: $svgs[currentIndex].x + (pos.x - startX) / ($canvasView.scale / 100),

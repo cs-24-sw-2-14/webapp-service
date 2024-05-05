@@ -22,7 +22,7 @@ export const canvasView = writable<CanvasView>({
 
 export const toolState = writable<ToolState>(ToolState.pan);
 
-export const canvasMousePosition = writable<CanvasMousePosition>({
+export const canvasCursorPosition = writable<CanvasMousePosition>({
 	x: 0,
 	y: 0
 });
@@ -39,14 +39,15 @@ export const onlineUsers = writable<User[]>([
 
 export const user = writable<User>();
 
-export const canvasMouseDown = writable(false)
+export const canvasTouchDown = writable(false);
 
-export const mouseEvents = {
-  down: () => canvasMouseDown.set(true),
-  move: (event: MouseEvent) => canvasMousePosition.update(() => {
-    return { x: event.clientX, y: event.clientY };
-  }),
-  up: () => canvasMouseDown.set(false),
+export const touchEvents = {
+	start: () => canvasTouchDown.set(true),
+	move: (event: TouchEvent) =>
+		canvasCursorPosition.update(() => {
+			return { x: event.touches[0].clientX, y: event.touches[0].clientY };
+		}),
+	end: () => canvasTouchDown.set(false)
 };
 
 export const currentSvgElementIndex = writable<number | null>(null)

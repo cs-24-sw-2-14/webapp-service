@@ -3,8 +3,8 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasMousePosition,
-		canvasMouseDown,
+		canvasCursorPosition,
+		canvasTouchDown,
 		canvasView
 	} from '$lib/stores/stateStore';
 	import { type CanvasMousePosition, ToolState } from '$lib/types';
@@ -14,9 +14,9 @@
 	let pathString = '';
 	let currentIndex: number | null = null;
 
-	canvasMouseDown.subscribe(startDraw);
-	canvasMousePosition.subscribe(doDraw);
-	canvasMouseDown.subscribe(stopDraw);
+	canvasTouchDown.subscribe(startDraw);
+	canvasCursorPosition.subscribe(doDraw);
+	canvasTouchDown.subscribe(stopDraw);
 
 	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
 		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
@@ -33,13 +33,13 @@
 			y: 0
 		};
 		currentIndex = $svgs.length;
-		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
 		pathString = `M${x},${y}`;
 		$svgs = [...$svgs, new_svg_element];
 	}
 
 	function doDraw(pos: CanvasMousePosition) {
-		if (!$canvasMouseDown || $toolState !== ToolState.draw) return;
+		if (!$canvasTouchDown || $toolState !== ToolState.draw) return;
 		const { x, y } = mouseToSvgCoordinates(pos);
 		pathString += `L${x},${y}`;
 	}
