@@ -1,4 +1,4 @@
-export function checkHexa(input: string) {
+export function checkHexadecimal(input: string) {
     for (let i = 0; i < input.length; i++) {
         let charCode = input.charCodeAt(i);
 

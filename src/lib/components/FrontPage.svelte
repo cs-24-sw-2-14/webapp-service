@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { checkHexa } from '$lib/logic';
+	import { checkHexadecimal } from '$lib/logic';
 
 	let inputfield: string = '';
 
@@ -7,7 +7,7 @@
 	let boardCheckerEndpointUrl: string;
 	$: {
 		inputfield = inputfield.toUpperCase();
-		if (!checkHexa(inputfield)) {
+		if (!checkHexadecimal(inputfield)) {
 			inputfield = inputfield.slice(0, -1);
 		}
 		if (inputfield.length > 6) {
