@@ -6,6 +6,7 @@
 	import Pan from '$lib/components/Tools/Pan.svelte';
 	import Move from '$lib/components/Tools/Move.svelte';
 	import Draw from '$lib/components/Tools/Draw.svelte';
+	import Text from '$lib/components/Tools/Text.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 
 	function handleClickErase() {
@@ -48,7 +49,7 @@
 	<MenuButton icon={Icons.image}></MenuButton>
 
 	<!-- Button for inserting text -->
-	<MenuButton icon={Icons.text}></MenuButton>
+	<Text />
 
 	<!-- Button for inserting shapes -->
 	<MenuButton icon={Icons.shape}></MenuButton>

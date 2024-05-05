@@ -20,7 +20,8 @@ export enum ToolState {
 	draw,
 	erase,
 	pan,
-	move
+	move,
+	text,
 }
 
 export interface Coordinate {
