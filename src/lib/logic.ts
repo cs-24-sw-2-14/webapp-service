@@ -1,4 +1,4 @@
-import type { ViewCoordinate } from '$lib/types';
+import type { ViewCoordinate, Coordinate, Rectangle, ScaleFactor, SvgCoordinate } from '$lib/types';
 import { canvasView } from '$lib/stores/stateStore';
 
 export function checkHexadecimal(input: string) {
@@ -14,11 +14,69 @@ export function checkHexadecimal(input: string) {
     return true;
 }
 
-export function mouseToSvgCoordinates(pos: ViewCoordinate) {
-    const canvasView = $canvasView;
+export function mouseToSvgCoordinates(coordinate: ViewCoordinate): SvgCoordinate {
+    const canvasRect: Rectangle = {
+        width: $canvasView.width,
+        height: $canvasView.height,
+    }
 
-    const tx = (pos.x - canvasView.width / 2) / (canvasView.scale / 100) + canvasView.position.x;
-    const ty =
-      (pos.y - canvasView.height / 2) / (canvasView.scale / 100) + canvasView.position.y;
-    return { x: tx, y: ty };
+    const canvasScaleFactor = 100 / $canvasView.scale;
+
+    return viewCoordinatesToSvgCoordinates(
+      coordinate,
+      canvasRect,
+      $canvasView.position,
+      canvasScaleFactor
+    );
+}
+
+function viewCoordinatesToSvgCoordinates(coordinate: ViewCoordinate, viewRect: Rectangle, viewPos: SvgCoordinate, viewScale: ScaleFactor): SvgCoordinate {
+    let coords = coordinate;
+
+    // Translate coordinates to center
+    coords = centerCoordinatesInRect(coords, viewRect);
+
+    // Scale translated coordinates
+    coords = scaleCoordinates(coords, viewScale);
+
+    // Offset coordinates to view position
+    coords = translateCoordinates(coords, viewPos);
+
+    return coords;
+}
+
+/**
+ * Centers coordinates in a rect.
+ * @param coordinates
+ * @param rect
+ */
+function centerCoordinatesInRect(coordinates: Coordinate, rect: Rectangle){
+    return translateCoordinates(coordinates, {
+        x: rect.width / 2,
+        y: rect.height / 2,
+    });
+}
+
+/**
+ * Translate coordinates by a coordinate.
+ * @param coordinates
+ * @param offset
+ */
+function translateCoordinates(coordinates: Coordinate, offset: Coordinate): Coordinate {
+    return {
+        x: coordinates.x - offset.x,
+        y: coordinates.y - offset.y,
+    }
+}
+
+/**
+ * Scales coordinates by a scale factor.
+ * @param coordinates
+ * @param scale
+ */
+function scaleCoordinates(coordinates: Coordinate, scale: ScaleFactor): Coordinate {
+    return {
+        x: coordinates.x * scale,
+        y: coordinates.y * scale,
+    }
 }

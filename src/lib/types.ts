@@ -23,10 +23,20 @@ export enum ToolState {
 	move
 }
 
+export interface Rectangle {
+	width: number;
+	height: number;
+}
+
 export interface Coordinate {
 	x: number;
 	y: number;
 }
 
+/**
+ * Represents a factor between 0 and 1, which is used for scaling.
+ */
+export type ScaleFactor = number;
 export type ViewCoordinate = Coordinate;
+export type SvgCoordinate = Coordinate;
 export type Username = string;
