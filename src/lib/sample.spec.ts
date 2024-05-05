@@ -1,5 +1,5 @@
 import {describe, test, expect } from 'vitest';
-import { checkHexa } from './ts/checkHexa';
+import { checkHexa } from './logic';
 
 describe("Example File", () => {
     test("Sample test", () => {
