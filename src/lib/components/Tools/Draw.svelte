@@ -6,7 +6,7 @@
 		canvasMousePosition,
 		canvasMouseDown,
 	} from '$lib/stores/stateStore';
-	import { type CanvasMousePosition, ToolState } from '$lib/types';
+	import { type ViewCoordinate, ToolState } from '$lib/types';
 	import type { Svg } from '$lib/stores/svgStore';
 	import { svgs } from '$lib/stores/svgStore';
 	import { mouseToSvgCoordinates } from '$lib/logic';
@@ -31,7 +31,7 @@
 		$svgs = [...$svgs, new_svg_element];
 	}
 
-	function doDraw(pos: CanvasMousePosition) {
+	function doDraw(pos: ViewCoordinate) {
 		if (!$canvasMouseDown || $toolState !== ToolState.draw) return;
 		const { x, y } = mouseToSvgCoordinates(pos);
 		pathString += `L${x},${y}`;

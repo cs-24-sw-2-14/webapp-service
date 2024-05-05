@@ -8,7 +8,7 @@
 		canvasView,
 		currentSvgElementIndex
 	} from '$lib/stores/stateStore';
-	import { type CanvasMousePosition, ToolState } from '$lib/types';
+	import { type ViewCoordinate, ToolState } from '$lib/types';
 	import { svgs } from '$lib/stores/svgStore';
 
 	let startX: number, startY: number;
@@ -25,7 +25,7 @@
 		currentIndex = $currentSvgElementIndex;
 	}
 
-	function doMove(pos: CanvasMousePosition) {
+	function doMove(pos: ViewCoordinate) {
 		if (!$canvasMouseDown || $toolState !== ToolState.move) return;
 		$svgs[currentIndex] = {
 			...$svgs[currentIndex],

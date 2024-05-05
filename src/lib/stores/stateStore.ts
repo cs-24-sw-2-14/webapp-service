@@ -2,7 +2,7 @@
 
 import { writable } from 'svelte/store';
 import { colors } from '$lib/color';
-import { ToolState, type CanvasMousePosition, type User, type CanvasView } from '$lib/types';
+import { ToolState, type ViewCoordinate, type User, type CanvasView } from '$lib/types';
 
 export const serverId = writable('');
 
@@ -22,7 +22,7 @@ export const canvasView = writable<CanvasView>({
 
 export const toolState = writable<ToolState>(ToolState.pan);
 
-export const canvasMousePosition = writable<CanvasMousePosition>({
+export const canvasMousePosition = writable<ViewCoordinate>({
 	x: 0,
 	y: 0
 });
