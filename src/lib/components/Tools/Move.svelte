@@ -4,7 +4,7 @@
 	import {
 		toolState,
 		canvasCursorPosition,
-		canvasTouchDown,
+		canvasTouched,
 		canvasView,
 		currentSvgElementIndex
 	} from '$lib/stores/stateStore';
@@ -14,7 +14,7 @@
 	let startX: number, startY: number;
 	let currentIndex = 0;
 
-	canvasTouchDown.subscribe(startMove);
+	canvasTouched.subscribe(startMove);
 	canvasCursorPosition.subscribe(doMove);
 
 	function startMove(isDown: boolean) {
@@ -26,7 +26,7 @@
 	}
 
 	function doMove(pos: CanvasMousePosition) {
-		if (!$canvasTouchDown || $toolState !== ToolState.move) return;
+		if (!$canvasTouched || $toolState !== ToolState.move) return;
 		$svgs[currentIndex] = {
 			...$svgs[currentIndex],
 			x: $svgs[currentIndex].x + (pos.x - startX) / ($canvasView.scale / 100),

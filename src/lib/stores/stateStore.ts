@@ -39,15 +39,15 @@ export const onlineUsers = writable<User[]>([
 
 export const user = writable<User>();
 
-export const canvasTouchDown = writable(false);
+export const canvasTouched = writable(false);
 
 export const touchEvents = {
-	start: () => canvasTouchDown.set(true),
+	start: () => canvasTouched.set(true),
 	move: (event: TouchEvent) =>
 		canvasCursorPosition.update(() => {
 			return { x: event.touches[0].clientX, y: event.touches[0].clientY };
 		}),
-	end: () => canvasTouchDown.set(false)
+	end: () => canvasTouched.set(false)
 };
 
 export const currentSvgElementIndex = writable<number | null>(null)

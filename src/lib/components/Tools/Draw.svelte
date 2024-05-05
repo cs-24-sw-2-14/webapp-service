@@ -4,7 +4,7 @@
 	import {
 		toolState,
 		canvasCursorPosition,
-		canvasTouchDown,
+		canvasTouched,
 		canvasView
 	} from '$lib/stores/stateStore';
 	import { type CanvasMousePosition, ToolState } from '$lib/types';
@@ -14,9 +14,9 @@
 	let pathString = '';
 	let currentIndex: number | null = null;
 
-	canvasTouchDown.subscribe(startDraw);
+	canvasTouched.subscribe(startDraw);
 	canvasCursorPosition.subscribe(doDraw);
-	canvasTouchDown.subscribe(stopDraw);
+	canvasTouched.subscribe(stopDraw);
 
 	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
 		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
@@ -39,7 +39,7 @@
 	}
 
 	function doDraw(pos: CanvasMousePosition) {
-		if (!$canvasTouchDown || $toolState !== ToolState.draw) return;
+		if (!$canvasTouched || $toolState !== ToolState.draw) return;
 		const { x, y } = mouseToSvgCoordinates(pos);
 		pathString += `L${x},${y}`;
 	}
