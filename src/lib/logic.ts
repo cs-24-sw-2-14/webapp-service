@@ -2,47 +2,52 @@ import type { ViewCoordinate, Coordinate, Rectangle, ScaleFactor, SvgCoordinate 
 import { canvasView } from '$lib/stores/stateStore';
 
 export function checkHexadecimal(input: string) {
-    for (let i = 0; i < input.length; i++) {
-        let charCode = input.charCodeAt(i);
+	for (let i = 0; i < input.length; i++) {
+		let charCode = input.charCodeAt(i);
 
-        //check if char is between 0 and 9 or A and F
-        if (!(charCode >= 48 && charCode <= 57) && !(charCode >= 65 && charCode <= 70)) {
-            return false;
-        }
-    }
+		//check if char is between 0 and 9 or A and F
+		if (!(charCode >= 48 && charCode <= 57) && !(charCode >= 65 && charCode <= 70)) {
+			return false;
+		}
+	}
 
-    return true;
+	return true;
 }
 
 export function mouseToSvgCoordinates(coordinate: ViewCoordinate): SvgCoordinate {
-    const canvasRect: Rectangle = {
-        width: $canvasView.width,
-        height: $canvasView.height,
-    }
+	const canvasRect: Rectangle = {
+		width: $canvasView.width,
+		height: $canvasView.height
+	};
 
-    const canvasScaleFactor = 100 / $canvasView.scale;
+	const canvasScaleFactor = 100 / $canvasView.scale;
 
-    return viewCoordinatesToSvgCoordinates(
-      coordinate,
-      canvasRect,
-      $canvasView.position,
-      canvasScaleFactor
-    );
+	return viewCoordinatesToSvgCoordinates(
+		coordinate,
+		canvasRect,
+		$canvasView.position,
+		canvasScaleFactor
+	);
 }
 
-function viewCoordinatesToSvgCoordinates(coordinate: ViewCoordinate, viewRect: Rectangle, viewPos: SvgCoordinate, viewScale: ScaleFactor): SvgCoordinate {
-    let coords = coordinate;
+function viewCoordinatesToSvgCoordinates(
+	coordinate: ViewCoordinate,
+	viewRect: Rectangle,
+	viewPos: SvgCoordinate,
+	viewScale: ScaleFactor
+): SvgCoordinate {
+	let coords = coordinate;
 
-    // Translate coordinates to center
-    coords = centerCoordinatesInRect(coords, viewRect);
+	// Translate coordinates to center
+	coords = centerCoordinatesInRect(coords, viewRect);
 
-    // Scale translated coordinates
-    coords = scaleCoordinates(coords, viewScale);
+	// Scale translated coordinates
+	coords = scaleCoordinates(coords, viewScale);
 
-    // Offset coordinates to view position
-    coords = translateCoordinates(coords, viewPos);
+	// Offset coordinates to view position
+	coords = translateCoordinates(coords, viewPos);
 
-    return coords;
+	return coords;
 }
 
 /**
@@ -50,11 +55,11 @@ function viewCoordinatesToSvgCoordinates(coordinate: ViewCoordinate, viewRect: R
  * @param coordinates
  * @param rect
  */
-function centerCoordinatesInRect(coordinates: Coordinate, rect: Rectangle){
-    return translateCoordinates(coordinates, {
-        x: rect.width / 2,
-        y: rect.height / 2,
-    });
+function centerCoordinatesInRect(coordinates: Coordinate, rect: Rectangle) {
+	return translateCoordinates(coordinates, {
+		x: rect.width / 2,
+		y: rect.height / 2
+	});
 }
 
 /**
@@ -63,10 +68,10 @@ function centerCoordinatesInRect(coordinates: Coordinate, rect: Rectangle){
  * @param offset
  */
 function translateCoordinates(coordinates: Coordinate, offset: Coordinate): Coordinate {
-    return {
-        x: coordinates.x - offset.x,
-        y: coordinates.y - offset.y,
-    }
+	return {
+		x: coordinates.x - offset.x,
+		y: coordinates.y - offset.y
+	};
 }
 
 /**
@@ -75,8 +80,8 @@ function translateCoordinates(coordinates: Coordinate, offset: Coordinate): Coor
  * @param scale
  */
 function scaleCoordinates(coordinates: Coordinate, scale: ScaleFactor): Coordinate {
-    return {
-        x: coordinates.x * scale,
-        y: coordinates.y * scale,
-    }
+	return {
+		x: coordinates.x * scale,
+		y: coordinates.y * scale
+	};
 }
