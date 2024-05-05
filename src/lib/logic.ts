@@ -1,3 +1,6 @@
+import type { CanvasMousePosition } from '$lib/types';
+import { canvasView } from '$lib/stores/stateStore';
+
 export function checkHexadecimal(input: string) {
     for (let i = 0; i < input.length; i++) {
         let charCode = input.charCodeAt(i);
@@ -9,4 +12,13 @@ export function checkHexadecimal(input: string) {
     }
 
     return true;
+}
+
+export function mouseToSvgCoordinates(pos: CanvasMousePosition) {
+    const canvasView = $canvasView;
+
+    const tx = (pos.x - canvasView.width / 2) / (canvasView.scale / 100) + canvasView.position.x;
+    const ty =
+      (pos.y - canvasView.height / 2) / (canvasView.scale / 100) + canvasView.position.y;
+    return { x: tx, y: ty };
 }

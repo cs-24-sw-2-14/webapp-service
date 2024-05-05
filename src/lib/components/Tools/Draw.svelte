@@ -5,11 +5,11 @@
 		toolState,
 		canvasMousePosition,
 		canvasMouseDown,
-		canvasView
 	} from '$lib/stores/stateStore';
 	import { type CanvasMousePosition, ToolState } from '$lib/types';
 	import type { Svg } from '$lib/stores/svgStore';
 	import { svgs } from '$lib/stores/svgStore';
+	import { mouseToSvgCoordinates } from '$lib/logic';
 
 	let pathString = '';
 	let currentIndex: number | null = null;
@@ -17,13 +17,6 @@
 	canvasMouseDown.subscribe(startDraw);
 	canvasMousePosition.subscribe(doDraw);
 	canvasMouseDown.subscribe(stopDraw);
-
-	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
-		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
-		const ty =
-			(pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
-		return { x: tx, y: ty };
-	}
 
 	function startDraw(mouseDown: boolean) {
 		if (!mouseDown || $toolState !== ToolState.draw) return;
