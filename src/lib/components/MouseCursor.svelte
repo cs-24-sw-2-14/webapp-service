@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { colorToHex, hexToColor } from '$lib/color';
 	import { afterUpdate } from 'svelte';
-	import { type CanvasMousePosition, type Cursors, UserColor, ToolState } from '$lib/types';
+	import { type CanvasMousePosition, UserColor, ToolState } from '$lib/types';
 	import { canvasView, toolState, user } from '$lib/stores/stateStore';
 	import { canvasMousePosition } from '$lib/stores/stateStore';
 
-	import { cursors, chosenColor } from '$lib/stores/stateStore';
+	import { cursors } from '$lib/stores/stateStore';
 
 	let cursor: any;
-	let rectElements = [];
-	let textElements = [];
+	let rectElements: any[] = [];
+	let textElements: any[] = [];
 	$: cursor = globalCoordinates($canvasMousePosition);
 	$: $cursors.localCursor.name = $user.name;
 	$: $cursors.localCursor.color = hexToColor($user.color.border);
