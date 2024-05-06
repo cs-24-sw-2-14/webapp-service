@@ -1,13 +1,6 @@
 <script lang="ts">
 	import { type User } from '$lib/types';
-
-	// Function to split fullname and combine the first two letter of first and last name
-	function getInitials(name: string) {
-		return name
-			.split(' ')
-			.map((n) => n[0])
-			.join('');
-	}
+	import { getInitials } from '$lib/ts/getInitials';
 
 	export let users: User[];
 </script>

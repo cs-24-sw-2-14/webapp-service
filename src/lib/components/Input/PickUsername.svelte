@@ -29,14 +29,6 @@
 		box-sizing: border-box; /* Ensures padding is included in the width/height calculations */
 	}
 
-	.content {
-		flex-grow: 1; /* Allows this div to take up the remaining space */
-		display: flex;
-		justify-content: center; /* Center content horizontally */
-		align-items: center; /* Center content vertically */
-		width: 100%; /* Takes the full width of the parent */
-	}
-
 	h1 {
 		/* Style header */
 		font-size: 2.9rem;

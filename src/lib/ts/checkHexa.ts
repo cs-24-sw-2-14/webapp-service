@@ -10,3 +10,4 @@ export function checkHexa(input: string) {
 
     return true;
 }
+
