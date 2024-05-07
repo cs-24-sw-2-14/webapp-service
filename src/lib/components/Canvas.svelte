@@ -50,7 +50,6 @@
 <svg
 	class:draw={$toolState === ToolState.draw}
 	class:draggable={$toolState === ToolState.pan}
-	class:erase={$toolState === ToolState.erase}
 	role="application"
 	aria-label="Interactive infinite whiteboard with draggable grid"
 	xmlns="http://www.w3.org/2000/svg"
