@@ -5,7 +5,7 @@ import { colors } from '$lib/color';
 import { ToolState, type CanvasMousePosition, type User, type CanvasView } from '$lib/types';
 
 export enum Page{
-  PickerPage,
+  InitializationPage,
   CanvasPage
 }
 
