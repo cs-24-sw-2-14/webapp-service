@@ -13,6 +13,7 @@
 	import { writable } from 'svelte/store';
 	import { type CanvasMousePosition, ToolState } from '$lib/types';
 	import { svgs } from '$lib/stores/svgStore';
+	import { chosenColor } from '$lib/stores/stateStore';
 
 	let currentCommandId = writable<number | null>(null);
 

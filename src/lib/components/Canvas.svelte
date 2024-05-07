@@ -11,6 +11,7 @@
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
 	import type { CanvasMousePosition } from '$lib/types';
+	import MouseCursors from './MouseCursors.svelte';
 
 	onMount(() => {
 		resizeCanvas();
@@ -47,6 +48,7 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
+	class:draw={$toolState === ToolState.draw}
 	class:draggable={$toolState === ToolState.pan}
 	class:erase={$toolState === ToolState.erase}
 	role="application"
@@ -107,6 +109,9 @@
 			{@html svg.svg}
 		</g>
 	{/each}
+
+	<!-- Mouse Cursor (local and remote) -->
+	<MouseCursors></MouseCursors>
 </svg>
 
 <style>
@@ -116,10 +121,8 @@
 	.draggable:active {
 		cursor: grabbing;
 	}
-	.erase {
-		cursor:
-			url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' ...")
-				16 16,
-			pointer;
+
+	.draw {
+		cursor: none;
 	}
 </style>
