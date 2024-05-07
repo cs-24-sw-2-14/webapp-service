@@ -4,7 +4,8 @@
 		canvasView,
 		mouseEvents,
 		drawingsUnderCursor,
-		canvasMousePosition
+		canvasMousePosition,
+		toggleGrid
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
