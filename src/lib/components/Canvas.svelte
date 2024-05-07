@@ -9,7 +9,7 @@
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
-	import MouseCursor from './MouseCursor.svelte';
+	import MouseCursors from './MouseCursors.svelte';
 
 	onMount(() => {
 		resizeCanvas();
@@ -83,7 +83,7 @@
 	{/each}
 
 	<!-- Mouse Cursor (local and remote) -->
-	<MouseCursor></MouseCursor>
+	<MouseCursors></MouseCursors>
 </svg>
 
 <style>
