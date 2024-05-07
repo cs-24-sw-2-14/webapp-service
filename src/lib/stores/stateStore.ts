@@ -1,38 +1,29 @@
 // Store to handle global state
+import Socket from 'socket.io-client';
 
 import { writable } from 'svelte/store';
-import { colors } from '$lib/color';
+// import { colors } from '$lib/color';
 import { ToolState, type CanvasMousePosition, type User, type CanvasView } from '$lib/types';
-
 export const boardId = writable('');
+
+export const socket = writable<typeof Socket>()
 
 export const viewChat = writable(false);
 
 export const settings = writable(false);
 
-export interface CanvasView {
-  x: number;
-  y: number;
-  width: number; // Default values, will be replaced on mount
-  height: number; // Default values, will be replaced on mount
-  scale: number;
-  cursor: string;
-}
-
 export const canvasView = writable<CanvasView>({
-  x: 0,
-  y: 0,
+  position: { x: 0, y: 0 },
   width: 0,
   height: 0,
   scale: 100,
-  cursor: "pointer"
 });
 
 export const toolState = writable<ToolState>(ToolState.pan);
 
 export const canvasMousePosition = writable<CanvasMousePosition>({
-	x: 0,
-	y: 0
+  x: 0,
+  y: 0
 });
 
 export interface Color {
@@ -42,14 +33,12 @@ export interface Color {
 
 }
 
-export interface User {
-  name: string;
-  color: Color;
-}
-
 export const onlineUsers = writable<User[]>([]);
 
-export const user = writable<User>();
+export const user = writable<User>({
+  name: "kresten",
+  color: { name: "redski", bg: "red", border: "black" }
+})
 
 export const canvasMouseDown = writable(false)
 
@@ -62,11 +51,11 @@ export const mouseEvents = {
 };
 
 export interface DrawingUnderCursor {
-  index: number;
+  commandId: number;
   eventTarget: EventTarget;
 }
 
 export const drawingsUnderCursor = writable<DrawingUnderCursor[]>([])
 
-
 export const canvasCursor = writable("")
+
