@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { toolState, chosenColor } from '$lib/stores/stateStore';
+
+	import { toolState, chosenColor, toggleGrid } from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 
 	import MenuButton from './Navbar/MenuButton.svelte';
@@ -10,6 +11,10 @@
 
 	function handleClickErase() {
 		$toolState = ToolState.erase;
+	}
+
+	function handleGridToggle() {
+		$toggleGrid = !$toggleGrid;
 	}
 </script>
 
@@ -54,6 +59,9 @@
 
 	<!-- Button for inserting shapes -->
 	<MenuButton icon={Icons.shape}></MenuButton>
+
+	<!-- Button for inserting shapes -->
+	<MenuButton icon={Icons.grid} isActive={$toggleGrid} on:click={handleGridToggle}></MenuButton>
 </div>
 
 <style>
