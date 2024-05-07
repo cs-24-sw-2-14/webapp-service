@@ -1,25 +1,16 @@
 <script lang="ts">
 	import { colorToHex } from '$lib/color';
 	import { afterUpdate } from 'svelte';
-	import { type CanvasMousePosition, UserColor, ToolState } from '$lib/types';
+	import { type CanvasMousePosition, ToolState, type Coordinate } from '$lib/types';
 	import { canvasView, toolState, user } from '$lib/stores/stateStore';
 	import { canvasMousePosition } from '$lib/stores/stateStore';
 
 	import { cursors, onlineUsers } from '$lib/stores/stateStore';
 
-	let cursor: any;
+	let cursor: Coordinate;
 	let rectElements: any[] = [];
 	let textElements: any[] = [];
 	$: cursor = globalCoordinates($canvasMousePosition);
-	// Updating the local user
-	// Updating the local user
-	$: console.log($user);
-
-	//console.log(hexToColor('#ef4444'));
-	//console.log(UserColor[hexToColor('#ef4444')]);
-
-	//let localUserColor: string;
-	//$: localUserColor = colorToHex(UserColor[$cursors.localCursor.color]).secondary;
 
 	// Update cursors store to include the new local cursor properties
 	$: if ($canvasMousePosition) {
@@ -27,14 +18,14 @@
 			...$cursors.localCursor,
 			posX: cursor.x,
 			posY: cursor.y,
-			color: UserColor[$user.color]
+			color: $user.color
 		};
 		cursors.update((current) => ({ ...current, localCursor: newLocalCursor }));
 
 		$cursors.localCursor.color = $user.color;
 		$cursors.localCursor.name = $user.name;
-		$user.posX = $cursors.localCursor.posX;
-		$user.posY = $cursors.localCursor.posY;
+		$user.posX = $cursors.localCursor.posX; // Updating the local user
+		$user.posY = $cursors.localCursor.posY; // Updating the local user
 	}
 
 	// Function to get the position of the cursor in tge "global" coordinate system
