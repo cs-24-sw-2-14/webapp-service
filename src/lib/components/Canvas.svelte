@@ -3,7 +3,8 @@
 		toolState,
 		canvasView,
 		mouseEvents,
-		currentSvgElementIndex
+		currentSvgElementIndex,
+		toggleGrid
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
@@ -57,13 +58,15 @@
 	</pattern>
 
 	<!-- Render background pattern -->
-	<rect
-		x={$canvasView.position.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
-		y={$canvasView.position.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
-		width="100%"
-		height="100%"
-		fill="url(#pattern-circles)"
-	/>
+	{#if $toggleGrid}
+		<rect
+			x={$canvasView.position.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
+			y={$canvasView.position.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
+			width="100%"
+			height="100%"
+			fill="url(#pattern-circles)"
+		/>
+	{/if}
 
 	<!-- Render the SVGs -->
 	{#each $svgs as svgObj, index}
