@@ -1,81 +1,84 @@
 <script lang="ts">
-	import MenuButton from '../MenuButton.svelte';
+	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		ToolState,
 		canvasMousePosition,
 		canvasMouseDown,
 		canvasView,
-		drawingsUnderCursor
+		drawingsUnderCursor,
+		socket,
+		user
 	} from '$lib/stores/stateStore';
-	import type { CanvasMousePosition } from '$lib/stores/stateStore';
-	import type { PathCoordinate } from '$lib/stores/svgStore';
-	import { drawings, type PlacementCoordinate, CoordinateType } from '$lib/stores/svgStore';
+	import { ToolState, type CanvasMousePosition } from '$lib/types';
+	import { writable } from 'svelte/store';
+	import { onMount } from 'svelte';
 
 	const THRESHOLDDISTANCE = 10;
 
-	canvasMousePosition.subscribe(doErase);
+	let currentCommandId = writable<number | null>(null);
 
-	// Function to calculate distance between two coordinates
-	function calculateDistance(coord1: PlacementCoordinate, coord2: PathCoordinate): number {
-		return Math.sqrt(Math.pow(coord1.x - coord2.x, 2) + Math.pow(coord1.y - coord2.y, 2));
-	}
-
-	function getCursorFromThreshold(threshold: number) {
-		return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><circle cx="${threshold}" cy="${threshold}" r="${threshold}" /></svg>`;
-	}
-
-	function removeCoordinatesFromDrawingPath(
-		drawPath: PathCoordinate[],
-		eraseCoord: PlacementCoordinate,
-		thresholdDistance: number
-	) {
-		let resultingDrawPath = drawPath.filter((drawCoord, index, array) => {
-			const distance = calculateDistance(eraseCoord, drawCoord);
-			if (distance <= thresholdDistance) {
-				// Change the next coordinate to a moveto type, so no line is drawn, if there is a next element
-				if (index + 1 <= array.length - 1) {
-					array[index + 1].type = CoordinateType.moveto;
-				}
-				// Remove the element from the array
-				return false;
-			}
-			// Keep the element in the array
-			return true;
+	onMount(() => {
+		$socket.on('startEraseSuccess', (data) => {
+			if (data.username !== $user.name) return;
+			$currentCommandId = data.commandId;
 		});
-		// console.log(resultingDrawPath);
+		canvasMouseDown.subscribe(startErase);
+		canvasMousePosition.subscribe(doErase);
+		canvasMouseDown.subscribe(stopErase);
+	});
 
-		if (resultingDrawPath[0]) {
-			resultingDrawPath[0].type = CoordinateType.moveto;
-		}
-		return resultingDrawPath;
-	}
-
-	$: {
-		if ($toolState === ToolState.erase) {
-			$canvasView.cursor = getCursorFromThreshold(THRESHOLDDISTANCE);
-		}
-	}
+	// function getCursorFromThreshold(threshold: number) {
+	// 	return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><circle cx="${threshold}" cy="${threshold}" r="${threshold}" /></svg>`;
+	// }
 
 	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
-		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.x;
-		const ty = (pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.y;
+		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
+		const ty =
+			(pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
 		return { x: tx, y: ty };
 	}
 
-	function doErase(pos: CanvasMousePosition) {
-		if (!$canvasMouseDown || $toolState !== ToolState.erase || $drawingsUnderCursor.length === 0)
+	function startErase() {
+		if (
+			!$canvasMouseDown ||
+			$toolState !== ToolState.erase ||
+			$drawingsUnderCursor.length === 0 ||
+			$currentCommandId !== null
+		)
 			return;
-		// Set cursor
-		const { x, y } = mouseToSvgCoordinates(pos);
-		$drawingsUnderCursor.forEach((drawing) => {
-			$drawings[drawing.index].path = removeCoordinatesFromDrawingPath(
-				$drawings[drawing.index].path,
-				{ x: x, y: y },
-				THRESHOLDDISTANCE
-			);
+		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+		$socket.emit('startErase', {
+			coordinate: { x: x, y: y },
+			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
+				return drawingUnderCursor.commandId;
+			}),
+			threshold: THRESHOLDDISTANCE,
+			username: $user.name
 		});
+	}
+
+	function doErase() {
+		if (
+			!$canvasMouseDown ||
+			$toolState !== ToolState.erase ||
+			$drawingsUnderCursor.length === 0 ||
+			$currentCommandId === null
+		)
+			return;
+		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+		$socket.emit('doErase', {
+			coordinate: { x: x, y: y },
+			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
+				return drawingUnderCursor.commandId;
+			}),
+			commandId: $currentCommandId
+		});
+	}
+
+	function stopErase() {
+		if ($canvasMouseDown || $toolState !== ToolState.erase) return;
+		$currentCommandId = null;
 	}
 </script>
 
