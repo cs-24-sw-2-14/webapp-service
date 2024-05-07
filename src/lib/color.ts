@@ -46,11 +46,37 @@ export function colorToHex(userColor: UserColor) {
 }
 
 // Function that does the opposite of the "colorToHex" function
-export function hexToColor(hex: string): UserColor | undefined {
-    const index = colors.findIndex(color => color.bg === hex || color.border === hex);
-    if (index !== -1) {
-        // Retrieve the enum value using the enum key
-        return UserColor[Object.keys(UserColor)[index] as keyof typeof UserColor];
+export function hexToColor(hex: string): UserColor {
+    switch (hex) {
+        case "#ef4444" || "#991b1b":
+            return UserColor.red;
+        case "#f97316" || "#9a3412":
+            return UserColor.orange;
+        case "#fbbf24" || "#b45309":
+            return UserColor.yellow;
+        case "#84cc16" || "#3f6212":
+            return UserColor.lime;
+        case "#15803d" || "#14532d":
+            return UserColor.green;
+        case "#2dd4bf" || "#0f766e":
+            return UserColor.teal;
+        case "#713f12" || "#451a03":
+            return UserColor.brown;
+        case "#3b82f6" || "#1e40af":
+            return UserColor.blue;
+        case "#a855f7" || "#6b21a8":
+            return UserColor.purple;
+        case "#ec4899" || "#9d174d":
+            return UserColor.pink;
+        default: 
+            return UserColor.pink;
     }
-    return undefined;
 }
+
+
+// const index = colors.findIndex(color => color.bg === hex || color.border === hex);
+//     if (index !== -1) {
+//         // Retrieve the enum value using the enum key
+//         return UserColor[Object.keys(UserColor)[index] as keyof typeof UserColor];
+//     }
+//     return undefined;

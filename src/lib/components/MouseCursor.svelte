@@ -1,21 +1,25 @@
 <script lang="ts">
-	import { colorToHex, hexToColor } from '$lib/color';
+	import { colorToHex } from '$lib/color';
 	import { afterUpdate } from 'svelte';
 	import { type CanvasMousePosition, UserColor, ToolState } from '$lib/types';
 	import { canvasView, toolState, user } from '$lib/stores/stateStore';
 	import { canvasMousePosition } from '$lib/stores/stateStore';
 
-	import { cursors } from '$lib/stores/stateStore';
+	import { cursors, onlineUsers } from '$lib/stores/stateStore';
 
 	let cursor: any;
 	let rectElements: any[] = [];
 	let textElements: any[] = [];
 	$: cursor = globalCoordinates($canvasMousePosition);
-	$: $cursors.localCursor.name = $user.name;
-	$: $cursors.localCursor.color = hexToColor($user.color.border);
+	// Updating the local user
+	// Updating the local user
+	$: console.log($user);
 
-	let localUserColor: string;
-	$: localUserColor = colorToHex(UserColor[$cursors.localCursor.color]).secondary;
+	//console.log(hexToColor('#ef4444'));
+	//console.log(UserColor[hexToColor('#ef4444')]);
+
+	//let localUserColor: string;
+	//$: localUserColor = colorToHex(UserColor[$cursors.localCursor.color]).secondary;
 
 	// Update cursors store to include the new local cursor properties
 	$: if ($canvasMousePosition) {
@@ -23,9 +27,14 @@
 			...$cursors.localCursor,
 			posX: cursor.x,
 			posY: cursor.y,
-			color: UserColor[$user.color.name]
+			color: UserColor[$user.color]
 		};
 		cursors.update((current) => ({ ...current, localCursor: newLocalCursor }));
+
+		$cursors.localCursor.color = $user.color;
+		$cursors.localCursor.name = $user.name;
+		$user.posX = $cursors.localCursor.posX;
+		$user.posY = $cursors.localCursor.posY;
 	}
 
 	// Function to get the position of the cursor in tge "global" coordinate system
@@ -56,19 +65,19 @@
 <!-- LOCAL CURSOR (DOSENT HAVE NAME LABEL) -->
 {#if $toolState === ToolState.draw}
 	<g transform={`translate(${$cursors.localCursor.posX}, ${$cursors.localCursor.posY})`}>
-		<circle cx="10" cy="10" r="3" fill={localUserColor} /><text>{$cursors.localCursor.name}</text>
+		<circle cx="10" cy="10" r="3" fill={colorToHex($user.color).secondary} />
 	</g>
 {/if}
 
 <!-- REMOTE CURSORS (OTHER USERS) -->
-{#each $cursors.remoteCursors as remoteCursor, index}
-	<g transform={`translate(${remoteCursor.posX}, ${remoteCursor.posY})`}>
+{#each $onlineUsers as users, index}
+	<g transform={`translate(${users.posX}, ${users.posY})`}>
 		<!-- Remote cursor dot -->
-		<circle cx="10" cy="10" r="3" fill={colorToHex(remoteCursor.color).secondary} />
+		<circle cx="10" cy="10" r="3" fill={colorToHex(users.color).secondary} />
 
 		<!-- Remote name label -->
 		<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
-			<rect bind:this={rectElements[index]} fill={colorToHex(remoteCursor.color).secondary} />
+			<rect bind:this={rectElements[index]} fill={colorToHex(users.color).secondary} />
 			<text
 				class="select-none"
 				bind:this={textElements[index]}
@@ -76,9 +85,9 @@
 				y="45"
 				font-family="Arial"
 				font-size="20"
-				fill={colorToHex(remoteCursor.color).primary}
+				fill={colorToHex(users.color).primary}
 			>
-				{remoteCursor.name}
+				{users.name}
 			</text>
 		</svg>
 	</g>

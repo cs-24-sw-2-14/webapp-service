@@ -6,7 +6,9 @@ export interface Color {
 
 export interface User {
 	name: Username;
-	color: Color;
+	color: UserColor;
+	posX: number;
+	posY: number;
 }
 
 export interface CanvasView {

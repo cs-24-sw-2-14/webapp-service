@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { user, onlineUsers } from '$lib/stores/stateStore';
-	import { colors } from '$lib/color';
-	import type { User, Color } from '$lib/types';
+	import { colors, hexToColor } from '$lib/color';
+	import { UserColor, type User } from '$lib/types';
 
 	enum DisabledBy {
 		CurrentUser,
@@ -10,14 +10,14 @@
 	}
 
 	/* Checks if a color is chosen and returns true or false so the color-button gets disabled */
-	function colorChosen(color: Color, user: User, onlineUsers: User[]) {
-		if (user?.color?.name === color.name) {
+	function colorChosen(color: UserColor, user: User, onlineUsers: User[]) {
+		if (user?.color === color) {
 			return DisabledBy.CurrentUser;
 		}
 
 		for (let i = 0; i < onlineUsers.length; i++) {
 			const onlineUser = onlineUsers[i];
-			if (onlineUser?.color?.name === color.name) {
+			if (onlineUser?.color === color) {
 				return DisabledBy.OtherUser;
 			}
 		}
@@ -31,20 +31,27 @@
 		{#each [0, 1, 2] as row}
 			<tr>
 				{#each colors.slice(row * 5, row * 5 + 5) as color}
-					<td>
-						<button
-							style={`background-color: ${color.bg}; border-color: ${color.border};`}
-							disabled={colorChosen(color, $user, $onlineUsers) !== DisabledBy.NotDisabled}
-							class:disabled-by-user={colorChosen(color, $user, $onlineUsers) ===
-								DisabledBy.CurrentUser}
-							class:disabled-by-other-user={colorChosen(color, $user, $onlineUsers) ===
-								DisabledBy.OtherUser}
-							on:click={() => {
-								$user = { ...$user, color: color };
-							}}
-						>
-						</button>
-					</td>
+					{#key color.name}
+						<td>
+							<button
+								style={`background-color: ${color.bg}; border-color: ${color.border};`}
+								disabled={colorChosen(hexToColor(color.bg), $user, $onlineUsers) !==
+									DisabledBy.NotDisabled}
+								class:disabled-by-user={colorChosen(hexToColor(color.bg), $user, $onlineUsers) ===
+									DisabledBy.CurrentUser}
+								class:disabled-by-other-user={colorChosen(
+									hexToColor(color.bg),
+									$user,
+									$onlineUsers
+								) === DisabledBy.OtherUser}
+								on:click={() => {
+									$user = { ...$user, color: hexToColor(color.bg) };
+									console.log($user);
+								}}
+							>
+							</button>
+						</td>
+					{/key}
 				{/each}
 			</tr>
 		{/each}
