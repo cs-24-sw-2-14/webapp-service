@@ -9,7 +9,7 @@ export enum Page{
   CanvasPage
 }
 
-export const currentPage = writable(Page.PickerPage);
+export const currentPage = writable(Page.InitializationPage);
 
 export const serverId = writable('');
 
