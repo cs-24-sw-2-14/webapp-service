@@ -28,10 +28,6 @@
 		canvasMouseDown.subscribe(stopErase);
 	});
 
-	// function getCursorFromThreshold(threshold: number) {
-	// 	return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30"><circle cx="${threshold}" cy="${threshold}" r="${threshold}" /></svg>`;
-	// }
-
 	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
 		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
 		const ty =
