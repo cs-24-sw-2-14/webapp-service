@@ -67,19 +67,17 @@
 		<circle cx="10" cy="10" r="3" fill={colorToHex(users.color).secondary} />
 
 		<!-- Remote name label -->
-		<svg width="200" height="100" xmlns="http://www.w3.org/2000/svg">
-			<rect bind:this={rectElements[index]} fill={colorToHex(users.color).secondary} />
-			<text
-				class="select-none"
-				bind:this={textElements[index]}
-				x="25"
-				y="45"
-				font-family="Arial"
-				font-size="20"
-				fill={colorToHex(users.color).primary}
-			>
-				{users.name}
-			</text>
-		</svg>
+		<rect bind:this={rectElements[index]} fill={colorToHex(users.color).secondary} />
+		<text
+			class="select-none"
+			bind:this={textElements[index]}
+			x="25"
+			y="45"
+			font-family="Arial"
+			font-size="20"
+			fill={colorToHex(users.color).primary}
+		>
+			{users.name}
+		</text>
 	</g>
 {/each}
