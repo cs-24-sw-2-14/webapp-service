@@ -43,7 +43,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"lodash": "^4.17.21",
 		"socket.io-client": "^4.7.5"
 	}
 }
