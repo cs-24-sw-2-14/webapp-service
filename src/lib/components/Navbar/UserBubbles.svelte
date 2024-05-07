@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { colorToHex } from '$lib/color';
 	import { type User } from '$lib/types';
 
 	// Function to split fullname and combine the first two letter of first and last name
@@ -17,7 +18,7 @@
 	{#each users as user, i (user.name)}
 		<div
 			class={`w-10 h-10 rounded-full text-white text-center text-sm font-mono leading-[2.7em] absolute ring-gray-800 ring-2`}
-			style={`left: ${i * 0.7}em; transform: translateX(${-i * 100}%); background-color: ${user.color.bg}; border-color: ${user.color.border}; border-width: 0.2em`}
+			style={`left: ${i * 0.7}em; transform: translateX(${-i * 100}%); background-color: ${colorToHex(user.color).secondary}; border-color: ${colorToHex(user.color).primary}; border-width: 0.2em`}
 		>
 			{getInitials(user.name)}
 		</div>

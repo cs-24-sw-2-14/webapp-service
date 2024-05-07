@@ -3,11 +3,14 @@
 		toolState,
 		canvasView,
 		mouseEvents,
-		currentSvgElementIndex
+		currentSvgElementIndex,
+		cursors,
+		toggleGrid
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
+	import MouseCursors from './MouseCursors.svelte';
 
 	onMount(() => {
 		resizeCanvas();
@@ -25,6 +28,7 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
+	class:draw={$toolState === ToolState.draw}
 	class:draggable={$toolState === ToolState.pan}
 	role="application"
 	aria-label="Interactive infinite whiteboard with draggable grid"
@@ -57,13 +61,15 @@
 	</pattern>
 
 	<!-- Render background pattern -->
-	<rect
-		x={$canvasView.position.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
-		y={$canvasView.position.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
-		width="100%"
-		height="100%"
-		fill="url(#pattern-circles)"
-	/>
+	{#if $toggleGrid}
+		<rect
+			x={$canvasView.position.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
+			y={$canvasView.position.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
+			width="100%"
+			height="100%"
+			fill="url(#pattern-circles)"
+		/>
+	{/if}
 
 	<!-- Render the SVGs -->
 	{#each $svgs as svgObj, index}
@@ -78,6 +84,9 @@
 			{@html svgObj.svg}
 		</g>
 	{/each}
+
+	<!-- Mouse Cursor (local and remote) -->
+	<MouseCursors></MouseCursors>
 </svg>
 
 <style>
@@ -86,5 +95,9 @@
 	}
 	.draggable:active {
 		cursor: grabbing;
+	}
+
+	.draw {
+		cursor: none;
 	}
 </style>
