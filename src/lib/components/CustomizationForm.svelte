@@ -1,17 +1,16 @@
 <script lang="ts">
 	import { user, onlineUsers, currentPage, Page } from '$lib/stores/stateStore';
 	import ColorPicker from './Input/ColorPicker.svelte';
-	import { writable } from 'svelte/store';
 
 	let username = '';
 
-    function handleInputChange(){
-        if(findUser(username)) return;
-        $user.name = username;
-    }
+	function handleInputChange() {
+		if (findUser(username)) return;
+		$user.name = username;
+	}
 
 	function findUser(username: string) {
-		return $onlineUsers.find((user) => user.name === username)
+		return $onlineUsers.find((user) => user.name === username);
 	}
 </script>
 
@@ -37,7 +36,7 @@
 						type="text"
 						id="username"
 						bind:value={username}
-                        on:change={handleInputChange}
+						on:change={handleInputChange}
 						placeholder="Username"
 						class="mt-1 p-2 border rounded w-full placeholder-zinc-300 bg-zinc-500 border-none focus:outline-none focus:ring-0 focus:border-none text-zinc-300"
 					/>
@@ -71,8 +70,7 @@
 		cursor: default;
 	}
 
-    :disabled{
-        background-color: #525252;
-    }
-
+	:disabled {
+		background-color: #525252;
+	}
 </style>
