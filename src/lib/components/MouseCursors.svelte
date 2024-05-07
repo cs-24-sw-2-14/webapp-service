@@ -5,7 +5,7 @@
 	import { canvasView, toolState, user } from '$lib/stores/stateStore';
 	import { canvasMousePosition } from '$lib/stores/stateStore';
 
-	import { cursors, onlineUsers } from '$lib/stores/stateStore';
+	import { cursors, onlineUsers, chosenColor } from '$lib/stores/stateStore';
 
 	let cursor: Coordinate;
 	let rectElements: any[] = [];
@@ -56,7 +56,7 @@
 <!-- LOCAL CURSOR (DOSENT HAVE NAME LABEL) -->
 {#if $toolState === ToolState.draw}
 	<g transform={`translate(${$cursors.localCursor.posX}, ${$cursors.localCursor.posY})`}>
-		<circle cx="10" cy="10" r="3" fill={colorToHex($user.color).secondary} />
+		<circle cx="10" cy="10" r="3" fill={$chosenColor} />
 	</g>
 {/if}
 
