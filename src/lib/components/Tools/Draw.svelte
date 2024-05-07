@@ -7,18 +7,18 @@
 		canvasMouseDown,
 		canvasView,
 		socket,
+		chosenColor,
 		user
 	} from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { type CanvasMousePosition, ToolState } from '$lib/types';
-	import { svgs } from '$lib/stores/svgStore';
-	import { chosenColor } from '$lib/stores/stateStore';
 
 	let currentCommandId = writable<number | null>(null);
 
 	onMount(() => {
 		$socket.on('startDrawSuccess', (data) => {
+			console.log('startDrawSuccess');
 			if (data.username !== $user.name) return;
 			$currentCommandId = data.commandId;
 		});
@@ -37,11 +37,12 @@
 
 	function startDraw() {
 		if (!$canvasMouseDown || $toolState !== ToolState.draw || $currentCommandId !== null) return;
+		console.log('startDraw');
 		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
 		$socket.emit('startDraw', {
 			placement: { x: 0, y: 0 },
 			path: { x: x, y: y },
-			stroke: 'black',
+			stroke: $chosenColor,
 			fill: 'transparent',
 			strokeWidth: 7,
 			username: $user.name
@@ -50,6 +51,7 @@
 
 	function doDraw() {
 		if (!$canvasMouseDown || $toolState !== ToolState.draw || $currentCommandId === null) return;
+		console.log('doDraw');
 		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
 		$socket.emit('doDraw', {
 			x: x,
