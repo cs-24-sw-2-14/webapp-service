@@ -1,9 +1,10 @@
 <script lang="ts">
-	import MenuButton from './MenuButton.svelte';
-	import Pan from '$lib/components/tools/Pan.svelte';
-	import Move from '$lib/components/tools/Move.svelte';
-	import Draw from '$lib/components/tools/Draw.svelte';
-	import Erase from '$lib/components/tools/Erase.svelte';
+	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
+	import Pan from '$lib/components/Tools/Pan.svelte';
+	import Move from '$lib/components/Tools/Move.svelte';
+	import Draw from '$lib/components/Tools/Draw.svelte';
+	import UndoRedo from '$lib/components/Tools/UndoRedo.svelte';
+	import Erase from '$lib/components/Tools/Erase.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 </script>
 
@@ -25,11 +26,7 @@
 	<!-- SPACE -->
 	<div class="border-white border-r-[1.5px] h-6 mx-2"></div>
 
-	<!-- Button for undo -->
-	<MenuButton icon={Icons.undo}></MenuButton>
-
-	<!-- Button for redo -->
-	<MenuButton icon={Icons.redo}></MenuButton>
+	<UndoRedo />
 
 	<!-- SPACE -->
 	<div class="border-white border-r-[1.5px] h-6 mx-2"></div>
