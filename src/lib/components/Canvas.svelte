@@ -4,12 +4,12 @@
 		canvasView,
 		mouseEvents,
 		drawingsUnderCursor,
-		canvasMousePosition,
-		type CanvasMousePosition
+		canvasMousePosition
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
+	import type { CanvasMousePosition } from '$lib/types';
 
 	onMount(() => {
 		resizeCanvas();
@@ -88,7 +88,7 @@
 	/>
 
 	<!-- Render the Drawings -->
-	{#each $svgs as svg, index}
+	{#each $svgs as svg}
 		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<g
@@ -96,7 +96,7 @@
 			on:mouseover={(event) => {
 				if (!event.target) return;
 				$drawingsUnderCursor.push({
-					index: index,
+					commandId: svg.commandId,
 					eventTarget: event.target
 				});
 			}}
