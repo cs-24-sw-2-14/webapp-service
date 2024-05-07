@@ -2,9 +2,6 @@
 	import MenuButton from './Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { canvasView } from '$lib/stores/stateStore';
-
-	let x = 0;
-	let y = 0;
 </script>
 
 <div
