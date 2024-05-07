@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { toolState } from '$lib/stores/stateStore';
+	import { toolState, toggleGrid } from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 
 	import MenuButton from './Navbar/MenuButton.svelte';
@@ -11,11 +11,15 @@
 	function handleClickErase() {
 		$toolState = ToolState.erase;
 	}
+
+	function handleGridToggle() {
+		$toggleGrid = !$toggleGrid;
+	}
 </script>
 
 <!-- Menu bar at the center bottom -->
 <div
-	class="fixed bottom-0 left-1/2 mb-4 rounded-lg bg-zinc-800 z-10 transform -translate-x-1/2 flex items-center gap-2 p-2"
+	class="fixed bottom-0 z-10 flex items-center gap-2 p-2 mb-4 transform -translate-x-1/2 rounded-lg left-1/2 bg-zinc-800"
 >
 	<!-- Button for drawing -->
 	<Draw />
@@ -52,4 +56,7 @@
 
 	<!-- Button for inserting shapes -->
 	<MenuButton icon={Icons.shape}></MenuButton>
+
+	<!-- Button for inserting shapes -->
+	<MenuButton icon={Icons.grid} isActive={$toggleGrid} on:click={handleGridToggle}></MenuButton>
 </div>

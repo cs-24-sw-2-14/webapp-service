@@ -8,6 +8,8 @@ export const serverId = writable('');
 
 export const viewChat = writable(false);
 
+export const toggleGrid = writable(true);
+
 export const settings = writable(false);
 
 export const canvasView = writable<CanvasView>({
