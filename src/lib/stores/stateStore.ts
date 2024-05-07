@@ -4,6 +4,13 @@ import { writable } from 'svelte/store';
 import { ToolState, type CanvasMousePosition, type User, type CanvasView, type Cursors, UserColor } from '$lib/types';
 import { colors } from '$lib/color';
 
+export enum Page{
+  InitializationPage,
+  CanvasPage
+}
+
+export const currentPage = writable(Page.InitializationPage);
+
 export const serverId = writable('');
 
 export const viewChat = writable(false);
