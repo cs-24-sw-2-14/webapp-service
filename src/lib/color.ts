@@ -69,14 +69,6 @@ export function hexToColor(hex: string): UserColor {
         case "#ec4899" || "#9d174d":
             return UserColor.pink;
         default: 
-            return UserColor.pink;
+            return UserColor.red;
     }
 }
-
-
-// const index = colors.findIndex(color => color.bg === hex || color.border === hex);
-//     if (index !== -1) {
-//         // Retrieve the enum value using the enum key
-//         return UserColor[Object.keys(UserColor)[index] as keyof typeof UserColor];
-//     }
-//     return undefined;
