@@ -16,7 +16,7 @@
 	></MenuButton>
 
 	<div class="px-2 m-1 font-mono text-sm select-none">
-		<p>x: [{$canvasView.position.x}]</p>
-		<p>y: [{$canvasView.position.y * -1}]</p>
+		<p>x: {$canvasView.position.x}</p>
+		<p>y: {$canvasView.position.y * -1}</p>
 	</div>
 </div>
