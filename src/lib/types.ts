@@ -30,7 +30,7 @@ export interface Coordinate {
   y: number;
 }
 
-export type CanvasMousePosition = Coordinate;
+export type ViewCoordinate = Coordinate;
 export type Username = string;
 
 export interface Local {

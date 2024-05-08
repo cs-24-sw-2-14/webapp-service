@@ -7,7 +7,7 @@
 		canvasMousePosition,
 		canvasMouseDown
 	} from '$lib/stores/stateStore';
-	import { type CanvasMousePosition, ToolState } from '$lib/types';
+	import { type ViewCoordinate, ToolState } from '$lib/types';
 	let startX: number, startY: number;
 
 	canvasMouseDown.subscribe(startDrag);
@@ -21,7 +21,7 @@
 		}
 	}
 
-	function doDrag(pos: CanvasMousePosition) {
+	function doDrag(pos: ViewCoordinate) {
 		if (!$canvasMouseDown || $toolState !== ToolState.pan) return;
 		$canvasView = {
 			...$canvasView,

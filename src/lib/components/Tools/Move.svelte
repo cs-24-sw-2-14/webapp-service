@@ -8,7 +8,7 @@
 		canvasView,
 		drawingsUnderCursor
 	} from '$lib/stores/stateStore';
-	import { type CanvasMousePosition, ToolState } from '$lib/types';
+	import { type ViewCoordinate, ToolState } from '$lib/types';
 	import { svgs } from '$lib/stores/svgStore';
 
 	let startX: number, startY: number;
@@ -25,7 +25,7 @@
 		currentIndex = $drawingsUnderCursor[0].index;
 	}
 
-	function doMove(pos: CanvasMousePosition) {
+	function doMove(pos: ViewCoordinate) {
 		if (!$canvasMouseDown || $toolState !== ToolState.move || currentIndex === null) return;
 		$svgs[currentIndex].placement = {
 			x: $svgs[currentIndex].placement.x + (pos.x - startX) / ($canvasView.scale / 100),
