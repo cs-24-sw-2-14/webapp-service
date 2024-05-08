@@ -7,11 +7,9 @@
 	import Pan from '$lib/components/Tools/Pan.svelte';
 	import Move from '$lib/components/Tools/Move.svelte';
 	import Draw from '$lib/components/Tools/Draw.svelte';
+	import UndoRedo from '$lib/components/Tools/UndoRedo.svelte';
+	import Erase from '$lib/components/Tools/Erase.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-
-	function handleClickErase() {
-		$toolState = ToolState.erase;
-	}
 
 	function handleGridToggle() {
 		$toggleGrid = !$toggleGrid;
@@ -28,11 +26,7 @@
 	<Draw />
 
 	<!-- Button for erasing -->
-	<MenuButton
-		isActive={$toolState === ToolState.erase}
-		icon={Icons.erase}
-		on:click={handleClickErase}
-	></MenuButton>
+	<Erase />
 
 	<!-- Button for panning around -->
 	<Pan />
@@ -42,11 +36,7 @@
 	<!-- SPACE -->
 	<div class="border-white border-r-[1.5px] h-6 mx-2"></div>
 
-	<!-- Button for undo -->
-	<MenuButton icon={Icons.undo}></MenuButton>
-
-	<!-- Button for redo -->
-	<MenuButton icon={Icons.redo}></MenuButton>
+	<UndoRedo />
 
 	<!-- SPACE -->
 	<div class="border-white border-r-[1.5px] h-6 mx-2"></div>

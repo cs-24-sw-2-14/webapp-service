@@ -6,13 +6,13 @@
 		canvasMousePosition,
 		canvasMouseDown,
 		canvasView,
-		currentSvgElementIndex
+		drawingsUnderCursor
 	} from '$lib/stores/stateStore';
 	import { type CanvasMousePosition, ToolState } from '$lib/types';
 	import { svgs } from '$lib/stores/svgStore';
 
 	let startX: number, startY: number;
-	let currentIndex = 0;
+	let currentIndex: number | null = null;
 
 	canvasMouseDown.subscribe(startMove);
 	canvasMousePosition.subscribe(doMove);
@@ -22,15 +22,14 @@
 		if (!isDown) return;
 		startX = $canvasMousePosition.x;
 		startY = $canvasMousePosition.y;
-		currentIndex = $currentSvgElementIndex;
+		currentIndex = $drawingsUnderCursor[0].index;
 	}
 
 	function doMove(pos: CanvasMousePosition) {
-		if (!$canvasMouseDown || $toolState !== ToolState.move) return;
-		$svgs[currentIndex] = {
-			...$svgs[currentIndex],
-			x: $svgs[currentIndex].x + (pos.x - startX) / ($canvasView.scale / 100),
-			y: $svgs[currentIndex].y + (pos.y - startY) / ($canvasView.scale / 100)
+		if (!$canvasMouseDown || $toolState !== ToolState.move || currentIndex === null) return;
+		$svgs[currentIndex].placement = {
+			x: $svgs[currentIndex].placement.x + (pos.x - startX) / ($canvasView.scale / 100),
+			y: $svgs[currentIndex].placement.y + (pos.y - startY) / ($canvasView.scale / 100)
 		};
 		startX = pos.x;
 		startY = pos.y;
