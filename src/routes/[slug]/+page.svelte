@@ -15,8 +15,8 @@
 
 	export let data;
 	boardId.set(data.slug);
-  
-	const ENDPOINT: string = 'ws://' + $hostname + ':6123' + '/' + $boardId;
+
+	const ENDPOINT: string = 'ws://' + $hostname + ':5123' + '/' + $boardId;
 	socket.set(io(ENDPOINT));
 </script>
 
