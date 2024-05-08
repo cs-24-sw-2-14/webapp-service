@@ -8,7 +8,7 @@
 
 	export let data;
 	boardId.set(data.slug);
-	const ENDPOINT = 'ws://localhost:6123' + '/' + $boardId;
+	const ENDPOINT: string = 'ws://' + window.location.hostname + ':6123' + '/' + $boardId;
 	socket.set(io(ENDPOINT));
 </script>
 
