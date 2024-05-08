@@ -1,7 +1,7 @@
 <script lang="ts">
 	import MenuButton from './Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-	import { serverId } from '$lib/stores/stateStore';
+	import { boardId } from '$lib/stores/stateStore';
 	import { fade } from 'svelte/transition';
 	import { quadOut } from 'svelte/easing';
 
@@ -20,7 +20,7 @@
 	}
 </script>
 
-<!-- Simple box where the user can se the server ID -->
+<!-- Simple box where the user can se the board ID -->
 {#if isClicked}
 	<div
 		transition:fade={{ delay: 250, duration: 400, easing: quadOut }}
@@ -34,5 +34,5 @@
 	class="fixed top-0 right-0 m-4 mt-20 h-[56px] rounded-lg bg-zinc-800 z-10 flex items-center justify-center gap-2 p-2 text-white font-mono font-semibold"
 >
 	<MenuButton icon={Icons.copy} on:click={copyUrl}></MenuButton>
-	<p class="pr-2 mx-2 font-mono">{$serverId}</p>
+	<p class="pr-2 mx-2 font-mono">{$boardId}</p>
 </div>
