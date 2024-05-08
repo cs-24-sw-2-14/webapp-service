@@ -3,6 +3,7 @@
 		toolState,
 		canvasView,
 		touchEvents,
+		mouseEvents,
 		currentSvgElementIndex
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
@@ -37,6 +38,10 @@
   ${$canvasView.width / ($canvasView.scale / 100)} 
   ${$canvasView.height / ($canvasView.scale / 100)}
 `}
+	on:mousedown={mouseEvents.down}
+	on:mousemove={mouseEvents.move}
+	on:mouseup={mouseEvents.up}
+	on:mouseleave={mouseEvents.up}
 	on:touchstart={touchEvents.start}
 	on:touchmove={touchEvents.move}
 	on:touchend={touchEvents.end}

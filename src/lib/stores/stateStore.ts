@@ -50,5 +50,14 @@ export const touchEvents = {
 	end: () => canvasTouched.set(false)
 };
 
+export const mouseEvents = {
+	down: () => canvasTouched.set(true),
+	move: (event: MouseEvent) =>
+		canvasCursorPosition.update(() => {
+			return {x: event.clientX, y: event.clientY};
+		}),
+	up: () => canvasTouched.set(false)
+};
+
 export const currentSvgElementIndex = writable<number | null>(null)
 
