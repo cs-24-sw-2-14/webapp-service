@@ -1,5 +1,5 @@
 import {describe, test, expect } from 'vitest';
-import { checkHexa } from './ts/checkHexa';
+import { checkHexadecimal } from './ts/checkHexadecimal';
 import { getInitials } from './ts/getInitials';
 
 describe("Example File", () => {
@@ -32,14 +32,14 @@ describe("Extract initials (getInitials)", () => {
 
 describe("URL validation (checkHexa)", () => {
     test("Upper-case validation", () => {
-        expect(checkHexa("ABCDEF")).equal(true);
-        expect(checkHexa("abcdef")).equal(false);
-        expect(checkHexa("ABCDEf")).equal(false);
+        expect(checkHexadecimal("ABCDEF")).equal(true);
+        expect(checkHexadecimal("abcdef")).equal(false);
+        expect(checkHexadecimal("ABCDEf")).equal(false);
     });
     test("Char validation", () => {
-        expect(checkHexa("123456")).equal(true);
-        expect(checkHexa("12345Q")).equal(false);
-        expect(checkHexa("12345#")).equal(false);
-        expect(checkHexa("12345.")).equal(false);
+        expect(checkHexadecimal("123456")).equal(true);
+        expect(checkHexadecimal("12345Q")).equal(false);
+        expect(checkHexadecimal("12345#")).equal(false);
+        expect(checkHexadecimal("12345.")).equal(false);
     });
 });

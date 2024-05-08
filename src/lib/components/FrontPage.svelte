@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { checkHexa } from '$lib/ts/checkHexa';
+	import { checkHexadecimal } from '$lib/ts/checkHexadecimal';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 
@@ -12,7 +12,7 @@
 
 	$: {
 		boardIdInput = boardIdInput.toUpperCase();
-		if (!checkHexa(boardIdInput)) {
+		if (!checkHexadecimal(boardIdInput)) {
 			boardIdInput = boardIdInput.slice(0, -1);
 		}
 		if (boardIdInput.length > 6) {
