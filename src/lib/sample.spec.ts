@@ -1,6 +1,6 @@
 import {describe, test, expect } from 'vitest';
-import { checkHexadecimal } from './ts/checkHexadecimal';
 import { getInitials } from './ts/getInitials';
+import { checkHexadecimal } from '$lib/behavior';
 
 describe("Example File", () => {
     test("Sample test", () => {
