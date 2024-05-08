@@ -2,7 +2,7 @@
 	import { checkHexa } from '$lib/ts/checkHexa';
 
 	let boardIdInput = '';
-	const backendEndpoint: string = 'http://localhost:5123';
+	const backendEndpoint: string = 'http://' + window.location.hostname + ':5123';
 
 	$: {
 		boardIdInput = boardIdInput.toUpperCase();

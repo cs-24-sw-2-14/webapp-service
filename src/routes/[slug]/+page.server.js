@@ -1,8 +1,9 @@
 import { error } from '@sveltejs/kit';
 
+const ENDPOINT = 'http://localhost:5123' + '/v1/board/validate';
 export async function load({ params }) {
 	try {
-		const response = await fetch('http://localhost:5123' + '/v1/board/validate', {
+		const response = await fetch(ENDPOINT, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
@@ -15,7 +16,7 @@ export async function load({ params }) {
 			};
 		}
 		throw error(404, 'Board does not exist');
-	} catch (error) {
-		throw error(500, 'Failed to fetch data');
+	} catch (err) {
+		throw error(500, 'Failed to fetch data with error:' + err);
 	}
 }
