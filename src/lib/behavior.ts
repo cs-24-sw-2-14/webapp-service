@@ -1,3 +1,5 @@
+import type { Coordinate, GlobalCoordinate, LocalCoordinate, Rectangle, ScaleFactor } from '$lib/types';
+
 export function checkHexadecimal(input: string) {
 	for (let i = 0; i < input.length; i++) {
 		const charCode = input.charCodeAt(i);
@@ -16,4 +18,37 @@ export function getInitials(name: string) {
 		.split(' ')
 		.map((n) => n[0])
 		.join('');
+}
+
+export function localToGlobalCoordinates(coordinates: LocalCoordinate, viewRect: Rectangle, viewPos: GlobalCoordinate, viewScale: ScaleFactor): GlobalCoordinate {
+	let coords = coordinates;
+
+	coords = centerCoordinatesInRect(coords, viewRect);
+
+	coords = scaleCoordinates(coords, viewScale);
+
+	coords = translateCoordinates(coords, viewPos);
+
+	return coords;
+}
+
+function centerCoordinatesInRect(coordinates: Coordinate, rect: Rectangle){
+	return translateCoordinates(coordinates, {
+		x: rect.width / 2,
+		y: rect.height / 2
+	});
+}
+
+function translateCoordinates(coordinates: Coordinate, offset: Coordinate): Coordinate {
+	return {
+		x: coordinates.x - offset.x,
+		y: coordinates.y - offset.y
+	}
+}
+
+function scaleCoordinates(coordinates: Coordinate, scale: ScaleFactor): Coordinate {
+	return {
+		x: coordinates.x * (scale / 100),
+		y: coordinates.y * (scale / 100)
+	}
 }
