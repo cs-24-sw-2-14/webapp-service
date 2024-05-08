@@ -30,7 +30,8 @@ export interface Coordinate {
   y: number;
 }
 
-export type ViewCoordinate = Coordinate;
+export type LocalCoordinate = Coordinate;
+export type GlobalCoordinate = Coordinate;
 export type Username = string;
 
 export interface Local {
