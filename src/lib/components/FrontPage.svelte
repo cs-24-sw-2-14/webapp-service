@@ -1,8 +1,14 @@
 <script lang="ts">
 	import { checkHexa } from '$lib/ts/checkHexa';
+	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
+
+	let hostname = writable('');
+	onMount(() => {
+		hostname.set('http://' + window.location.hostname + ':5123');
+	});
 
 	let boardIdInput = '';
-	const backendEndpoint: string = 'http://' + window.location.hostname + ':5123';
 
 	$: {
 		boardIdInput = boardIdInput.toUpperCase();
@@ -18,7 +24,7 @@
 		if (boardIdInput.length !== 6) return;
 
 		try {
-			const response = await fetch(backendEndpoint + '/v1/board/validate', {
+			const response = await fetch($hostname + '/v1/board/validate', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -36,7 +42,7 @@
 
 	async function createBoard() {
 		try {
-			const response = await fetch(backendEndpoint + '/v1/board/create', {
+			const response = await fetch($hostname + '/v1/board/create', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
