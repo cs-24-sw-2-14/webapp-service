@@ -129,4 +129,9 @@
 	.draw {
 		cursor: none;
 	}
+
+  svg {
+      overscroll-behavior: none;
+      touch-action: pan-down;
+  }
 </style>
