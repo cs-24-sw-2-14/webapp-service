@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { checkHexa } from '$lib/ts/checkHexa'
+	import { checkHexa } from '$lib/ts/checkHexa';
 
 	let inputfield: string = '';
 
