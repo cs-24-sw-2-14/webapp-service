@@ -13,8 +13,7 @@ export interface User {
 
 export interface CanvasView {
   position: Coordinate;
-  width: number; // Default values, will be replaced on mount
-  height: number; // Default values, will be replaced on mount
+	size: Rectangle;
   scale: number;
 }
 
@@ -23,6 +22,11 @@ export enum ToolState {
   erase,
   pan,
   move
+}
+
+export interface Rectangle {
+	width: number;
+	height: number;
 }
 
 export interface Coordinate {

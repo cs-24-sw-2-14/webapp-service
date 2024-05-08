@@ -54,8 +54,10 @@ export const cursors = writable<Cursors>({
 
 export const canvasView = writable<CanvasView>({
 	position: { x: 0, y: 0 },
-	width: 0,
-	height: 0,
+	size: {
+		width: 0,
+		height: 0
+	},
 	scale: 100
 });
 

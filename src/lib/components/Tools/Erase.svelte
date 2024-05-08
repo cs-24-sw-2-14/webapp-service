@@ -29,9 +29,9 @@
 	});
 
 	function mouseToSvgCoordinates(pos: LocalCoordinate) {
-		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
+		const tx = (pos.x - $canvasView.size.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
 		const ty =
-			(pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
+			(pos.y - $canvasView.size.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
 		return { x: tx, y: ty };
 	}
 

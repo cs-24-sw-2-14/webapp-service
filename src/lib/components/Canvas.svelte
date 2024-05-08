@@ -20,8 +20,10 @@
 	function resizeCanvas() {
 		$canvasView = {
 			...$canvasView,
-			width: window.innerWidth,
-			height: window.innerHeight
+			size: {
+				width: window.innerWidth,
+				height: window.innerHeight
+			},
 		};
 	}
 
@@ -56,10 +58,10 @@
 	width="100%"
 	height="100%"
 	viewBox={`
-  ${$canvasView.position.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
-  ${$canvasView.position.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
-  ${$canvasView.width / ($canvasView.scale / 100)} 
-  ${$canvasView.height / ($canvasView.scale / 100)}
+  ${$canvasView.position.x - $canvasView.size.width / ((2 * $canvasView.scale) / 100)}
+  ${$canvasView.position.y - $canvasView.size.height / ((2 * $canvasView.scale) / 100)}
+  ${$canvasView.size.width / ($canvasView.scale / 100)}
+  ${$canvasView.size.height / ($canvasView.scale / 100)}
 `}
 	on:mousedown={mouseEvents.down}
 	on:mousemove={mouseEvents.move}
@@ -83,8 +85,8 @@
 	<!-- Render background pattern -->
 	{#if $toggleGrid}
 		<rect
-			x={$canvasView.position.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
-			y={$canvasView.position.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
+			x={$canvasView.position.x - $canvasView.size.width / ((2 * $canvasView.scale) / 100)}
+			y={$canvasView.position.y - $canvasView.size.height / ((2 * $canvasView.scale) / 100)}
 			width="100%"
 			height="100%"
 			fill="url(#pattern-circles)"

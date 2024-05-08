@@ -31,9 +31,9 @@
 	// Function to get the position of the cursor in tge "global" coordinate system
 	function globalCoordinates(pos: LocalCoordinate) {
 		const tx =
-			(pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x - 10.5;
+			(pos.x - $canvasView.size.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x - 10.5;
 		const ty =
-			(pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y - 11;
+			(pos.y - $canvasView.size.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y - 11;
 		return { x: tx, y: ty };
 	}
 
