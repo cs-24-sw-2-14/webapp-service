@@ -5,10 +5,18 @@
 	import InfoPicker from '$lib/components/CustomizationForm.svelte';
 	import { boardId, socket, currentPage, Page } from '$lib/stores/stateStore';
 	import io from 'socket.io-client';
+	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
+
+	let hostname = writable('');
+	onMount(() => {
+		hostname.set('http://' + window.location.hostname + ':5123');
+	});
 
 	export let data;
 	boardId.set(data.slug);
-	const ENDPOINT: string = 'ws://' + window.location.hostname + ':6123' + '/' + $boardId;
+  
+	const ENDPOINT: string = 'ws://' + $hostname + ':6123' + '/' + $boardId;
 	socket.set(io(ENDPOINT));
 </script>
 
