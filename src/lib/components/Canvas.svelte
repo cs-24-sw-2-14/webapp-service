@@ -4,11 +4,15 @@
 		canvasView,
 		touchEvents,
 		mouseEvents,
-		currentSvgElementIndex
+		drawingsUnderCursor,
+		canvasCursorPosition,
+		toggleGrid
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
+	import type { CanvasMousePosition } from '$lib/types';
+	import MouseCursors from './MouseCursors.svelte';
 
 	onMount(() => {
 		resizeCanvas();
@@ -21,11 +25,31 @@
 			height: window.innerHeight
 		};
 	}
+
+	canvasCursorPosition.subscribe(removeElements);
+
+	function removeElements(pos: CanvasMousePosition) {
+		if (!$drawingsUnderCursor) return;
+		$drawingsUnderCursor.filter((drawing) => {
+			const node = drawing.eventTarget as HTMLElement;
+			const svgRect = node.getBoundingClientRect();
+			if (
+				pos.x < svgRect.left ||
+				pos.x > svgRect.right ||
+				pos.y < svgRect.top ||
+				pos.y > svgRect.bottom
+			) {
+				return false;
+			}
+			return true;
+		});
+	}
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
+	class:draw={$toolState === ToolState.draw}
 	class:draggable={$toolState === ToolState.pan}
 	role="application"
 	aria-label="Interactive infinite whiteboard with draggable grid"
@@ -62,27 +86,36 @@
 	</pattern>
 
 	<!-- Render background pattern -->
-	<rect
-		x={$canvasView.position.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
-		y={$canvasView.position.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
-		width="100%"
-		height="100%"
-		fill="url(#pattern-circles)"
-	/>
+	{#if $toggleGrid}
+		<rect
+			x={$canvasView.position.x - $canvasView.width / ((2 * $canvasView.scale) / 100)}
+			y={$canvasView.position.y - $canvasView.height / ((2 * $canvasView.scale) / 100)}
+			width="100%"
+			height="100%"
+			fill="url(#pattern-circles)"
+		/>
+	{/if}
 
-	<!-- Render the SVGs -->
-	{#each $svgs as svgObj, index}
+	<!-- Render the Drawings -->
+	{#each $svgs as svg}
 		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<g
-			transform={`translate(${svgObj.x}, ${svgObj.y})`}
-			on:mouseover={() => {
-				$currentSvgElementIndex = index;
+			transform={`translate(${svg.x}, ${svg.y})`}
+			on:mouseover={(event) => {
+				if (!event.target) return;
+				$drawingsUnderCursor.push({
+					commandId: svg.commandId,
+					eventTarget: event.target
+				});
 			}}
 		>
-			{@html svgObj.svg}
+			{@html svg.svg}
 		</g>
 	{/each}
+
+	<!-- Mouse Cursor (local and remote) -->
+	<MouseCursors></MouseCursors>
 </svg>
 
 <style>
@@ -91,5 +124,9 @@
 	}
 	.draggable:active {
 		cursor: grabbing;
+	}
+
+	.draw {
+		cursor: none;
 	}
 </style>

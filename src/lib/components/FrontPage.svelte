@@ -1,56 +1,69 @@
 <script lang="ts">
 	import { checkHexa } from '$lib/ts/checkHexa';
+	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 
-	let inputfield: string = '';
+	let hostname = writable('');
+	onMount(() => {
+		hostname.set('http://' + window.location.hostname + ':5123');
+	});
 
-	let color: string;
-	let boardCheckerEndpointUrl: string;
+	let boardIdInput = '';
+
 	$: {
-		inputfield = inputfield.toUpperCase();
-		if (!checkHexa(inputfield)) {
-			inputfield = inputfield.slice(0, -1);
+		boardIdInput = boardIdInput.toUpperCase();
+		if (!checkHexa(boardIdInput)) {
+			boardIdInput = boardIdInput.slice(0, -1);
 		}
-		if (inputfield.length > 6) {
-			inputfield = inputfield.slice(0, -1);
-		}
-
-		boardCheckerEndpointUrl = `https://64.227.121.226:1337/v1/board/exists?board_uid=${inputfield}`;
-
-		boardExists()
-			.then(res => color = res === true ? 'green-500' : 'red-500');
-	}
-
-	function redirect() {
-		let url: string = window.location.href;
-
-		if (inputfield.length == 6) {
-			url += inputfield;
-
-			window.location.replace(url);
+		if (boardIdInput.length > 6) {
+			boardIdInput = boardIdInput.slice(0, -1);
 		}
 	}
 
-	async function boardExists() {
+	async function validateBoard() {
+		if (boardIdInput.length !== 6) return;
+
 		try {
-			const response = await fetch(boardCheckerEndpointUrl);
-			if (!response.ok) {
-				throw new Error(`unable to fetch boardCheckerEndpointUrl`);
+			const response = await fetch($hostname + '/v1/board/validate', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ boardId: boardIdInput })
+			});
+
+			if (response.ok) {
+				window.location.replace(window.location.href + boardIdInput);
 			}
-
-			const data = await response.json();
-			console.log(data.completed);
-			return data.completed;
 		} catch (error) {
-			console.error('Some Error Occured:', error);
+			console.error('Request Error:', error);
 		}
-
-		return false;
 	}
 
+	async function createBoard() {
+		try {
+			const response = await fetch($hostname + '/v1/board/create', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
 
+			if (response.ok) {
+				let body = await response.json();
+				window.location.replace(window.location.href + body.boardId);
+			}
+		} catch (error) {
+			console.error('Request Error:', error);
+		}
+	}
 </script>
 
-<svelte:window on:keydown={(event)=>{if(event.key === "Enter") redirect()}} />
+<svelte:window
+	on:keydown={(event) => {
+		if (event.key === 'Enter') validateBoard();
+	}}
+/>
 <!--It is an eventlistener. When the key "Enter" is pressed down, it will run the redirect fuction.-->
 
 <!--<link
@@ -70,15 +83,15 @@
 				<!--A div with a class named create-box)-->
 				<p>Click to create a new board</p>
 				<!--Text. Paragraph)-->
-				<button id="create-button" class="button">Create Board</button>
+				<button id="create-button" class="button" on:click={createBoard}>Create Board</button>
 				<!--A button with the id 'create-button' and class 'button'-->
 			</div>
 			<div class="join-box">
 				<!--A div with a class named join-box)-->
 				<p>Insert Code to Join Board</p>
 				<!--Text. Paragraph)-->
-				<input id="insert-code-box" bind:value={inputfield} placeholder="Insert code" />
-				<button id="join-button" class="button" on:click={redirect}> Join Board</button>
+				<input id="insert-code-box" bind:value={boardIdInput} placeholder="Insert code" />
+				<button id="join-button" class="button" on:click={validateBoard}> Join Board</button>
 				<!--A button with the id 'join-button' and class 'button'-->
 				<!--on:click={redirect} does so when the button is clicked on, the function redirect runs-->
 			</div>
