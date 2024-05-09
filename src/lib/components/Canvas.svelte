@@ -5,8 +5,9 @@
 		touchEvents,
 		mouseEvents,
 		drawingsUnderCursor,
-		canvasCursorPosition,
-		toggleGrid
+		canvasMousePosition,
+		toggleGrid,
+		user
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
@@ -44,6 +45,22 @@
 			return true;
 		});
 	}
+
+	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
+		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
+		const ty =
+			(pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
+		return { x: tx, y: ty };
+	}
+
+	canvasMousePosition.subscribe(() => {
+		if (!$canvasMousePosition) return;
+		let { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+		$user.cursorPosition = {
+			x: x,
+			y: y
+		};
+	});
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
