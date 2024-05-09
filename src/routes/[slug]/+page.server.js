@@ -1,6 +1,9 @@
 import { error } from '@sveltejs/kit';
 
-const ENDPOINT = 'http://localhost:5123' + '/v1/board/validate';
+// Load environment variable
+const SECRET_IP_ADDRESS = process.env.SECRET_IP_ADDRESS;
+
+const ENDPOINT = 'http://' + SECRET_IP_ADDRESS + ':5123' + '/v1/board/validate';
 export async function load({ params }) {
 	try {
 		const response = await fetch(ENDPOINT, {
