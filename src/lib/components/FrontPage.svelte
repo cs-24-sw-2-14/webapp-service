@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { checkHexadecimal } from '$lib/behavior';
+	import { checkHexadecimal } from '$lib/utils';
 
 	let hostname = writable('');
 	onMount(() => {

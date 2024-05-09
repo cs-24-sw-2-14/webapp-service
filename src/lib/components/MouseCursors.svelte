@@ -6,7 +6,7 @@
 	import { cursorPosition } from '$lib/stores/stateStore';
 
 	import { cursors, onlineUsers, chosenColor } from '$lib/stores/stateStore';
-	import { translateCoordinates, viewportToCanvasCoordinatesFromCanvasView } from '$lib/behavior';
+	import { translateCoordinates, viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
 	const cursorOffset: CanvasCoordinates = {
 		x: -10.5,

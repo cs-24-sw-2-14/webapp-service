@@ -13,7 +13,7 @@
 	import { ToolState } from '$lib/types';
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
-	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/behavior';
+	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
 	const THRESHOLDDISTANCE = 10;
 
