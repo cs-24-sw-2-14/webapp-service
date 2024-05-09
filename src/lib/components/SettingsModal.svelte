@@ -23,7 +23,7 @@
 		}}
 	>
 		<div
-			class="w-1/3 max-w-lg p-6 rounded-lg shadow-lg cursor-default bg-zinc-800"
+			class="w-90 max-w-lg p-6 rounded-lg shadow-lg cursor-default bg-zinc-800"
 			on:click={handleModalContentClick}
 		>
 			<div class="flex justify-between">
