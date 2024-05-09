@@ -1,15 +1,7 @@
 <script lang="ts">
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-	import {
-		toolState,
-		canvasCursorPosition,
-		canvasTouched,
-		canvasView,
-		socket,
-		chosenColor,
-		user
-	} from '$lib/stores/stateStore';
+	import { toolState, canvasMouseDown, socket, chosenColor, user } from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { type CanvasMousePosition, ToolState } from '$lib/types';
@@ -18,27 +10,18 @@
 
 	onMount(() => {
 		$socket.on('startDrawSuccess', (data) => {
-			console.log('startDrawSuccess');
 			if (data.username !== $user.name) return;
 			$currentCommandId = data.commandId;
 		});
 	});
 
-	canvasTouched.subscribe(startDraw);
-	canvasCursorPosition.subscribe(doDraw);
-	canvasTouched.subscribe(stopDraw);
-
-	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
-		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
-		const ty =
-			(pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
-		return { x: tx, y: ty };
-	}
+	user.subscribe(startDraw);
+	user.subscribe(doDraw);
+	canvasMouseDown.subscribe(stopDraw);
 
 	function startDraw() {
-		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
-		console.log('startDraw');
-		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
+		if (!$canvasMouseDown || $toolState !== ToolState.draw || $currentCommandId !== null) return;
+		const { x, y } = $user.cursorPosition;
 		$socket.emit('startDraw', {
 			placement: { x: 0, y: 0 },
 			path: { x: x, y: y },
@@ -50,9 +33,8 @@
 	}
 
 	function doDraw() {
-		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
-		console.log('doDraw');
-		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
+		if (!$canvasMouseDown || $toolState !== ToolState.draw || $currentCommandId === null) return;
+		const { x, y } = $user.cursorPosition;
 		$socket.emit('doDraw', {
 			x: x,
 			y: y,
