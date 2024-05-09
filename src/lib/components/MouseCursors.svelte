@@ -3,7 +3,7 @@
 	import { afterUpdate } from 'svelte';
 	import { type ViewportCoordinates, ToolState, type CanvasCoordinates } from '$lib/types';
 	import { canvasView, toolState, user } from '$lib/stores/stateStore';
-	import { canvasCursorPosition } from '$lib/stores/stateStore';
+	import { cursorPosition } from '$lib/stores/stateStore';
 
 	import { cursors, onlineUsers, chosenColor } from '$lib/stores/stateStore';
 	import { translateCoordinates, viewportToCanvasCoordinatesFromCanvasView } from '$lib/behavior';
@@ -16,10 +16,10 @@
 	let cursor: CanvasCoordinates;
 	let rectElements: any[] = [];
 	let textElements: any[] = [];
-	$: cursor = cursorOffsetLocation($canvasCursorPosition);
+	$: cursor = cursorOffsetLocation($cursorPosition);
 
 	// Update cursors store to include the new local cursor properties
-	$: if ($canvasCursorPosition) {
+	$: if ($cursorPosition) {
 		const newLocalCursor = {
 			...$cursors.localCursor,
 			posX: cursor.x,

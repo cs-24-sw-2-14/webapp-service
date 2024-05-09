@@ -3,7 +3,7 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasCursorPosition,
+		cursorPosition,
 		canvasTouched,
 		canvasView,
 		drawingsUnderCursor,
@@ -25,7 +25,7 @@
 			$currentCommandId = data.commandId;
 		});
 		canvasTouched.subscribe(startErase);
-		canvasCursorPosition.subscribe(doErase);
+		cursorPosition.subscribe(doErase);
 		canvasTouched.subscribe(stopErase);
 	});
 
@@ -37,7 +37,7 @@
 			$currentCommandId !== null
 		)
 			return;
-		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($canvasCursorPosition, $canvasView);
+		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 		$socket.emit('startErase', {
 			coordinate: { x: x, y: y },
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
@@ -56,7 +56,7 @@
 			$currentCommandId === null
 		)
 			return;
-		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($canvasCursorPosition, $canvasView);
+		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 		$socket.emit('doErase', {
 			coordinate: { x: x, y: y },
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {

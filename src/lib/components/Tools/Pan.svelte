@@ -4,20 +4,20 @@
 	import {
 		toolState,
 		canvasView,
-		canvasCursorPosition,
+		cursorPosition,
 		canvasTouched
 	} from '$lib/stores/stateStore';
 	import { type ViewportCoordinates, ToolState } from '$lib/types';
 	let startX: number, startY: number;
 
 	canvasTouched.subscribe(startDrag);
-	canvasCursorPosition.subscribe(doDrag);
+	cursorPosition.subscribe(doDrag);
 
 	function startDrag(isDown: boolean) {
 		if ($toolState !== ToolState.pan) return;
 		if (isDown) {
-			startX = $canvasCursorPosition.x;
-			startY = $canvasCursorPosition.y;
+			startX = $cursorPosition.x;
+			startY = $cursorPosition.y;
 		}
 	}
 

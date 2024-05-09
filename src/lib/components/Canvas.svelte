@@ -5,7 +5,7 @@
 		touchEvents,
 		mouseEvents,
 		drawingsUnderCursor,
-		canvasCursorPosition,
+		cursorPosition,
 		toggleGrid
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
@@ -28,7 +28,7 @@
 		};
 	}
 
-	canvasCursorPosition.subscribe(removeElements);
+	cursorPosition.subscribe(removeElements);
 
 	function removeElements(pos: ViewportCoordinates) {
 		if (!$drawingsUnderCursor) return;

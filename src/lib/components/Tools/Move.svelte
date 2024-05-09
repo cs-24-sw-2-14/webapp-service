@@ -3,7 +3,7 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasCursorPosition,
+		cursorPosition,
 		canvasTouched,
 		canvasView,
 		drawingsUnderCursor
@@ -15,13 +15,13 @@
 	let currentIndex: number | null = null;
 
 	canvasTouched.subscribe(startMove);
-	canvasCursorPosition.subscribe(doMove);
+	cursorPosition.subscribe(doMove);
 
 	function startMove(isDown: boolean) {
 		if ($toolState !== ToolState.move) return;
 		if (!isDown) return;
-		startX = $canvasCursorPosition.x;
-		startY = $canvasCursorPosition.y;
+		startX = $cursorPosition.x;
+		startY = $cursorPosition.y;
 		currentIndex = $drawingsUnderCursor[0].index;
 	}
 

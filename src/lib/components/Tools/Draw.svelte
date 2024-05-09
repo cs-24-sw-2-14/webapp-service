@@ -3,7 +3,7 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasCursorPosition,
+		cursorPosition,
 		canvasTouched,
 		canvasView,
 		socket,
@@ -26,13 +26,13 @@
 	});
 
 	canvasTouched.subscribe(startDraw);
-	canvasCursorPosition.subscribe(doDraw);
+	cursorPosition.subscribe(doDraw);
 	canvasTouched.subscribe(stopDraw);
 
 	function startDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
 		console.log('startDraw');
-		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($canvasCursorPosition, $canvasView);
+		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 		$socket.emit('startDraw', {
 			placement: { x: 0, y: 0 },
 			path: { x: x, y: y },
@@ -46,7 +46,7 @@
 	function doDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
 		console.log('doDraw');
-		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($canvasCursorPosition, $canvasView);
+		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 		$socket.emit('doDraw', {
 			x: x,
 			y: y,
