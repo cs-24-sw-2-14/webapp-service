@@ -61,7 +61,7 @@ export const canvasView = writable<CanvasView>({
 
 export const toolState = writable<ToolState>(ToolState.pan);
 
-export const canvasMousePosition = writable<CanvasMousePosition>({
+export const canvasCursorPosition = writable<CanvasMousePosition>({
 	x: 0,
 	y: 0
 });
@@ -83,15 +83,24 @@ export const user = writable<User>({
 	posY: 0
 });
 
-export const canvasMouseDown = writable(false);
+export const canvasTouched = writable(false);
+
+export const touchEvents = {
+	start: () => canvasTouched.set(true),
+	move: (event: TouchEvent) =>
+		canvasCursorPosition.update(() => {
+			return { x: event.touches[0].clientX, y: event.touches[0].clientY };
+		}),
+	end: () => canvasTouched.set(false)
+};
 
 export const mouseEvents = {
-	down: () => canvasMouseDown.set(true),
+	down: () => canvasTouched.set(true),
 	move: (event: MouseEvent) =>
-		canvasMousePosition.update(() => {
-			return { x: event.clientX, y: event.clientY };
+		canvasCursorPosition.update(() => {
+			return {x: event.clientX, y: event.clientY};
 		}),
-	up: () => canvasMouseDown.set(false)
+	up: () => canvasTouched.set(false)
 };
 
 export interface DrawingUnderCursor {

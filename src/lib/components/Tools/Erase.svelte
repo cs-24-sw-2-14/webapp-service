@@ -3,8 +3,8 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasMousePosition,
-		canvasMouseDown,
+		canvasCursorPosition,
+		canvasTouched,
 		canvasView,
 		drawingsUnderCursor,
 		socket,
@@ -23,9 +23,9 @@
 			if (data.username !== $user.name) return;
 			$currentCommandId = data.commandId;
 		});
-		canvasMouseDown.subscribe(startErase);
-		canvasMousePosition.subscribe(doErase);
-		canvasMouseDown.subscribe(stopErase);
+		canvasTouched.subscribe(startErase);
+		canvasCursorPosition.subscribe(doErase);
+		canvasTouched.subscribe(stopErase);
 	});
 
 	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
@@ -37,13 +37,13 @@
 
 	function startErase() {
 		if (
-			!$canvasMouseDown ||
+			!$canvasTouched ||
 			$toolState !== ToolState.erase ||
 			$drawingsUnderCursor.length === 0 ||
 			$currentCommandId !== null
 		)
 			return;
-		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
 		$socket.emit('startErase', {
 			coordinate: { x: x, y: y },
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
@@ -56,13 +56,13 @@
 
 	function doErase() {
 		if (
-			!$canvasMouseDown ||
+			!$canvasTouched ||
 			$toolState !== ToolState.erase ||
 			$drawingsUnderCursor.length === 0 ||
 			$currentCommandId === null
 		)
 			return;
-		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
 		$socket.emit('doErase', {
 			coordinate: { x: x, y: y },
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
@@ -73,7 +73,7 @@
 	}
 
 	function stopErase() {
-		if ($canvasMouseDown || $toolState !== ToolState.erase) return;
+		if ($canvasTouched || $toolState !== ToolState.erase) return;
 		$currentCommandId = null;
 	}
 </script>

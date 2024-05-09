@@ -1,6 +1,6 @@
 import { error } from '@sveltejs/kit';
 
-const ENDPOINT = 'http://localhost:5123' + '/v1/board/validate';
+const ENDPOINT = 'http://64.227.121.226:5123' + '/v1/board/validate';
 export async function load({ params }) {
 	try {
 		const response = await fetch(ENDPOINT, {

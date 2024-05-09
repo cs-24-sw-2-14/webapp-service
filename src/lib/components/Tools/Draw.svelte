@@ -3,8 +3,8 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasMousePosition,
-		canvasMouseDown,
+		canvasCursorPosition,
+		canvasTouched,
 		canvasView,
 		socket,
 		chosenColor,
@@ -24,9 +24,9 @@
 		});
 	});
 
-	canvasMouseDown.subscribe(startDraw);
-	canvasMousePosition.subscribe(doDraw);
-	canvasMouseDown.subscribe(stopDraw);
+	canvasTouched.subscribe(startDraw);
+	canvasCursorPosition.subscribe(doDraw);
+	canvasTouched.subscribe(stopDraw);
 
 	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
 		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
@@ -36,9 +36,9 @@
 	}
 
 	function startDraw() {
-		if (!$canvasMouseDown || $toolState !== ToolState.draw || $currentCommandId !== null) return;
+		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
 		console.log('startDraw');
-		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
 		$socket.emit('startDraw', {
 			placement: { x: 0, y: 0 },
 			path: { x: x, y: y },
@@ -50,9 +50,9 @@
 	}
 
 	function doDraw() {
-		if (!$canvasMouseDown || $toolState !== ToolState.draw || $currentCommandId === null) return;
+		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
 		console.log('doDraw');
-		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
 		$socket.emit('doDraw', {
 			x: x,
 			y: y,
@@ -61,7 +61,7 @@
 	}
 
 	function stopDraw() {
-		if ($canvasMouseDown || $toolState !== ToolState.draw) return;
+		if ($canvasTouched || $toolState !== ToolState.draw) return;
 		$currentCommandId = null;
 	}
 </script>

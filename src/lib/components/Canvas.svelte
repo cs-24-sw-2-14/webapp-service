@@ -2,9 +2,10 @@
 	import {
 		toolState,
 		canvasView,
+		touchEvents,
 		mouseEvents,
 		drawingsUnderCursor,
-		canvasMousePosition,
+		canvasCursorPosition,
 		toggleGrid
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
@@ -25,7 +26,7 @@
 		};
 	}
 
-	canvasMousePosition.subscribe(removeElements);
+	canvasCursorPosition.subscribe(removeElements);
 
 	function removeElements(pos: CanvasMousePosition) {
 		if (!$drawingsUnderCursor) return;
@@ -65,6 +66,10 @@
 	on:mousemove={mouseEvents.move}
 	on:mouseup={mouseEvents.up}
 	on:mouseleave={mouseEvents.up}
+	on:touchstart={touchEvents.start}
+	on:touchmove={touchEvents.move}
+	on:touchend={touchEvents.end}
+	on:touchcancel={touchEvents.end}
 	on:resize={resizeCanvas}
 >
 	<!-- Define the pattern for the dotted background -->
@@ -124,4 +129,9 @@
 	.draw {
 		cursor: none;
 	}
+
+  svg {
+      overscroll-behavior: none;
+      touch-action: pan-down;
+  }
 </style>
