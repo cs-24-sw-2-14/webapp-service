@@ -3,9 +3,11 @@
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 
+	const { REST_API_PROTOCOL, REST_API_HOSTNAME, REST_API_PORT } = process.env;
+
 	let hostname = writable('');
 	onMount(() => {
-		hostname.set('http://' + window.location.hostname + ':5123');
+		hostname.set(`${REST_API_PROTOCOL}://${REST_API_HOSTNAME}:${REST_API_PORT}`);
 	});
 
 	let boardIdInput = '';
