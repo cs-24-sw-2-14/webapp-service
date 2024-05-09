@@ -48,7 +48,7 @@ function translateCoordinates(coordinates: Coordinate, offset: Coordinate): Coor
 
 function scaleCoordinates(coordinates: Coordinate, scale: ScaleFactor): Coordinate {
 	return {
-		x: coordinates.x * (scale / 100),
-		y: coordinates.y * (scale / 100)
+		x: coordinates.x * scale,
+		y: coordinates.y * scale
 	}
 }

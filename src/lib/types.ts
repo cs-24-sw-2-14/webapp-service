@@ -14,7 +14,7 @@ export interface User {
 export interface CanvasView {
   position: Coordinate;
 	size: Rectangle;
-  scale: ScaleFactor;
+  scale: ScaleFactor100;
 }
 
 export enum ToolState {
@@ -37,8 +37,9 @@ export interface Coordinate {
 export type LocalCoordinate = Coordinate;
 export type GlobalCoordinate = Coordinate;
 export type Username = string;
-// Currently a value between 0 and 100, but should be between 0 and 1 when refactor is done.
 export type ScaleFactor = number;
+// Currently a value between 0 and 100, but should be between 0 and 1 when refactor is done.
+export type ScaleFactor100 = number;
 
 export interface Local {
 	posX: number;
