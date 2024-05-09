@@ -9,11 +9,14 @@
 	import { viewChat } from '$lib/stores/stateStore';
 	import SettingsModal from './SettingsModal.svelte';
 	import { settings } from '$lib/stores/stateStore';
+	import Coordinates from './Coordinates.svelte';
 </script>
 
 <SettingsModal showModal={$settings}></SettingsModal>
 
 <Navbar></Navbar>
+
+<Coordinates></Coordinates>
 
 <ServerId></ServerId>
 

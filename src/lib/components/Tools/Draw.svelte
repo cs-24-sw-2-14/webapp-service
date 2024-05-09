@@ -3,20 +3,30 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasMousePosition,
-		canvasMouseDown,
-		canvasView
+		canvasCursorPosition,
+		canvasTouched,
+		canvasView,
+		socket,
+		chosenColor,
+		user
 	} from '$lib/stores/stateStore';
+	import { onMount } from 'svelte';
+	import { writable } from 'svelte/store';
 	import { type CanvasMousePosition, ToolState } from '$lib/types';
-	import type { Svg } from '$lib/stores/svgStore';
-	import { svgs } from '$lib/stores/svgStore';
 
-	let pathString = '';
-	let currentIndex: number | null = null;
+	let currentCommandId = writable<number | null>(null);
 
-	canvasMouseDown.subscribe(startDraw);
-	canvasMousePosition.subscribe(doDraw);
-	canvasMouseDown.subscribe(stopDraw);
+	onMount(() => {
+		$socket.on('startDrawSuccess', (data) => {
+			console.log('startDrawSuccess');
+			if (data.username !== $user.name) return;
+			$currentCommandId = data.commandId;
+		});
+	});
+
+	canvasTouched.subscribe(startDraw);
+	canvasCursorPosition.subscribe(doDraw);
+	canvasTouched.subscribe(stopDraw);
 
 	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
 		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
@@ -25,36 +35,34 @@
 		return { x: tx, y: ty };
 	}
 
-	function startDraw(mouseDown: boolean) {
-		if (!mouseDown || $toolState !== ToolState.draw) return;
-		const new_svg_element: Svg = {
-			svg: ``,
-			x: 0,
-			y: 0
-		};
-		currentIndex = $svgs.length;
-		const { x, y } = mouseToSvgCoordinates($canvasMousePosition);
-		pathString = `M${x},${y}`;
-		$svgs = [...$svgs, new_svg_element];
+	function startDraw() {
+		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
+		console.log('startDraw');
+		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
+		$socket.emit('startDraw', {
+			placement: { x: 0, y: 0 },
+			path: { x: x, y: y },
+			stroke: $chosenColor,
+			fill: 'transparent',
+			strokeWidth: 7,
+			username: $user.name
+		});
 	}
 
-	function doDraw(pos: CanvasMousePosition) {
-		if (!$canvasMouseDown || $toolState !== ToolState.draw) return;
-		const { x, y } = mouseToSvgCoordinates(pos);
-		pathString += `L${x},${y}`;
+	function doDraw() {
+		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
+		console.log('doDraw');
+		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
+		$socket.emit('doDraw', {
+			x: x,
+			y: y,
+			commandId: $currentCommandId
+		});
 	}
 
-	function stopDraw(mouseDown: boolean) {
-		if (!mouseDown) {
-			currentIndex = null;
-		}
-	}
-
-	$: {
-		if (currentIndex) {
-			$svgs[currentIndex].svg =
-				`<path d="${pathString}" stroke="black" fill="transparent" stroke-width="5"/>`;
-		}
+	function stopDraw() {
+		if ($canvasTouched || $toolState !== ToolState.draw) return;
+		$currentCommandId = null;
 	}
 </script>
 
