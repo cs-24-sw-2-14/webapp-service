@@ -1,4 +1,11 @@
-import type { Coordinates, CanvasCoordinates, ViewportCoordinates, Rectangle, ScaleFactor } from '$lib/types';
+import type {
+	Coordinates,
+	CanvasCoordinates,
+	ViewportCoordinates,
+	Rectangle,
+	ScaleFactor,
+	CanvasView
+} from '$lib/types';
 
 export function checkHexadecimal(input: string) {
 	for (let i = 0; i < input.length; i++) {
@@ -20,7 +27,16 @@ export function getInitials(name: string) {
 		.join('');
 }
 
-export function viewportToCanvasCoordinates(coordinates: ViewportCoordinates, viewRect: Rectangle, viewPos: CanvasCoordinates, viewScale: ScaleFactor): CanvasCoordinates {
+export function viewportToCanvasCoordinatesFromCanvasView(coordinates: ViewportCoordinates, canvasView: CanvasView){
+	return viewportToCanvasCoordinates(
+		coordinates,
+		canvasView.size,
+		canvasView.position,
+		100 / canvasView.scale
+	)
+}
+
+function viewportToCanvasCoordinates(coordinates: ViewportCoordinates, viewRect: Rectangle, viewPos: CanvasCoordinates, viewScale: ScaleFactor): CanvasCoordinates {
 	let coords = coordinates;
 
 	coords = centerCoordinatesInRect(coords, viewRect);
