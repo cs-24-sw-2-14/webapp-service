@@ -47,7 +47,7 @@
 						type="text"
 						id="username"
 						bind:value={username}
-						placeholder="Username"
+						placeholder={$user.name}
 						class="w-full p-2 mt-1 border border-none rounded placeholder-zinc-300 bg-zinc-500 focus:outline-none focus:ring-0 focus:border-none text-zinc-300"
 					/>
 				</div>
