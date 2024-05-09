@@ -15,8 +15,8 @@
 			return DisabledBy.CurrentUser;
 		}
 
-		for (let i = 0; i < onlineUsers.length; i++) {
-			const onlineUser = onlineUsers[i];
+		for (let i = 0; i < otherUsers.length; i++) {
+			const onlineUser = otherUsers[i];
 			if (onlineUser?.color === color) {
 				return DisabledBy.OtherUser;
 			}
