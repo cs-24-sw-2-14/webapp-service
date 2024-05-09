@@ -12,7 +12,7 @@ export interface User {
 }
 
 export interface CanvasView {
-  position: Coordinates;
+  position: CanvasCoordinates;
 	size: Rectangle;
   scale: ScaleFactor100;
 }
