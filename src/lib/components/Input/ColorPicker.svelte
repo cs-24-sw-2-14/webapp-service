@@ -46,13 +46,6 @@
 </div>
 
 <style>
-	/* Container-div for the table to center it */
-	.container {
-		display: flex;
-		justify-content: center; /* Center horizontally */
-		align-items: center; /* Center vertically */
-	}
-
 	/* Color-Button styles */
 	button {
 		border-radius: 50%;
