@@ -1,9 +1,8 @@
 <script lang="ts">
-	import { settings } from '$lib/stores/stateStore';
+	import { settings, user } from '$lib/stores/stateStore';
 	import ColorPicker from './Input/ColorPicker.svelte';
 	export let showModal = $settings;
 
-	let code = '';
 	let username = '';
 
 	// Function to handle modal content click
@@ -11,17 +10,7 @@
 		event.stopPropagation(); // Prevent click event from propagating to the parent
 	}
 
-	function joinBoard() {
-		// Logic to join an existing whiteboard using the code
-	}
-
-	function createNewBoard() {
-		// Logic to create a new whiteboard
-	}
-
-	function updateUserInfo() {
-		// Logic to update user information
-	}
+	function updateUserInfo() {}
 </script>
 
 {#if showModal}
@@ -50,42 +39,7 @@
 				<!-- when you hover over the button the background color changes to red 
 					   on:click inverts the settings value and updates all settings-subscribers-->
 			</div>
-			<!-- ************************************************** -->
-			<!-- Join Whiteboard Section -->
-			<h2 class="mb-2 text-lg font-semibold text-zinc-300">Join an existing magicboard</h2>
-			<div class="flex items-center justify-between space-x-2">
-				<input
-					type="text"
-					id="code"
-					bind:value={code}
-					placeholder="Enter code"
-					class="w-full p-2 border border-none rounded placeholder-zinc-300 bg-zinc-500 focus:outline-none focus:ring-0 focus:border-none text-zinc-300"
-				/>
-				<button
-					class="w-24 px-4 py-2 bg-blue-500 rounded shadow hover:bg-blue-600"
-					on:click={joinBoard}
-				>
-					Join
-				</button>
-			</div>
-
-			<div class="h-[0.1rem] w-full bg-zinc-700 flex my-5 rounded mx-auto"></div>
-
-			<!-- Create New Whiteboard Section -->
-			<h2 class="mb-2 text-lg font-semibold text-zinc-300">Create a new magicboard</h2>
-			<div>
-				<button
-					class="w-full px-4 py-2 bg-green-500 rounded shadow hover:bg-green-600"
-					on:click={createNewBoard}
-				>
-					New MagicBoard
-				</button>
-			</div>
-
-			<div class="h-[0.1rem] w-full bg-zinc-700 flex my-5 rounded mx-auto"></div>
-
 			<!-- User Information Section -->
-			<h2 class="mb-2 text-lg font-semibold text-zinc-300">User-customization</h2>
 			<div>
 				<div>
 					<label for="username" class="font-bold text-zinc-300">Username:</label>
