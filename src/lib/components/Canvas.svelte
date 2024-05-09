@@ -6,7 +6,7 @@
 		mouseEvents,
 		drawingsUnderCursor,
 		cursorPosition,
-		toggleGrid
+		toggleGrid,
 		user
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
@@ -25,7 +25,7 @@
 			size: {
 				width: window.innerWidth,
 				height: window.innerHeight
-			},
+			}
 		};
 	}
 
@@ -48,16 +48,16 @@
 		});
 	}
 
-	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
-		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
+	function mouseToSvgCoordinates(pos: ViewportCoordinates) {
+		const tx =
+			(pos.x - $canvasView.size.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
 		const ty =
-			(pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
+			(pos.y - $canvasView.size.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
 		return { x: tx, y: ty };
 	}
 
-	canvasMousePosition.subscribe(() => {
-		if (!$canvasMousePosition) return;
-		let { x, y } = mouseToSvgCoordinates($canvasMousePosition);
+	cursorPosition.subscribe(() => {
+		let { x, y } = mouseToSvgCoordinates($cursorPosition);
 		$user.cursorPosition = {
 			x: x,
 			y: y
