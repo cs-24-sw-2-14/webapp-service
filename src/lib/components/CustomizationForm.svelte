@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { user, onlineUsers, currentPage, Page } from '$lib/stores/stateStore';
+	import { user, otherUsers, currentPage, Page } from '$lib/stores/stateStore';
 	import ColorPicker from './Input/ColorPicker.svelte';
 
 	let username = '';
@@ -10,7 +10,7 @@
 	}
 
 	function findUser(username: string) {
-		return $onlineUsers.find((user) => user.name === username);
+		return $otherUsers.find((user) => user.name === username);
 	}
 </script>
 
