@@ -59,7 +59,7 @@ function centerCoordinatesInRect(coordinates: Coordinates, rect: Rectangle){
 	return translateCoordinates(coordinates, negativeOffset);
 }
 
-function translateCoordinates(coordinates: Coordinates, offset: Coordinates): Coordinates {
+export function translateCoordinates(coordinates: Coordinates, offset: Coordinates): Coordinates {
 	return {
 		x: coordinates.x + offset.x,
 		y: coordinates.y + offset.y
