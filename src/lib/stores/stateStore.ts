@@ -43,14 +43,56 @@ export const canvasCursorPosition = writable<CanvasMousePosition>({
 	y: 0
 });
 
-export const onlineUsers = writable<User[]>([
-	{ name: 'Elma Vukicevic', color: UserColor.red, posX: -50, posY: 50 },
-	{ name: 'Amalie Jensen', color: UserColor.orange, posX: -100, posY: 100 },
-	{ name: 'Cecilie Lassen', color: UserColor.yellow, posX: -150, posY: 150 },
-	{ name: 'Kresten Sckerl', color: UserColor.lime, posX: -200, posY: 200 },
-	{ name: 'Mads Fagerlund', color: UserColor.green, posX: -250, posY: 250 },
-	{ name: 'Marc Nygaard', color: UserColor.teal, posX: -300, posY: 300 },
-	{ name: 'Thorbjørn Larsen', color: UserColor.brown, posX: -350, posY: 350 }
+export const otherUsers = writable<OtherUser[]>([
+	{
+		name: 'Elma Vukicevic',
+		color: UserColorEnum.red,
+		cursorPosition: { x: -50, y: 50 },
+		drawColor: '#a4eb34',
+		isOnline: true
+	},
+	{
+		name: 'Amalie Jensen',
+		color: UserColorEnum.orange,
+		cursorPosition: { x: -100, y: 100 },
+		drawColor: '#a4eb34',
+		isOnline: true
+	},
+	{
+		name: 'Cecilie Lassen',
+		color: UserColorEnum.yellow,
+		cursorPosition: { x: -150, y: 150 },
+		drawColor: '#000000',
+		isOnline: true
+	},
+	{
+		name: 'Kresten Sckerl',
+		color: UserColorEnum.lime,
+		cursorPosition: { x: -200, y: 200 },
+		drawColor: '#000000',
+		isOnline: true
+	},
+	{
+		name: 'Mads Fagerlund',
+		color: UserColorEnum.green,
+		cursorPosition: { x: -250, y: 250 },
+		drawColor: '#000000',
+		isOnline: true
+	},
+	{
+		name: 'Marc Nygaard',
+		color: UserColorEnum.teal,
+		cursorPosition: { x: -300, y: 300 },
+		drawColor: '#000000',
+		isOnline: true
+	},
+	{
+		name: 'Thorbjørn Larsen',
+		color: UserColorEnum.brown,
+		cursorPosition: { x: -350, y: 350 },
+		drawColor: '#000000',
+		isOnline: true
+	}
 ]);
 
 export const user = writable<User>({
