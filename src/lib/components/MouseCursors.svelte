@@ -1,11 +1,46 @@
 <script lang="ts">
 	import { colorMap } from '$lib/color';
 	import { afterUpdate } from 'svelte';
-	import { ToolState } from '$lib/types';
-	import { toolState, user, otherUsers } from '$lib/stores/stateStore';
+	import { type ViewportCoordinates, ToolState, type CanvasCoordinates } from '$lib/types';
+	import { canvasView, toolState, user, otherUsers } from '$lib/stores/stateStore';
+	import { cursorPosition } from '$lib/stores/stateStore';
 
+	import { cursors, onlineUsers, chosenColor } from '$lib/stores/stateStore';
+	import { translateCoordinates, viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
+
+	const cursorOffset: CanvasCoordinates = {
+		x: -10.5,
+		y: -11
+	};
+
+	let cursor: CanvasCoordinates;
 	let rectElements: any[] = [];
 	let textElements: any[] = [];
+	$: cursor = cursorOffsetLocation($cursorPosition);
+
+	// Update cursors store to include the new local cursor properties
+	$: if ($cursorPosition) {
+		const newLocalCursor = {
+			...$cursors.localCursor,
+			posX: cursor.x,
+			posY: cursor.y,
+			color: $user.color
+		};
+		cursors.update((current) => ({ ...current, localCursor: newLocalCursor }));
+
+		$cursors.localCursor.color = $user.color;
+		$cursors.localCursor.name = $user.name;
+		$user.posX = $cursors.localCursor.posX; // Updating the local user
+		$user.posY = $cursors.localCursor.posY; // Updating the local user
+	}
+
+	// Function to get the position of the cursor in tge "global" coordinate system
+	function cursorOffsetLocation(pos: ViewportCoordinates) {
+		return translateCoordinates(
+			viewportToCanvasCoordinatesFromCanvasView(pos, $canvasView),
+			cursorOffset
+		);
+	}
 
 	// Function to dynamically adjust the width of the name label to accommodate the length of the name
 	function adjustBackground() {

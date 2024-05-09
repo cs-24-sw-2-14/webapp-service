@@ -4,7 +4,7 @@ import Socket from 'socket.io-client';
 import { writable } from 'svelte/store';
 import {
 	ToolState,
-	type CanvasMousePosition,
+	type ViewportCoordinates,
 	type User,
 	type OtherUser,
 	type CanvasView,
@@ -31,14 +31,16 @@ export const chosenColor = writable('#27272A');
 
 export const canvasView = writable<CanvasView>({
 	position: { x: 0, y: 0 },
-	width: 0,
-	height: 0,
+	size: {
+		width: 0,
+		height: 0
+	},
 	scale: 100
 });
 
 export const toolState = writable<ToolState>(ToolState.pan);
 
-export const canvasCursorPosition = writable<CanvasMousePosition>({
+export const cursorPosition = writable<ViewportCoordinates>({
 	x: 0,
 	y: 0
 });
@@ -107,7 +109,7 @@ export const canvasTouched = writable(false);
 export const touchEvents = {
 	start: () => canvasTouched.set(true),
 	move: (event: TouchEvent) =>
-		canvasCursorPosition.update(() => {
+		cursorPosition.update(() => {
 			return { x: event.touches[0].clientX, y: event.touches[0].clientY };
 		}),
 	end: () => canvasTouched.set(false)
@@ -116,7 +118,7 @@ export const touchEvents = {
 export const mouseEvents = {
 	down: () => canvasTouched.set(true),
 	move: (event: MouseEvent) =>
-		canvasCursorPosition.update(() => {
+		cursorPosition.update(() => {
 			return {x: event.clientX, y: event.clientY};
 		}),
 	up: () => canvasTouched.set(false)

@@ -1,10 +1,17 @@
 <script lang="ts">
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-	import { toolState, canvasMouseDown, socket, chosenColor, user } from '$lib/stores/stateStore';
+	import {
+		toolState,
+		canvasTouched,
+		socket,
+		chosenColor,
+		user
+	} from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { type CanvasMousePosition, ToolState } from '$lib/types';
+	import { ToolState } from '$lib/types';
+	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
 	let currentCommandId = writable<number | null>(null);
 

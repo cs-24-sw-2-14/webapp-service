@@ -3,16 +3,17 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasCursorPosition,
+		cursorPosition,
 		canvasTouched,
 		canvasView,
 		drawingsUnderCursor,
 		socket,
 		user
 	} from '$lib/stores/stateStore';
-	import { ToolState, type CanvasMousePosition } from '$lib/types';
+	import { ToolState } from '$lib/types';
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
+	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
 	const THRESHOLDDISTANCE = 10;
 

@@ -1,7 +1,11 @@
 <script lang="ts">
-	import { colorMap } from '$lib/color';
-	import { canvasView, otherUsers } from '$lib/stores/stateStore';
-	import { getInitials } from '$lib/ts/getInitials';
+	import { colorToHex } from '$lib/color';
+	import { canvasView } from '$lib/stores/stateStore';
+	import { type User } from '$lib/types';
+
+	import { getInitials } from '$lib/utils';
+
+	export let users: User[];
 </script>
 
 <!-- Display all online users -->
