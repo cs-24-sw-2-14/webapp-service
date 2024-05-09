@@ -1,8 +1,8 @@
 export interface User {
 	name: Username;
-	color: UserColor;
-	posX: number;
-	posY: number;
+	color: UserColorEnum;
+	cursorPosition: Coordinate;
+	drawColor: string;
 }
 
 export interface CanvasView {
