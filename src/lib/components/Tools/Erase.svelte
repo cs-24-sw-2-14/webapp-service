@@ -10,9 +10,10 @@
 		socket,
 		user
 	} from '$lib/stores/stateStore';
-	import { ToolState, type ViewportCoordinates } from '$lib/types';
+	import { ToolState } from '$lib/types';
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
+	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/behavior';
 
 	const THRESHOLDDISTANCE = 10;
 
@@ -28,13 +29,6 @@
 		canvasTouched.subscribe(stopErase);
 	});
 
-	function mouseToSvgCoordinates(pos: ViewportCoordinates) {
-		const tx = (pos.x - $canvasView.size.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
-		const ty =
-			(pos.y - $canvasView.size.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
-		return { x: tx, y: ty };
-	}
-
 	function startErase() {
 		if (
 			!$canvasTouched ||
@@ -43,7 +37,7 @@
 			$currentCommandId !== null
 		)
 			return;
-		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
+		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($canvasCursorPosition, $canvasView);
 		$socket.emit('startErase', {
 			coordinate: { x: x, y: y },
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
@@ -62,7 +56,7 @@
 			$currentCommandId === null
 		)
 			return;
-		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
+		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($canvasCursorPosition, $canvasView);
 		$socket.emit('doErase', {
 			coordinate: { x: x, y: y },
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
