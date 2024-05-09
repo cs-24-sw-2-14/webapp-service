@@ -4,7 +4,8 @@ on:
   push:
     branches:
       - main
-    workflow_dispatch:
+      - docker-push-action
+  workflow_dispatch:
 
 jobs:
   push_to_registry:
