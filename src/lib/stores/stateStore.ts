@@ -97,9 +97,9 @@ export const otherUsers = writable<OtherUser[]>([
 
 export const user = writable<User>({
 	name: 'Marc', // Empty string as the default Username
-	color: UserColor.pink, // Default user color set to pink, BECAUSE WHY NOT!
-	posX: 0,
-	posY: 0
+	color: UserColorEnum.pink, // Default user color set to pink, BECAUSE WHY NOT!
+	cursorPosition: { x: 0, y: 0 },
+	drawColor: '#000000'
 });
 
 export const canvasTouched = writable(false);
