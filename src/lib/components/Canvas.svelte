@@ -14,6 +14,7 @@
 	import { svgs } from '$lib/stores/svgStore.js';
 	import type { ViewportCoordinates } from '$lib/types';
 	import MouseCursors from './MouseCursors.svelte';
+	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
 	onMount(() => {
 		resizeCanvas();
@@ -48,16 +49,8 @@
 		});
 	}
 
-	function mouseToSvgCoordinates(pos: ViewportCoordinates) {
-		const tx =
-			(pos.x - $canvasView.size.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
-		const ty =
-			(pos.y - $canvasView.size.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
-		return { x: tx, y: ty };
-	}
-
 	cursorPosition.subscribe(() => {
-		let { x, y } = mouseToSvgCoordinates($cursorPosition);
+		let { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 		$user.cursorPosition = {
 			x: x,
 			y: y
