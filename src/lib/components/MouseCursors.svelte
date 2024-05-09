@@ -2,45 +2,17 @@
 	import { colorMap } from '$lib/color';
 	import { afterUpdate } from 'svelte';
 	import { type ViewportCoordinates, ToolState, type CanvasCoordinates } from '$lib/types';
-	import { canvasView, toolState, user, otherUsers } from '$lib/stores/stateStore';
-	import { cursorPosition } from '$lib/stores/stateStore';
-
-	import { cursors, onlineUsers, chosenColor } from '$lib/stores/stateStore';
-	import { translateCoordinates, viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
+	import { canvasView, toolState, user, otherUsers, cursorPosition } from '$lib/stores/stateStore';
+	import { translateCoordinates } from '$lib/utils';
 
 	const cursorOffset: CanvasCoordinates = {
 		x: -10.5,
 		y: -11
 	};
 
-	let cursor: CanvasCoordinates;
 	let rectElements: any[] = [];
 	let textElements: any[] = [];
-	$: cursor = cursorOffsetLocation($cursorPosition);
-
-	// Update cursors store to include the new local cursor properties
-	$: if ($cursorPosition) {
-		const newLocalCursor = {
-			...$cursors.localCursor,
-			posX: cursor.x,
-			posY: cursor.y,
-			color: $user.color
-		};
-		cursors.update((current) => ({ ...current, localCursor: newLocalCursor }));
-
-		$cursors.localCursor.color = $user.color;
-		$cursors.localCursor.name = $user.name;
-		$user.posX = $cursors.localCursor.posX; // Updating the local user
-		$user.posY = $cursors.localCursor.posY; // Updating the local user
-	}
-
-	// Function to get the position of the cursor in tge "global" coordinate system
-	function cursorOffsetLocation(pos: ViewportCoordinates) {
-		return translateCoordinates(
-			viewportToCanvasCoordinatesFromCanvasView(pos, $canvasView),
-			cursorOffset
-		);
-	}
+	$: adjustedCursorPosition = translateCoordinates($user.cursorPosition, cursorOffset);
 
 	// Function to dynamically adjust the width of the name label to accommodate the length of the name
 	function adjustBackground() {
@@ -60,14 +32,16 @@
 
 <!-- LOCAL CURSOR (DOSENT HAVE NAME LABEL) -->
 {#if $toolState === ToolState.draw}
-	<g transform={`translate(${$user.cursorPosition.x - 10.5}, ${$user.cursorPosition.y - 11})`}>
+	<g transform={`translate(${adjustedCursorPosition.x}, ${adjustedCursorPosition.y})`}>
 		<circle cx="10" cy="10" r="3" fill={$user.drawColor} />
 	</g>
 {/if}
 
 <!-- REMOTE CURSORS (OTHER USERS) -->
 {#each $otherUsers as user, index}
-	<g transform={`translate(${user.cursorPosition.x - 10.5}, ${user.cursorPosition.y - 11})`}>
+	<g
+		transform={`translate(${user.cursorPosition.x - cursorOffset.x}, ${user.cursorPosition.y - cursorOffset.y})`}
+	>
 		<!-- Remote cursor dot -->
 		<circle cx="10" cy="10" r="3" fill={user.drawColor} />
 
