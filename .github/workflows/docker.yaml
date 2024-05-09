@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - docker-push-action
 
 jobs:
   push_to_registry:
