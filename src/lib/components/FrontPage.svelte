@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 
-	const { REST_API_PROTOCOL, REST_API_HOSTNAME, REST_API_PORT } = process.env;
+	const { REST_API_PROTOCOL, REST_API_HOSTNAME, REST_API_PORT } = import.meta.env;
 
 	let hostname = writable('');
 	onMount(() => {

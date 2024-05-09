@@ -8,7 +8,7 @@
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 
-	const { SOCKET_API_PROTOCOL, SOCKET_API_HOSTNAME, SOCKET_API_PORT } = process.env;
+	const { SOCKET_API_PROTOCOL, SOCKET_API_HOSTNAME, SOCKET_API_PORT } = import.meta.env;
 
 	let hostname = writable('');
 	onMount(() => {

@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 
 // Load environment variable
-const { REST_API_PROTOCOL, REST_API_HOSTNAME, REST_API_PORT } = process.env;
+const { REST_API_PROTOCOL, REST_API_HOSTNAME, REST_API_PORT } = import.meta.env;
 
 const VALIDATE_BOARD_ENDPOINT = `${REST_API_PROTOCOL}://${REST_API_HOSTNAME}:${REST_API_PORT}/v1/board/validate`;
 export async function load({ params }) {
