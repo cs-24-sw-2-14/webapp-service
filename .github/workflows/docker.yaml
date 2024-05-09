@@ -6,6 +6,9 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  IMAGE: ${{ secrets.DOCKER_USERNAME }}/${{ vars.IMAGE_NAME }}
+
 jobs:
   push_to_registry:
     name: Push Docker image to Docker Hub
@@ -27,7 +30,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
-          images: many5900/magic_board
+          images: ${{ env.IMAGE }}
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
@@ -35,7 +38,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME}}/${{ vars.IMAGE_NAME }}:latest
+          tags: ${{ env.IMAGE }}:latest
           labels: ${{ steps.meta.outputs.labels }}
       #- name: Generate artifact attestation
       #  uses: actions/attest-build-provenance@v1
