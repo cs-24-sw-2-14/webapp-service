@@ -3,29 +3,29 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasCursorPosition,
+		cursorPosition,
 		canvasTouched,
 		canvasView,
 		drawingsUnderCursor
 	} from '$lib/stores/stateStore';
-	import { type CanvasMousePosition, ToolState } from '$lib/types';
+	import { type ViewportCoordinates, ToolState } from '$lib/types';
 	import { svgs } from '$lib/stores/svgStore';
 
 	let startX: number, startY: number;
 	let currentIndex: number | null = null;
 
 	canvasTouched.subscribe(startMove);
-	canvasCursorPosition.subscribe(doMove);
+	cursorPosition.subscribe(doMove);
 
 	function startMove(isDown: boolean) {
 		if ($toolState !== ToolState.move) return;
 		if (!isDown) return;
-		startX = $canvasCursorPosition.x;
-		startY = $canvasCursorPosition.y;
+		startX = $cursorPosition.x;
+		startY = $cursorPosition.y;
 		currentIndex = $drawingsUnderCursor[0].index;
 	}
 
-	function doMove(pos: CanvasMousePosition) {
+	function doMove(pos: ViewportCoordinates) {
 		if (!$canvasTouched || $toolState !== ToolState.move || currentIndex === null) return;
 		$svgs[currentIndex].placement = {
 			x: $svgs[currentIndex].x + (pos.x - startX) / ($canvasView.scale / 100),
