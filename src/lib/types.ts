@@ -1,9 +1,3 @@
-export interface Color {
-  name: string;
-  bg: string;
-  border: string;
-}
-
 export interface User {
 	name: Username;
 	color: UserColor;
