@@ -12,10 +12,9 @@ export interface User {
 }
 
 export interface CanvasView {
-  position: Coordinate;
-  width: number; // Default values, will be replaced on mount
-  height: number; // Default values, will be replaced on mount
-  scale: number;
+  position: CanvasCoordinates;
+	size: Rectangle;
+  scale: ScaleFactor100;
 }
 
 export enum ToolState {
@@ -26,13 +25,22 @@ export enum ToolState {
 	text,
 }
 
-export interface Coordinate {
+export interface Rectangle {
+	width: number;
+	height: number;
+}
+
+export interface Coordinates {
   x: number;
   y: number;
 }
 
-export type CanvasMousePosition = Coordinate;
+export type ViewportCoordinates = Coordinates;
+export type CanvasCoordinates = Coordinates;
 export type Username = string;
+export type ScaleFactor = number;
+// Currently a value between 0 and 100, but should be between 0 and 1 when refactor is done.
+export type ScaleFactor100 = number;
 
 export interface Local {
 	posX: number;

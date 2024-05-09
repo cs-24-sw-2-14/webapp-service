@@ -3,7 +3,7 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasCursorPosition,
+		cursorPosition,
 		canvasTouched,
 		canvasView,
 		socket,
@@ -12,7 +12,8 @@
 	} from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { type CanvasMousePosition, ToolState } from '$lib/types';
+	import { ToolState } from '$lib/types';
+	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/behavior';
 
 	let currentCommandId = writable<number | null>(null);
 
@@ -25,20 +26,13 @@
 	});
 
 	canvasTouched.subscribe(startDraw);
-	canvasCursorPosition.subscribe(doDraw);
+	cursorPosition.subscribe(doDraw);
 	canvasTouched.subscribe(stopDraw);
-
-	function mouseToSvgCoordinates(pos: CanvasMousePosition) {
-		const tx = (pos.x - $canvasView.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
-		const ty =
-			(pos.y - $canvasView.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;
-		return { x: tx, y: ty };
-	}
 
 	function startDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
 		console.log('startDraw');
-		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
+		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 		$socket.emit('startDraw', {
 			placement: { x: 0, y: 0 },
 			path: { x: x, y: y },
@@ -52,7 +46,7 @@
 	function doDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
 		console.log('doDraw');
-		const { x, y } = mouseToSvgCoordinates($canvasCursorPosition);
+		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 		$socket.emit('doDraw', {
 			x: x,
 			y: y,

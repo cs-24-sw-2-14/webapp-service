@@ -2,7 +2,8 @@
 	import { colorToHex } from '$lib/color';
 	import { canvasView } from '$lib/stores/stateStore';
 	import { type User } from '$lib/types';
-	import { getInitials } from '$lib/ts/getInitials';
+
+	import { getInitials } from '$lib/behavior';
 
 	export let users: User[];
 </script>
