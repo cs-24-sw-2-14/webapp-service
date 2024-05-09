@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { user, onlineUsers } from '$lib/stores/stateStore';
-	import { colors, hexToColor } from '$lib/color';
-	import { UserColor, type User } from '$lib/types';
+	import { user, otherUsers } from '$lib/stores/stateStore';
+	import { colorMap } from '$lib/color';
+	import { type User, UserColorEnum } from '$lib/types';
 
 	enum DisabledBy {
 		CurrentUser,
@@ -10,8 +10,8 @@
 	}
 
 	/* Checks if a color is chosen and returns true or false so the color-button gets disabled */
-	function colorChosen(color: UserColor, user: User, onlineUsers: User[]) {
-		if (user?.color === color) {
+	function isColorChosen(color: UserColorEnum, user: User, otherUsers: User[]) {
+		if (user.color === color) {
 			return DisabledBy.CurrentUser;
 		}
 
