@@ -5,6 +5,10 @@ export interface User {
 	drawColor: string;
 }
 
+export interface OtherUser extends User {
+	isOnline: boolean;
+}
+
 export interface CanvasView {
   position: Coordinate;
   width: number; // Default values, will be replaced on mount
