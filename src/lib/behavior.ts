@@ -33,16 +33,20 @@ export function viewportToCanvasCoordinates(coordinates: ViewportCoordinates, vi
 }
 
 function centerCoordinatesInRect(coordinates: Coordinates, rect: Rectangle){
-	return translateCoordinates(coordinates, {
+	const offset: Coordinates = {
 		x: rect.width / 2,
 		y: rect.height / 2
-	});
+	}
+
+	const negativeOffset = scaleCoordinates(offset, -1);
+
+	return translateCoordinates(coordinates, negativeOffset);
 }
 
 function translateCoordinates(coordinates: Coordinates, offset: Coordinates): Coordinates {
 	return {
-		x: coordinates.x - offset.x,
-		y: coordinates.y - offset.y
+		x: coordinates.x + offset.x,
+		y: coordinates.y + offset.y
 	}
 }
 
