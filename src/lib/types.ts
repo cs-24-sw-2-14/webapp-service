@@ -49,20 +49,3 @@ export interface Coordinate {
 
 export type CanvasMousePosition = Coordinate;
 export type Username = string;
-
-export interface Local {
-	posX: number;
-	posY: number;
-	color: UserColor;
-	name: Username;
-  export interface Remote {
-	posX: number;
-	posY: number;
-	color: UserColor;
-	name: string;
-  }
-  
-  export interface Cursors {
-	localCursor: Local;
-	remoteCursors: Remote[];
-  }
