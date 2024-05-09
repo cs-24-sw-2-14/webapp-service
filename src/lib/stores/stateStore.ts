@@ -4,7 +4,7 @@ import Socket from 'socket.io-client';
 import { writable } from 'svelte/store';
 import {
 	ToolState,
-	type LocalCoordinate,
+	type ViewportCoordinates,
 	type User,
 	type CanvasView,
 	type Cursors,
@@ -63,7 +63,7 @@ export const canvasView = writable<CanvasView>({
 
 export const toolState = writable<ToolState>(ToolState.pan);
 
-export const canvasMousePosition = writable<LocalCoordinate>({
+export const canvasMousePosition = writable<ViewportCoordinates>({
 	x: 0,
 	y: 0
 });

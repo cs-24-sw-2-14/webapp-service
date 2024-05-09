@@ -1,4 +1,4 @@
-import type { Coordinate, GlobalCoordinate, LocalCoordinate, Rectangle, ScaleFactor } from '$lib/types';
+import type { Coordinates, CanvasCoordinates, ViewportCoordinates, Rectangle, ScaleFactor } from '$lib/types';
 
 export function checkHexadecimal(input: string) {
 	for (let i = 0; i < input.length; i++) {
@@ -20,7 +20,7 @@ export function getInitials(name: string) {
 		.join('');
 }
 
-export function localToGlobalCoordinates(coordinates: LocalCoordinate, viewRect: Rectangle, viewPos: GlobalCoordinate, viewScale: ScaleFactor): GlobalCoordinate {
+export function viewportToCanvasCoordinates(coordinates: ViewportCoordinates, viewRect: Rectangle, viewPos: CanvasCoordinates, viewScale: ScaleFactor): CanvasCoordinates {
 	let coords = coordinates;
 
 	coords = centerCoordinatesInRect(coords, viewRect);
@@ -32,21 +32,21 @@ export function localToGlobalCoordinates(coordinates: LocalCoordinate, viewRect:
 	return coords;
 }
 
-function centerCoordinatesInRect(coordinates: Coordinate, rect: Rectangle){
+function centerCoordinatesInRect(coordinates: Coordinates, rect: Rectangle){
 	return translateCoordinates(coordinates, {
 		x: rect.width / 2,
 		y: rect.height / 2
 	});
 }
 
-function translateCoordinates(coordinates: Coordinate, offset: Coordinate): Coordinate {
+function translateCoordinates(coordinates: Coordinates, offset: Coordinates): Coordinates {
 	return {
 		x: coordinates.x - offset.x,
 		y: coordinates.y - offset.y
 	}
 }
 
-function scaleCoordinates(coordinates: Coordinate, scale: ScaleFactor): Coordinate {
+function scaleCoordinates(coordinates: Coordinates, scale: ScaleFactor): Coordinates {
 	return {
 		x: coordinates.x * scale,
 		y: coordinates.y * scale

@@ -12,7 +12,7 @@
 	} from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { type LocalCoordinate, ToolState } from '$lib/types';
+	import { type ViewportCoordinates, ToolState } from '$lib/types';
 
 	let currentCommandId = writable<number | null>(null);
 
@@ -28,7 +28,7 @@
 	canvasMousePosition.subscribe(doDraw);
 	canvasMouseDown.subscribe(stopDraw);
 
-	function mouseToSvgCoordinates(pos: LocalCoordinate) {
+	function mouseToSvgCoordinates(pos: ViewportCoordinates) {
 		const tx = (pos.x - $canvasView.size.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x;
 		const ty =
 			(pos.y - $canvasView.size.height / 2) / ($canvasView.scale / 100) + $canvasView.position.y;

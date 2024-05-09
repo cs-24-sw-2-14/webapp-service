@@ -10,7 +10,7 @@
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
-	import type { LocalCoordinate } from '$lib/types';
+	import type { ViewportCoordinates } from '$lib/types';
 	import MouseCursors from './MouseCursors.svelte';
 
 	onMount(() => {
@@ -29,7 +29,7 @@
 
 	canvasMousePosition.subscribe(removeElements);
 
-	function removeElements(pos: LocalCoordinate) {
+	function removeElements(pos: ViewportCoordinates) {
 		if (!$drawingsUnderCursor) return;
 		$drawingsUnderCursor.filter((drawing) => {
 			const node = drawing.eventTarget as HTMLElement;

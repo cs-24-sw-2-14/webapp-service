@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { colorToHex } from '$lib/color';
 	import { afterUpdate } from 'svelte';
-	import { type LocalCoordinate, ToolState, type Coordinate } from '$lib/types';
+	import { type ViewportCoordinates, ToolState, type Coordinates } from '$lib/types';
 	import { canvasView, toolState, user } from '$lib/stores/stateStore';
 	import { canvasMousePosition } from '$lib/stores/stateStore';
 
 	import { cursors, onlineUsers, chosenColor } from '$lib/stores/stateStore';
 
-	let cursor: Coordinate;
+	let cursor: Coordinates;
 	let rectElements: any[] = [];
 	let textElements: any[] = [];
 	$: cursor = globalCoordinates($canvasMousePosition);
@@ -29,7 +29,7 @@
 	}
 
 	// Function to get the position of the cursor in tge "global" coordinate system
-	function globalCoordinates(pos: LocalCoordinate) {
+	function globalCoordinates(pos: ViewportCoordinates) {
 		const tx =
 			(pos.x - $canvasView.size.width / 2) / ($canvasView.scale / 100) + $canvasView.position.x - 10.5;
 		const ty =

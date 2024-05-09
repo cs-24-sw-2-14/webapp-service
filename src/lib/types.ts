@@ -12,7 +12,7 @@ export interface User {
 }
 
 export interface CanvasView {
-  position: Coordinate;
+  position: Coordinates;
 	size: Rectangle;
   scale: ScaleFactor100;
 }
@@ -29,13 +29,13 @@ export interface Rectangle {
 	height: number;
 }
 
-export interface Coordinate {
+export interface Coordinates {
   x: number;
   y: number;
 }
 
-export type LocalCoordinate = Coordinate;
-export type GlobalCoordinate = Coordinate;
+export type ViewportCoordinates = Coordinates;
+export type CanvasCoordinates = Coordinates;
 export type Username = string;
 export type ScaleFactor = number;
 // Currently a value between 0 and 100, but should be between 0 and 1 when refactor is done.
