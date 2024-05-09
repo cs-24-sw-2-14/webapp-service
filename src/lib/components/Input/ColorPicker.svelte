@@ -25,37 +25,24 @@
 	}
 </script>
 
-<!-- Table of all the colors -->
-<div class="container">
-	<table>
-		{#each [0, 1, 2] as row}
-			<tr>
-				{#each colors.slice(row * 5, row * 5 + 5) as color}
-					{#key color.name}
-						<td>
-							<button
-								style={`background-color: ${color.bg}; border-color: ${color.border};`}
-								disabled={colorChosen(hexToColor(color.bg), $user, $onlineUsers) !==
-									DisabledBy.NotDisabled}
-								class:disabled-by-user={colorChosen(hexToColor(color.bg), $user, $onlineUsers) ===
-									DisabledBy.CurrentUser}
-								class:disabled-by-other-user={colorChosen(
-									hexToColor(color.bg),
-									$user,
-									$onlineUsers
-								) === DisabledBy.OtherUser}
-								on:click={() => {
-									$user = { ...$user, color: hexToColor(color.bg) };
-									console.log($user);
-								}}
-							>
-							</button>
-						</td>
-					{/key}
-				{/each}
-			</tr>
-		{/each}
-	</table>
+<!-- Grid of all the colors -->
+<div class=" grid grid-cols-5 gap-3 place-content-center p-5">
+	{#each colorMap as color}
+		<div class="justify-center">
+			<button
+				style={`background-color: ${color[1].primary}; border-color: ${color[1].secondary};`}
+				disabled={isColorChosen(color[0], $user, $otherUsers) !== DisabledBy.NotDisabled}
+				class:disabled-by-user={isColorChosen(color[0], $user, $otherUsers) ===
+					DisabledBy.CurrentUser}
+				class:disabled-by-other-user={isColorChosen(color[0], $user, $otherUsers) ===
+					DisabledBy.OtherUser}
+				on:click={() => {
+					$user = { ...$user, color: color[0] };
+				}}
+			>
+			</button>
+		</div>
+	{/each}
 </div>
 
 <style>
