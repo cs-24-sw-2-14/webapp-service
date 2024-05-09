@@ -6,9 +6,9 @@ import {
 	ToolState,
 	type CanvasMousePosition,
 	type User,
+	type OtherUser,
 	type CanvasView,
-	type Cursors,
-	UserColor
+	UserColorEnum
 } from '$lib/types';
 export const boardId = writable('');
 
@@ -28,29 +28,6 @@ export const toggleGrid = writable(true);
 export const settings = writable(false);
 
 export const chosenColor = writable('#27272A');
-
-export const cursors = writable<Cursors>({
-	localCursor: {
-		posX: 0,
-		posY: 0,
-		color: UserColor.red, // Default user color set to red, BECAUSE WHY NOT!
-		name: ''
-	},
-	remoteCursors: [
-		{
-			posX: 100,
-			posY: 150,
-			color: UserColor.teal,
-			name: 'Alice'
-		},
-		{
-			posX: 200,
-			posY: 250,
-			color: UserColor.green,
-			name: 'Bob'
-		}
-	]
-});
 
 export const canvasView = writable<CanvasView>({
 	position: { x: 0, y: 0 },
