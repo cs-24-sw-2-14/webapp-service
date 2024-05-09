@@ -9,6 +9,25 @@ export interface OtherUser extends User {
 	isOnline: boolean;
 }
 
+export enum UserColorEnum {
+	red, // 0
+	orange, // 1
+	yellow, // 2
+	lime, // 3
+	green, // 4
+	teal, // 5
+	brown, // 6
+	blue, // 7
+	purple, // 8
+	pink // 9
+}
+
+export type UserColor = {
+	name: string;
+	primary: string;
+	secondary: string;
+};
+
 export interface CanvasView {
   position: Coordinate;
   width: number; // Default values, will be replaced on mount
