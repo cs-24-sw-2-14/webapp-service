@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Canvas from '$lib/components/Canvas.svelte';
 	import UI from '$lib/components/UI.svelte';
-	import Websocket from '$lib/components/websocket.svelte';
+	import Websocket from '$lib/components/Websocket.svelte';
 	import InitilizationPage from '$lib/components/InitilizationPage.svelte';
 	import { boardId, socket, currentPage, Page } from '$lib/stores/stateStore';
 	import io from 'socket.io-client';
