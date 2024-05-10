@@ -14,6 +14,7 @@
 	const usernameIsValid = writable(false);
 	let usernameField = '';
 
+	// TODO: Validate username?
 	function handleUsernameFieldChange() {
 		// if username does not exist in otherUsers, set usernameIsValid to true
 		usernameIsValid.set($otherUsers.find((user) => user.name === usernameField) === undefined);
