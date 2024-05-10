@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { user, onlineUsers } from '$lib/stores/stateStore';
-	import { colors, hexToColor } from '$lib/color';
-	import { UserColor, type User } from '$lib/types';
+	import { user, otherUsers } from '$lib/stores/stateStore';
+	import { colorMap } from '$lib/color';
+	import { type User, Color } from '$lib/types';
 
 	enum DisabledBy {
 		CurrentUser,
@@ -10,13 +10,13 @@
 	}
 
 	/* Checks if a color is chosen and returns true or false so the color-button gets disabled */
-	function colorChosen(color: UserColor, user: User, onlineUsers: User[]) {
-		if (user?.color === color) {
+	function isColorChosen(color: Color, user: User, otherUsers: User[]) {
+		if (user.color === color) {
 			return DisabledBy.CurrentUser;
 		}
 
-		for (let i = 0; i < onlineUsers.length; i++) {
-			const onlineUser = onlineUsers[i];
+		for (let i = 0; i < otherUsers.length; i++) {
+			const onlineUser = otherUsers[i];
 			if (onlineUser?.color === color) {
 				return DisabledBy.OtherUser;
 			}
@@ -25,47 +25,27 @@
 	}
 </script>
 
-<!-- Table of all the colors -->
-<div class="container">
-	<table>
-		{#each [0, 1, 2] as row}
-			<tr>
-				{#each colors.slice(row * 5, row * 5 + 5) as color}
-					{#key color.name}
-						<td>
-							<button
-								style={`background-color: ${color.bg}; border-color: ${color.border};`}
-								disabled={colorChosen(hexToColor(color.bg), $user, $onlineUsers) !==
-									DisabledBy.NotDisabled}
-								class:disabled-by-user={colorChosen(hexToColor(color.bg), $user, $onlineUsers) ===
-									DisabledBy.CurrentUser}
-								class:disabled-by-other-user={colorChosen(
-									hexToColor(color.bg),
-									$user,
-									$onlineUsers
-								) === DisabledBy.OtherUser}
-								on:click={() => {
-									$user = { ...$user, color: hexToColor(color.bg) };
-									console.log($user);
-								}}
-							>
-							</button>
-						</td>
-					{/key}
-				{/each}
-			</tr>
-		{/each}
-	</table>
+<!-- Grid of all the colors -->
+<div class=" grid grid-cols-5 gap-3 place-content-center p-5">
+	{#each colorMap as color}
+		<div class="justify-center">
+			<button
+				style={`background-color: ${color[1].primary}; border-color: ${color[1].secondary};`}
+				disabled={isColorChosen(color[0], $user, $otherUsers) !== DisabledBy.NotDisabled}
+				class:disabled-by-user={isColorChosen(color[0], $user, $otherUsers) ===
+					DisabledBy.CurrentUser}
+				class:disabled-by-other-user={isColorChosen(color[0], $user, $otherUsers) ===
+					DisabledBy.OtherUser}
+				on:click={() => {
+					$user = { ...$user, color: color[0] };
+				}}
+			>
+			</button>
+		</div>
+	{/each}
 </div>
 
 <style>
-	/* Container-div for the table to center it */
-	.container {
-		display: flex;
-		justify-content: center; /* Center horizontally */
-		align-items: center; /* Center vertically */
-	}
-
 	/* Color-Button styles */
 	button {
 		border-radius: 50%;

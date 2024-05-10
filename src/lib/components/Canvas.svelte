@@ -6,13 +6,15 @@
 		mouseEvents,
 		drawingsUnderCursor,
 		cursorPosition,
-		toggleGrid
+		toggleGrid,
+		user
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
 	import type { ViewportCoordinates } from '$lib/types';
 	import MouseCursors from './MouseCursors.svelte';
+	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
 	onMount(() => {
 		resizeCanvas();
@@ -24,7 +26,7 @@
 			size: {
 				width: window.innerWidth,
 				height: window.innerHeight
-			},
+			}
 		};
 	}
 
@@ -46,6 +48,10 @@
 			return true;
 		});
 	}
+
+	cursorPosition.subscribe(() => {
+		$user.cursorPosition = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
+	});
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
@@ -132,8 +138,8 @@
 		cursor: none;
 	}
 
-  svg {
-      overscroll-behavior: none;
-      touch-action: pan-down;
-  }
+	svg {
+		overscroll-behavior: none;
+		touch-action: pan-down;
+	}
 </style>
