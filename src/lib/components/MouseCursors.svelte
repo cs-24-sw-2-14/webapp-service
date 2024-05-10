@@ -45,7 +45,7 @@
 		transform={`translate(${user.position.x}, ${user.position.y})`}
 	>
 		<!-- Remote cursor dot -->
-		<circle cx="10" cy="10" r="3" fill={user.drawColor} />
+		<circle cx="10" cy="10" r="3" fill={colorMap.get(user.color)?.primary} />
 
 		<!-- Remote name label -->
 		<rect bind:this={rectElements[index]} fill={colorMap.get(user.color)?.primary} />
