@@ -25,8 +25,6 @@ export const viewChat = writable(false);
 
 export const toggleGrid = writable(true);
 
-export const settings = writable(false);
-
 export const canvasView = writable<CanvasView>({
 	position: { x: 0, y: 0 },
 	size: {
