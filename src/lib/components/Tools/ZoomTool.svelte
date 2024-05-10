@@ -3,19 +3,20 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { canvasView } from '$lib/stores/stateStore';
 
-	const MAX_ZOOM = 200;
-	const MIN_ZOOM = 25;
+	const STEPSIZE_ZOOM = 15;
+	const MAX_ZOOM = 390;
+	const MIN_ZOOM = 10;
 
 	// Function to increment zoom level
 	function zoomIn() {
 		if ($canvasView.scale >= MAX_ZOOM) return;
-		$canvasView = { ...$canvasView, scale: $canvasView.scale + 25 };
+		$canvasView = { ...$canvasView, scale: $canvasView.scale + STEPSIZE_ZOOM };
 	}
 
 	// Function to decrement zoom level
 	function zoomOut() {
 		if ($canvasView.scale <= MIN_ZOOM) return;
-		$canvasView = { ...$canvasView, scale: $canvasView.scale - 25 };
+		$canvasView = { ...$canvasView, scale: $canvasView.scale - STEPSIZE_ZOOM };
 	}
 </script>
 

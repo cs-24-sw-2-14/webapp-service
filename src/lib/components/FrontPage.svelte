@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
 	import { checkHexadecimal } from '$lib/utils';
 
 	import {
@@ -9,12 +7,7 @@
 		PUBLIC_REST_API_PORT
 	} from '$env/static/public';
 
-	let hostname = writable('');
-	onMount(() => {
-		hostname.set(
-			`${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}`
-		);
-	});
+	const hostname: string = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}`;
 
 	let boardIdInput = '';
 
@@ -28,11 +21,12 @@
 		}
 	}
 
+	// TODO: Kresten: Move network related functionality out of svelte components, into separate file.
 	async function validateBoard() {
 		if (boardIdInput.length !== 6) return;
 
 		try {
-			const response = await fetch($hostname + '/v1/board/validate', {
+			const response = await fetch(hostname + '/v1/board/validate', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -41,7 +35,7 @@
 			});
 
 			if (response.ok) {
-				window.location.replace(window.location.href + boardIdInput);
+				window.location.href = window.location.href + boardIdInput;
 			}
 		} catch (error) {
 			console.error('Request Error:', error);
@@ -50,7 +44,7 @@
 
 	async function createBoard() {
 		try {
-			const response = await fetch($hostname + '/v1/board/create', {
+			const response = await fetch(hostname + '/v1/board/create', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -59,7 +53,7 @@
 
 			if (response.ok) {
 				let body = await response.json();
-				window.location.replace(window.location.href + body.boardId);
+				window.location.href = window.location.href + body.boardId;
 			}
 		} catch (error) {
 			console.error('Request Error:', error);
@@ -95,6 +89,7 @@
 				<!--A button with the id 'create-button' and class 'button'-->
 			</div>
 			<div class="join-box">
+				<!-- TODO: Visually disable button when not valid. -->
 				<!--A div with a class named join-box)-->
 				<p>Insert Code to Join Board</p>
 				<!--Text. Paragraph)-->

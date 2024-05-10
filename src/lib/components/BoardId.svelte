@@ -4,7 +4,7 @@
 	import { boardId } from '$lib/stores/stateStore';
 	import { fade } from 'svelte/transition';
 	import { quadOut } from 'svelte/easing';
-
+	
 	let isClicked = false;
 
 	function copyUrl() {

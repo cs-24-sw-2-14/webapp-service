@@ -1,11 +1,12 @@
 <script lang="ts">
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-	import { toolState, canvasTouched, socket, chosenColor, user } from '$lib/stores/stateStore';
+	import { toolState, canvasTouched, socket, user } from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { ToolState } from '$lib/types';
 
+	const STROKE_WIDTH = 7;
 	let currentCommandId = writable<number | null>(null);
 
 	onMount(() => {
@@ -21,20 +22,19 @@
 
 	function startDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
-		const { x, y } = $user.cursorPosition;
 		$socket.emit('startDraw', {
 			placement: { x: 0, y: 0 },
-			path: { x: x, y: y },
-			stroke: $chosenColor,
+			path: $user.position,
+			stroke: $user.drawColor,
 			fill: 'transparent',
-			strokeWidth: 7,
+			strokeWidth: STROKE_WIDTH,
 			username: $user.name
 		});
 	}
 
 	function doDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
-		const { x, y } = $user.cursorPosition;
+		const { x, y } = $user.position;
 		$socket.emit('doDraw', {
 			x: x,
 			y: y,

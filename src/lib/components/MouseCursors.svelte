@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { colorMap } from '$lib/color';
 	import { afterUpdate } from 'svelte';
-	import { type ViewportCoordinates, ToolState, type CanvasCoordinates } from '$lib/types';
-	import { canvasView, toolState, user, otherUsers, cursorPosition } from '$lib/stores/stateStore';
+	import { ToolState, type CanvasCoordinates } from '$lib/types';
+	import { toolState, user, otherUsers } from '$lib/stores/stateStore';
 	import { translateCoordinates } from '$lib/utils';
 
 	const cursorOffset: CanvasCoordinates = {
@@ -12,9 +12,11 @@
 
 	let rectElements: any[] = [];
 	let textElements: any[] = [];
-	$: adjustedCursorPosition = translateCoordinates($user.cursorPosition, cursorOffset);
+	$: adjustedCursorPosition = translateCoordinates($user.position, cursorOffset);
 
-	// Function to dynamically adjust the width of the name label to accommodate the length of the name
+	/**
+	 * Function to dynamically adjust the width of the name label to accommodate the length of the name
+	 */
 	function adjustBackground() {
 		rectElements.forEach((rect, index) => {
 			if (rect && textElements[index]) {
@@ -40,10 +42,10 @@
 <!-- REMOTE CURSORS (OTHER USERS) -->
 {#each $otherUsers as user, index}
 	<g
-		transform={`translate(${user.cursorPosition.x - cursorOffset.x}, ${user.cursorPosition.y - cursorOffset.y})`}
+		transform={`translate(${user.position.x}, ${user.position.y})`}
 	>
 		<!-- Remote cursor dot -->
-		<circle cx="10" cy="10" r="3" fill={user.drawColor} />
+		<circle cx="10" cy="10" r="3" fill={colorMap.get(user.color)?.primary} />
 
 		<!-- Remote name label -->
 		<rect bind:this={rectElements[index]} fill={colorMap.get(user.color)?.primary} />

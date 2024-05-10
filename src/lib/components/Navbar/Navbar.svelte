@@ -7,7 +7,7 @@
 
 <!-- Navbar -->
 <div class="fixed top-0 w-full h-14 bg-zinc-800">
-	<!-- MagicBoard logo -->
+	<!-- MagicBoard logo. TODO: Make clickable -->
 	<Logo />
 
 	<!-- Button to open settings -->

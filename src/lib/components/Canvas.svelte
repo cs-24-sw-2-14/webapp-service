@@ -20,18 +20,17 @@
 		resizeCanvas();
 	});
 
+	// TODO: Thorbjørn, fix zoom
 	function resizeCanvas() {
-		$canvasView = {
-			...$canvasView,
-			size: {
-				width: window.innerWidth,
-				height: window.innerHeight
-			}
+		$canvasView.size = {
+			width: window.innerWidth,
+			height: window.innerHeight
 		};
 	}
 
 	cursorPosition.subscribe(removeElements);
 
+	// TODO: Get SVG elements under cursor by bounding box instead, Mads.
 	function removeElements(pos: ViewportCoordinates) {
 		if (!$drawingsUnderCursor) return;
 		$drawingsUnderCursor.filter((drawing) => {
@@ -50,7 +49,7 @@
 	}
 
 	cursorPosition.subscribe(() => {
-		$user.cursorPosition = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
+		$user.position = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 	});
 </script>
 

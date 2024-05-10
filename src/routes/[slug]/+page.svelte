@@ -5,8 +5,6 @@
 	import InitializationPage from '$lib/components/InitializationPage.svelte';
 	import { boardId, socket, currentPage, Page } from '$lib/stores/stateStore';
 	import io from 'socket.io-client';
-	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
 
 	import {
 		PUBLIC_SOCKET_API_PROTOCOL,
@@ -14,16 +12,11 @@
 		PUBLIC_SOCKET_API_PORT
 	} from '$env/static/public';
 
-	let hostname = writable('');
-	onMount(() => {
-		hostname.set('http://' + window.location.hostname + ':5123');
-	});
-
 	export let data;
 	boardId.set(data.slug);
 
 	const SOCKET_ENDPOINT: string = `${PUBLIC_SOCKET_API_PROTOCOL}://${PUBLIC_SOCKET_API_HOSTNAME}:${PUBLIC_SOCKET_API_PORT}/${$boardId}`;
-
+	// TODO: Mads, fix socket types
 	socket.set(io(SOCKET_ENDPOINT));
 </script>
 
