@@ -14,6 +14,15 @@
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation>
+		{#if closable}
+			<button
+				class="w-8 h-8 font-semibold text-white absolute top-4 right-5 hover:bg-red-600"
+				on:click={() => {
+					dialog.close();
+				}}
+				style="margin-top: -0.5rem; margin-right: -0.5rem;">X</button
+			>
+		{/if}
 		<slot name="header" />
 		<slot />
 	</div>
