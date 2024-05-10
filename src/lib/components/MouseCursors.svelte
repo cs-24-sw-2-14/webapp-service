@@ -14,7 +14,9 @@
 	let textElements: any[] = [];
 	$: adjustedCursorPosition = translateCoordinates($user.position, cursorOffset);
 
-	// Function to dynamically adjust the width of the name label to accommodate the length of the name
+	/**
+	 * Function to dynamically adjust the width of the name label to accommodate the length of the name
+	 */
 	function adjustBackground() {
 		rectElements.forEach((rect, index) => {
 			if (rect && textElements[index]) {
@@ -40,7 +42,7 @@
 <!-- REMOTE CURSORS (OTHER USERS) -->
 {#each $otherUsers as user, index}
 	<g
-		transform={`translate(${user.position.x - cursorOffset.x}, ${user.position.y - cursorOffset.y})`}
+		transform={`translate(${user.position.x}, ${user.position.y})`}
 	>
 		<!-- Remote cursor dot -->
 		<circle cx="10" cy="10" r="3" fill={user.drawColor} />
