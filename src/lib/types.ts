@@ -63,7 +63,18 @@ export type ScaleFactor100 = number;
 export enum Page {
 	InitializationPage,
 	CanvasPage
+}
+
+export interface Edit {
+	placement?: CanvasCoordinates;
+	svgString?: SvgString;
+	commandId: CommandId;
+}
 export type SvgString = string;
+
+export interface Remove {
+	commandId: CommandId;
+}
 export type CommandId = number;
 export interface ToolSuccess {
 	username: Username;

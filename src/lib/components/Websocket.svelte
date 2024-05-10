@@ -2,6 +2,7 @@
 	import { socket } from '$lib/stores/stateStore';
 	import { svgs, type Svg } from '$lib/stores/svgStore';
 	import { onMount } from 'svelte';
+	import type { Edit, Remove, Svg } from '$lib/types';
 
 	onMount(() => {
 		$socket.on('edit', handleEdit);
@@ -9,7 +10,8 @@
 	});
 
 	// TODO: Mads, optionals i interface.
-	function handleEdit(data: any) {
+
+	function handleEdit(data: Edit) {
 		// check if the command already exists
 		const commandIndex = $svgs.findIndex((svg: Svg) => svg.commandId === data.commandId);
 
@@ -44,7 +46,7 @@
 		});
 	}
 
-	function handleRemove(data: any) {
+	function handleRemove(data: Remove) {
 		svgs.update((current) => {
 			return current.filter((svg) => svg.commandId !== data.commandId);
 		});
