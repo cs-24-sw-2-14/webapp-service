@@ -9,7 +9,7 @@
 >
 	<!-- TODO: New icon, to make it look more coordinat-y.. marc.. disappointed! -->
 	<MenuButton
-		icon={Icons.home}
+		icon={Icons.origo}
 		on:click={() => {
 			$canvasView.position.x = 0;
 			$canvasView.position.y = 0;
