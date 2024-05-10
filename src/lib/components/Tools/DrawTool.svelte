@@ -4,13 +4,14 @@
 	import { toolState, canvasTouched, socket, user } from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { ToolState } from '$lib/types';
+	import { ToolState, type ToolSuccess } from '$lib/types';
 
 	const STROKE_WIDTH = 7;
 	let currentCommandId = writable<number | null>(null);
 
 	onMount(() => {
-		$socket.on('startDrawSuccess', (data) => {
+		if ($socket === undefined) return;
+		$socket.on('startDrawSuccess', (data: ToolSuccess) => {
 			if (data.username !== $user.name) return;
 			$currentCommandId = data.commandId;
 		});

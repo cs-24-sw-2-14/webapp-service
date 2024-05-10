@@ -8,7 +8,7 @@
 		socket,
 		user
 	} from '$lib/stores/stateStore';
-	import { ToolState } from '$lib/types';
+	import { ToolState, type ToolSuccess } from '$lib/types';
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
 
@@ -17,7 +17,7 @@
 	let currentCommandId = writable<number | null>(null);
 
 	onMount(() => {
-		$socket.on('startEraseSuccess', (data) => {
+		$socket.on('startEraseSuccess', (data: ToolSuccess) => {
 			if (data.username !== $user.name) return;
 			$currentCommandId = data.commandId;
 		});

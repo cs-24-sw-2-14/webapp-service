@@ -65,3 +65,8 @@ export enum Page {
 	CanvasPage
 export type SvgString = string;
 export type CommandId = number;
+export interface ToolSuccess {
+	username: Username;
+	commandId: CommandId;
+}
+
