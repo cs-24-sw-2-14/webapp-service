@@ -1,5 +1,4 @@
 <script lang="ts">
-
 	import { toolState, chosenColor, toggleGrid } from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 
@@ -51,7 +50,11 @@
 	<MenuButton icon={Icons.shape}></MenuButton>
 
 	<!-- Button for inserting shapes -->
-	<MenuButton icon={Icons.grid} isActive={$toggleGrid} on:click={handleGridToggle}></MenuButton>
+	<MenuButton
+		icon={$toggleGrid ? Icons.grid : Icons.grid_no_dot}
+		isActive={$toggleGrid}
+		on:click={handleGridToggle}
+	></MenuButton>
 </div>
 
 <style>
