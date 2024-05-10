@@ -73,7 +73,7 @@
 		position: absolute;
 		font-weight: 900;
 		top: 45%; /* Align to the center vertically - usually 50% but the X is not full height and so needs to be raised a bit*/
-		transform: translate(-50%, -50%); /* Center the content */
+		transform: translate(-50%, -52%); /* Center the content */
 		font-size: 370%; /* Increase font size */
 		z-index: 1; /* Ensure X appears above button */
 		pointer-events: none;
