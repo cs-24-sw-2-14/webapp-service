@@ -6,9 +6,9 @@ import {
 	ToolState,
 	type ViewportCoordinates,
 	type User,
+	type OtherUser,
 	type CanvasView,
-	type Cursors,
-	UserColor
+	Color
 } from '$lib/types';
 export const boardId = writable('');
 
@@ -29,29 +29,6 @@ export const settings = writable(false);
 
 export const chosenColor = writable('#27272A');
 
-export const cursors = writable<Cursors>({
-	localCursor: {
-		posX: 0,
-		posY: 0,
-		color: UserColor.red, // Default user color set to red, BECAUSE WHY NOT!
-		name: ''
-	},
-	remoteCursors: [
-		{
-			posX: 100,
-			posY: 150,
-			color: UserColor.teal,
-			name: 'Alice'
-		},
-		{
-			posX: 200,
-			posY: 250,
-			color: UserColor.green,
-			name: 'Bob'
-		}
-	]
-});
-
 export const canvasView = writable<CanvasView>({
 	position: { x: 0, y: 0 },
 	size: {
@@ -68,21 +45,63 @@ export const cursorPosition = writable<ViewportCoordinates>({
 	y: 0
 });
 
-export const onlineUsers = writable<User[]>([
-	{ name: 'Elma Vukicevic', color: UserColor.red, posX: -50, posY: 50 },
-	{ name: 'Amalie Jensen', color: UserColor.orange, posX: -100, posY: 100 },
-	{ name: 'Cecilie Lassen', color: UserColor.yellow, posX: -150, posY: 150 },
-	{ name: 'Kresten Sckerl', color: UserColor.lime, posX: -200, posY: 200 },
-	{ name: 'Mads Fagerlund', color: UserColor.green, posX: -250, posY: 250 },
-	{ name: 'Marc Nygaard', color: UserColor.teal, posX: -300, posY: 300 },
-	{ name: 'Thorbjørn Larsen', color: UserColor.brown, posX: -350, posY: 350 }
+export const otherUsers = writable<OtherUser[]>([
+	{
+		name: 'Elma Vukicevic',
+		color: Color.red,
+		cursorPosition: { x: -50, y: 50 },
+		drawColor: '#a4eb34',
+		isOnline: true
+	},
+	{
+		name: 'Amalie Jensen',
+		color: Color.orange,
+		cursorPosition: { x: -100, y: 100 },
+		drawColor: '#a4eb34',
+		isOnline: true
+	},
+	{
+		name: 'Cecilie Lassen',
+		color: Color.yellow,
+		cursorPosition: { x: -150, y: 150 },
+		drawColor: '#000000',
+		isOnline: true
+	},
+	{
+		name: 'Kresten Sckerl',
+		color: Color.lime,
+		cursorPosition: { x: -200, y: 200 },
+		drawColor: '#000000',
+		isOnline: true
+	},
+	{
+		name: 'Mads Fagerlund',
+		color: Color.green,
+		cursorPosition: { x: -250, y: 250 },
+		drawColor: '#000000',
+		isOnline: true
+	},
+	{
+		name: 'Marc Nygaard',
+		color: Color.teal,
+		cursorPosition: { x: -300, y: 300 },
+		drawColor: '#000000',
+		isOnline: true
+	},
+	{
+		name: 'Thorbjørn Larsen',
+		color: Color.brown,
+		cursorPosition: { x: -350, y: 350 },
+		drawColor: '#000000',
+		isOnline: true
+	}
 ]);
 
 export const user = writable<User>({
 	name: 'Marc', // Empty string as the default Username
-	color: UserColor.pink, // Default user color set to pink, BECAUSE WHY NOT!
-	posX: 0,
-	posY: 0
+	color: Color.pink, // Default user color set to pink, BECAUSE WHY NOT!
+	cursorPosition: { x: 0, y: 0 },
+	drawColor: '#000000'
 });
 
 export const canvasTouched = writable(false);
@@ -100,7 +119,7 @@ export const mouseEvents = {
 	down: () => canvasTouched.set(true),
 	move: (event: MouseEvent) =>
 		cursorPosition.update(() => {
-			return {x: event.clientX, y: event.clientY};
+			return { x: event.clientX, y: event.clientY };
 		}),
 	up: () => canvasTouched.set(false)
 };

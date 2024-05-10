@@ -44,7 +44,6 @@
 	}
 
 	function handleRemove(data: any) {
-		console.log('handleremove');
 		svgs.update((current) => {
 			return current.filter((svg) => svg.commandId !== data.commandId);
 		});

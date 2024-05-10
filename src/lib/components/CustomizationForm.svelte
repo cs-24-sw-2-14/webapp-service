@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { user, onlineUsers, currentPage, Page } from '$lib/stores/stateStore';
+	import { user, otherUsers, currentPage, Page } from '$lib/stores/stateStore';
 	import ColorPicker from './Input/ColorPicker.svelte';
 
 	let username = '';
@@ -10,15 +10,15 @@
 	}
 
 	function findUser(username: string) {
-		return $onlineUsers.find((user) => user.name === username);
+		return $otherUsers.find((user) => user.name === username);
 	}
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <main>
-	<div class="fixed inset-0 backdrop-filter flex justify-center items-center z-20">
-		<div class="bg-zinc-800 p-6 rounded-lg shadow-lg w-1/3 cursor-default max-w-lg">
+	<div class="fixed inset-0 backdrop-filter flex justify-center items-center z-40">
+		<div class="bg-zinc-800 p-6 rounded-lg shadow-lg w-90 cursor-default">
 			<div>
 				<!-- Modal content... -->
 				<h2 class="text-3xl font-semibold mb-4 text-zinc-300 text-center">
