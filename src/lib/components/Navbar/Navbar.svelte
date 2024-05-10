@@ -1,8 +1,6 @@
 <script lang="ts">
 	import Logo from './Logo.svelte';
-	import MenuButton from './MenuButton.svelte';
-	import Icons from '$lib/icons/MenuIcons.json';
-	import { settings, otherUsers } from '$lib/stores/stateStore';
+	import { otherUsers } from '$lib/stores/stateStore';
 	import UserBubbles from '$lib/components/Navbar/UserBubbles.svelte';
 	import SettingsModal from '../SettingsModal.svelte';
 </script>
