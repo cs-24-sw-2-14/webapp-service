@@ -1,7 +1,7 @@
 export interface User {
 	name: Username;
 	color: Color;
-	cursorPosition: CanvasCoordinates;
+	position: CanvasCoordinates;
 	drawColor: string;
 }
 

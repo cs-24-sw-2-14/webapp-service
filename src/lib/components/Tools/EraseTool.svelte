@@ -34,7 +34,7 @@
 			$currentCommandId !== null
 		)
 			return;
-		const { x, y } = $user.cursorPosition;
+		const { x, y } = $user.position;
 		$socket.emit('startErase', {
 			coordinate: { x: x, y: y },
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
@@ -53,7 +53,7 @@
 			$currentCommandId === null
 		)
 			return;
-		const { x, y } = $user.cursorPosition;
+		const { x, y } = $user.position;
 		$socket.emit('doErase', {
 			coordinate: { x: x, y: y },
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {

@@ -15,7 +15,7 @@
 		{#if user.isOnline}
 			<div
 				on:click={() => {
-					$canvasView.position = user.cursorPosition;
+					$canvasView.position = user.position;
 				}}
 				class={`w-10 h-10 cursor-pointer select-none rounded-full  text-white text-center text-sm font-mono leading-[2.7em] absolute ring-gray-800 ring-2`}
 				style={`left: ${i * 0.7}em; transform: translateX(${-i * 100}%); background-color: ${colorMap.get(user.color)?.primary}; border-color: ${colorMap.get(user.color)?.secondary}; border-width: 0.2em`}

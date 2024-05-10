@@ -49,49 +49,49 @@ export const otherUsers = writable<OtherUser[]>([
 	{
 		name: 'Elma Vukicevic',
 		color: Color.red,
-		cursorPosition: { x: -50, y: 50 },
+		position: { x: -50, y: 50 },
 		drawColor: '#a4eb34',
 		isOnline: true
 	},
 	{
 		name: 'Amalie Jensen',
 		color: Color.orange,
-		cursorPosition: { x: -100, y: 100 },
+		position: { x: -100, y: 100 },
 		drawColor: '#a4eb34',
 		isOnline: true
 	},
 	{
 		name: 'Cecilie Lassen',
 		color: Color.yellow,
-		cursorPosition: { x: -150, y: 150 },
+		position: { x: -150, y: 150 },
 		drawColor: '#000000',
 		isOnline: true
 	},
 	{
 		name: 'Kresten Sckerl',
 		color: Color.lime,
-		cursorPosition: { x: -200, y: 200 },
+		position: { x: -200, y: 200 },
 		drawColor: '#000000',
 		isOnline: true
 	},
 	{
 		name: 'Mads Fagerlund',
 		color: Color.green,
-		cursorPosition: { x: -250, y: 250 },
+		position: { x: -250, y: 250 },
 		drawColor: '#000000',
 		isOnline: true
 	},
 	{
 		name: 'Marc Nygaard',
 		color: Color.teal,
-		cursorPosition: { x: -300, y: 300 },
+		position: { x: -300, y: 300 },
 		drawColor: '#000000',
 		isOnline: true
 	},
 	{
 		name: 'Thorbjørn Larsen',
 		color: Color.brown,
-		cursorPosition: { x: -350, y: 350 },
+		position: { x: -350, y: 350 },
 		drawColor: '#000000',
 		isOnline: true
 	}
@@ -100,7 +100,7 @@ export const otherUsers = writable<OtherUser[]>([
 export const user = writable<User>({
 	name: 'Marc', // Empty string as the default Username
 	color: Color.pink, // Default user color set to pink, BECAUSE WHY NOT!
-	cursorPosition: { x: 0, y: 0 },
+	position: { x: 0, y: 0 },
 	drawColor: '#000000'
 });
 

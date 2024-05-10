@@ -49,7 +49,7 @@
 	}
 
 	cursorPosition.subscribe(() => {
-		$user.cursorPosition = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
+		$user.position = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 	});
 </script>
 

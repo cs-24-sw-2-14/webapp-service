@@ -21,7 +21,7 @@
 
 	function startDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
-		const { x, y } = $user.cursorPosition;
+		const { x, y } = $user.position;
 		$socket.emit('startDraw', {
 			placement: { x: 0, y: 0 },
 			path: { x: x, y: y },
@@ -34,7 +34,7 @@
 
 	function doDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
-		const { x, y } = $user.cursorPosition;
+		const { x, y } = $user.position;
 		$socket.emit('doDraw', {
 			x: x,
 			y: y,
