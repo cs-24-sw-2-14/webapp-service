@@ -21,6 +21,7 @@
 		}
 	}
 
+	// TODO: Kresten: Move network related functionality out of svelte components, into separate file.
 	async function validateBoard() {
 		if (boardIdInput.length !== 6) return;
 
@@ -88,6 +89,7 @@
 				<!--A button with the id 'create-button' and class 'button'-->
 			</div>
 			<div class="join-box">
+				<!-- TODO: Visually disable button when not valid. -->
 				<!--A div with a class named join-box)-->
 				<p>Insert Code to Join Board</p>
 				<!--Text. Paragraph)-->
