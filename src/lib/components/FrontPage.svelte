@@ -34,7 +34,7 @@
 			});
 
 			if (response.ok) {
-				window.location.replace(window.location.href + boardIdInput);
+				window.location.href = window.location.href + boardIdInput;
 			}
 		} catch (error) {
 			console.error('Request Error:', error);
@@ -52,7 +52,7 @@
 
 			if (response.ok) {
 				let body = await response.json();
-				window.location.replace(window.location.href + body.boardId);
+				window.location.href = window.location.href + body.boardId;
 			}
 		} catch (error) {
 			console.error('Request Error:', error);
