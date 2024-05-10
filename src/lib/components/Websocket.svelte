@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { socket } from '$lib/stores/stateStore';
-	import { svgs, type Svg } from '$lib/stores/svgStore';
+	import { svgs } from '$lib/stores/svgStore';
 	import { onMount } from 'svelte';
 	import type { Edit, Remove, Svg } from '$lib/types';
 
@@ -21,6 +21,8 @@
 			$svgs[commandIndex].svgString = data.svgString ?? $svgs[commandIndex].svgString;
 			return;
 		}
+
+		if (!data.svgString || !data.placement) return;
 		// else add it
 		svgs.update((current) => {
 			let spliceIndex = 0;
@@ -31,8 +33,13 @@
 					break;
 				}
 			}
+			let svg: Svg = {
+				svgString: data.svgString!,
+				placement: data.placement!,
+				commandId: data.commandId
+			};
 			let resultArray = current;
-			resultArray.splice(spliceIndex, 0, data);
+			resultArray.splice(spliceIndex, 0, svg);
 			return resultArray;
 		});
 	}
