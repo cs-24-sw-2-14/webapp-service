@@ -16,7 +16,7 @@
 	boardId.set(data.slug);
 
 	const SOCKET_ENDPOINT: string = `${PUBLIC_SOCKET_API_PROTOCOL}://${PUBLIC_SOCKET_API_HOSTNAME}:${PUBLIC_SOCKET_API_PORT}/${$boardId}`;
-
+	// TODO: Mads, fix socket types
 	socket.set(io(SOCKET_ENDPOINT));
 </script>
 
