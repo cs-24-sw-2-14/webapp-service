@@ -1,12 +1,12 @@
 import { error } from '@sveltejs/kit';
 
 // Load environment variable
-const SECRET_IP_ADDRESS = process.env.SECRET_IP_ADDRESS;
+const { REST_API_PROTOCOL, REST_API_HOSTNAME, REST_API_PORT } = import.meta.env;
 
-const ENDPOINT = 'http://' + SECRET_IP_ADDRESS + ':5123' + '/v1/board/validate';
+const VALIDATE_BOARD_ENDPOINT = `${REST_API_PROTOCOL}://${REST_API_HOSTNAME}:${REST_API_PORT}/v1/board/validate`;
 export async function load({ params }) {
 	try {
-		const response = await fetch(ENDPOINT, {
+		const response = await fetch(VALIDATE_BOARD_ENDPOINT, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'
