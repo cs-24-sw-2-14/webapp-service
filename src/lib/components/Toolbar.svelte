@@ -1,7 +1,6 @@
 <script lang="ts">
 
-	import { toolState, chosenColor, toggleGrid } from '$lib/stores/stateStore';
-	import { ToolState } from '$lib/types';
+	import { chosenColor, toggleGrid } from '$lib/stores/stateStore';
 
 	import MenuButton from './Navbar/MenuButton.svelte';
 	import PanTool from '$lib/components/Tools/PanTool.svelte';
