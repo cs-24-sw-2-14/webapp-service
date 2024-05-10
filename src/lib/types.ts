@@ -1,7 +1,7 @@
 export interface User {
 	name: Username;
-	color: UserColorEnum;
-	cursorPosition: Coordinate;
+	color: Color;
+	cursorPosition: CanvasCoordinates;
 	drawColor: string;
 }
 
@@ -9,7 +9,7 @@ export interface OtherUser extends User {
 	isOnline: boolean;
 }
 
-export enum UserColorEnum {
+export enum Color {
 	red, // 0
 	orange, // 1
 	yellow, // 2

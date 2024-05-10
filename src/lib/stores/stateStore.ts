@@ -8,7 +8,7 @@ import {
 	type User,
 	type OtherUser,
 	type CanvasView,
-	UserColorEnum
+	Color
 } from '$lib/types';
 export const boardId = writable('');
 
@@ -48,49 +48,49 @@ export const cursorPosition = writable<ViewportCoordinates>({
 export const otherUsers = writable<OtherUser[]>([
 	{
 		name: 'Elma Vukicevic',
-		color: UserColorEnum.red,
+		color: Color.red,
 		cursorPosition: { x: -50, y: 50 },
 		drawColor: '#a4eb34',
 		isOnline: true
 	},
 	{
 		name: 'Amalie Jensen',
-		color: UserColorEnum.orange,
+		color: Color.orange,
 		cursorPosition: { x: -100, y: 100 },
 		drawColor: '#a4eb34',
 		isOnline: true
 	},
 	{
 		name: 'Cecilie Lassen',
-		color: UserColorEnum.yellow,
+		color: Color.yellow,
 		cursorPosition: { x: -150, y: 150 },
 		drawColor: '#000000',
 		isOnline: true
 	},
 	{
 		name: 'Kresten Sckerl',
-		color: UserColorEnum.lime,
+		color: Color.lime,
 		cursorPosition: { x: -200, y: 200 },
 		drawColor: '#000000',
 		isOnline: true
 	},
 	{
 		name: 'Mads Fagerlund',
-		color: UserColorEnum.green,
+		color: Color.green,
 		cursorPosition: { x: -250, y: 250 },
 		drawColor: '#000000',
 		isOnline: true
 	},
 	{
 		name: 'Marc Nygaard',
-		color: UserColorEnum.teal,
+		color: Color.teal,
 		cursorPosition: { x: -300, y: 300 },
 		drawColor: '#000000',
 		isOnline: true
 	},
 	{
 		name: 'Thorbjørn Larsen',
-		color: UserColorEnum.brown,
+		color: Color.brown,
 		cursorPosition: { x: -350, y: 350 },
 		drawColor: '#000000',
 		isOnline: true
@@ -99,7 +99,7 @@ export const otherUsers = writable<OtherUser[]>([
 
 export const user = writable<User>({
 	name: 'Marc', // Empty string as the default Username
-	color: UserColorEnum.pink, // Default user color set to pink, BECAUSE WHY NOT!
+	color: Color.pink, // Default user color set to pink, BECAUSE WHY NOT!
 	cursorPosition: { x: 0, y: 0 },
 	drawColor: '#000000'
 });
