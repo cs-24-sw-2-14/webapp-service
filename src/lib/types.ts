@@ -76,6 +76,13 @@ export interface Remove {
 	commandId: CommandId;
 }
 export type CommandId = number;
+
+export type Svg = {
+	svgString: SvgString;
+	placement: CanvasCoordinates;
+	commandId: CommandId;
+};
+
 export interface ToolSuccess {
 	username: Username;
 	commandId: CommandId;
