@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { colorMap } from '$lib/color';
-	import { canvasView, otherUsers } from '$lib/stores/stateStore';
-	import { type User } from '$lib/types';
+	import { canvasView } from '$lib/stores/stateStore';
 	import { getInitials } from '$lib/utils';
+	import { type OtherUser } from '$lib/types';
+
+	export let otherUsers: OtherUser[];
 </script>
 
 <!-- Display all online users -->
 <div class="relative h-10">
-	{#each $otherUsers as user, i (user.name)}
+	{#each otherUsers as user, i (user.name)}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		{#if user.isOnline}
