@@ -34,10 +34,8 @@
 
 	function doDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
-		const { x, y } = $user.position;
 		$socket.emit('doDraw', {
-			x: x, // TODO: Det der X og Y er noget rod. Skal hedde coordinates. Mads.
-			y: y,
+			coordinate: $user.position,
 			commandId: $currentCommandId
 		});
 	}
