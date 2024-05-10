@@ -20,13 +20,11 @@
 		resizeCanvas();
 	});
 
+	// TODO: Thorbjørn, fix zoom
 	function resizeCanvas() {
-		$canvasView = {
-			...$canvasView,
-			size: {
-				width: window.innerWidth,
-				height: window.innerHeight
-			}
+		$canvasView.size = {
+			width: window.innerWidth,
+			height: window.innerHeight
 		};
 	}
 
