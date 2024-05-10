@@ -16,18 +16,9 @@
 		const commandIndex = $svgs.findIndex((svg: Svg) => svg.commandId === data.commandId);
 
 		// if it exists, modify it
-		// HACK: Maybe rewrite to loop through the keys of data instead
-		if (commandIndex !== -1) {
-			// only modify the property if it exists on the data object
-			if ('x' in data) {
-				$svgs[commandIndex].x = data.x;
-			}
-			if ('y' in data) {
-				$svgs[commandIndex].y = data.y;
-			}
-			if ('svg' in data) {
-				$svgs[commandIndex].svg = data.svg;
-			}
+		if (commandIndex === -1) {
+			$svgs[commandIndex].placement = data.placement ?? $svgs[commandIndex].placement;
+			$svgs[commandIndex].svgString = data.svgString ?? $svgs[commandIndex].svgString;
 			return;
 		}
 		// else add it
