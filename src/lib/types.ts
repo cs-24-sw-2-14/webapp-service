@@ -2,7 +2,7 @@ export interface User {
 	name: Username;
 	color: Color;
 	position: CanvasCoordinates;
-	drawColor: string;
+	drawColor: hexColorString;
 }
 
 export interface OtherUser extends User {
@@ -23,10 +23,12 @@ export enum Color {
 }
 
 export type UserColor = {
-	name: string;
-	primary: string;
-	secondary: string;
+	name: colorName;
+	primary: hexColorString;
+	secondary: hexColorString;
 };
+export type colorName = string;
+export type hexColorString = string;
 
 export interface CanvasView {
 	position: CanvasCoordinates;
@@ -61,4 +63,5 @@ export type ScaleFactor100 = number;
 export enum Page {
 	InitializationPage,
 	CanvasPage
-}
+export type SvgString = string;
+export type CommandId = number;
