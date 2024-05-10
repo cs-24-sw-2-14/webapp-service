@@ -119,7 +119,7 @@ export const mouseEvents = {
 	down: () => canvasTouched.set(true),
 	move: (event: MouseEvent) =>
 		cursorPosition.update(() => {
-			return {x: event.clientX, y: event.clientY};
+			return { x: event.clientX, y: event.clientY };
 		}),
 	up: () => canvasTouched.set(false)
 };

@@ -29,9 +29,9 @@ export type UserColor = {
 };
 
 export interface CanvasView {
-  position: CanvasCoordinates;
+	position: CanvasCoordinates;
 	size: Rectangle;
-  scale: ScaleFactor100;
+	scale: ScaleFactor100;
 }
 
 export enum ToolState {
@@ -47,8 +47,8 @@ export interface Rectangle {
 }
 
 export interface Coordinates {
-  x: number;
-  y: number;
+	x: number;
+	y: number;
 }
 
 export type ViewportCoordinates = Coordinates;
