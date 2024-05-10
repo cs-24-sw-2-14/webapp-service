@@ -1,5 +1,5 @@
-import {describe, test, expect } from 'vitest';
-import { checkHexadecimal, getInitials, /*viewportToCanvasCoordinatesFromCanvasView, viewportToCanvasCoordinates, centerCoordinatesInRect,*/ translateCoordinates, scaleCoordinates } from '$lib/utils';
+import { describe, test, expect } from 'vitest';
+import { checkHexadecimal, getInitials, /*viewportToCanvasCoordinatesFromCanvasView, viewportToCanvasCoordinates,*/ centerCoordinatesInRect, translateCoordinates, scaleCoordinates } from '$lib/utils';
 
 describe("Example File", () => {
     test("Sample test", () => {
@@ -55,13 +55,88 @@ describe("", () => {
     });
 });
 
-describe("", () => {
-    test("", () => {
-        expect().equal();
+*/
+
+
+describe("Center Coordinates In Rectangle", () => {
+    test.each([
+        [2, 2, 2, 2, 1, 1],
+        [1, 1, 0, 0, 1, 1],
+        [1, 2, 2, 2, 0, 1],
+        [1, 2, 2, 4, 0, 0],
+        [1000000, 1000000, 1000000, 1000000, 500000, 500000],
+
+    ])("Positive integers", (coord1, coord2, rectWidth, rectHeight, expectedCoord1, expectedCoord2) => {
+        expect(centerCoordinatesInRect({ x: coord1, y: coord2 }, { width: rectWidth, height: rectHeight })).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
+    });
+
+    test.each([
+        [1, 1, -2, -2, 2, 2],
+        [2, 2, -2, -2, 3, 3],
+        [1, 1, -2, -4, 2, 3],
+        [1, 1, -4, -2, 3, 2],
+
+        [2, 2, -2, -2, 3, 3],
+        [1, 2, -2, -2, 2, 3],
+        [2, 1, -2, -2, 3, 2],
+
+        [-1, -1, -2, -2, 0, 0],
+        [-2, -2, -2, -2, -1, -1],
+        [-1, -1, -2, -4, 0, 1],
+        [-1, -1, -4, -2, 1, 0],
+
+        [-2, -2, -2, -2, -1, -1],
+        [-1, -2, -2, -2, 0, -1],
+        [-2, -1, -2, -2, -1, 0],
+
+        [5000000, 5000000, -10000000, -10000000, 10000000, 10000000],
+
+    ])("Negative integers", (coord1, coord2, rectWidth, rectHeight, expectedCoord1, expectedCoord2) => {
+        expect(centerCoordinatesInRect({ x: coord1, y: coord2 }, { width: rectWidth, height: rectHeight })).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
+    });
+
+    test.each([
+        [1, 1, 1, 1, 0.5, 0.5],
+        [1.5, 1.5, 2, 2, 0.5, 0.5],
+        [1.3, 1.6, 2, 2, 0.3, 0.6],
+        [1.1, 1, 2, 2, 0.1, 0],
+        [1, 1.1, 2, 2, 0, 0.1],
+
+        [1.25, 1.25, 2.5, 2.5, 0, 0],
+        [2, 1.25, 2.5, 2.5, 0.75, 0],
+        [1.25, 2, 2.5, 2.5, 0, 0.75],
+        [2.25, 1.25, 4.5, 2.5, 0, 0],
+        [1.25, 2.25, 2.5, 4.5, 0, 0],
+
+        [1, 2, 1.5, 1.5, 0.25, 1.25],
+        [1, 2, 1.5, 2.5, 0.25, 0.75],
+        [1, 2, 2, 1.5, 0, 1.25],
+        [2, 1, 1.5, 2, 1.25, 0],
+        
+        [1000000.8, 1000000.6, 1000000.4, 1000000.8, 500000.6, 500000.2],
+
+    ])("Positive floats", (coord1, coord2, rectWidth, rectHeight, expectedCoord1, expectedCoord2) => {
+        expect(centerCoordinatesInRect({ x: coord1, y: coord2 }, { width: rectWidth, height: rectHeight })).toStrictEqual({ x: expect.closeTo(expectedCoord1), y: expect.closeTo(expectedCoord2) });
+    });
+
+    test.each([
+        /*[1.1, 1.1, -1, -1, 0.1, 0.1],
+        [1, 1, -2.5, -2.5, -1.5, -1.5],
+        [1, 1.1, -1.1, -2, -0.1, -0.9],
+        [1.5, 1, -2.5, -1, -1, 0],
+
+        [-1.5, -1.5, -1, -1, -2.5, -2.5],
+        [-1, -1, -2.5, -2.5, -3.5, -3.5],
+        [-1, -1.5, -1.5, -2, -2.5, -3.5],
+        [-1.5, -1, -2, -1.5, -3.5, -2.5],
+
+        [10000001.2, 10000001.2, -9000000.6, -9000000.6, 1000000.6, 1000000.6],*/
+
+    ])("Negative floats", (coord1, coord2, rectWidth, rectHeight, expectedCoord1, expectedCoord2) => {
+        expect(centerCoordinatesInRect({ x: coord1, y: coord2 }, { width: rectWidth, height: rectHeight })).toStrictEqual({ x: expect.closeTo(expectedCoord1), y: expect.closeTo(expectedCoord2) });
     });
 });
 
-*/
 
 describe("Translate Coordinates", () => {
     test.each([
@@ -71,8 +146,8 @@ describe("Translate Coordinates", () => {
         [1, 2, 1, 2, 2, 4],
         [9000000, 9000000, 1000000, 1000000, 10000000, 10000000],
 
-    ])("Positive integers", (coord1, coord2, offset1, offset2 , coord1Offset, coord2Offset) => {
-        expect(translateCoordinates({ x: coord1, y: coord2 }, { x: offset1, y: offset2})).toStrictEqual({ x: coord1Offset, y: coord2Offset })
+    ])("Positive integers", (coord1, coord2, offset1, offset2, coord1Offset, coord2Offset) => {
+        expect(translateCoordinates({ x: coord1, y: coord2 }, { x: offset1, y: offset2 })).toStrictEqual({ x: coord1Offset, y: coord2Offset })
     });
 
     test.each([
@@ -93,11 +168,11 @@ describe("Translate Coordinates", () => {
         [-2, -2, -1, -1, -3, -3],
         [-1, -2, -1, -1, -2, -3],
         [-2, -1, -1, -1, -3, -2],
-        
+
         [10000000, 10000000, -1000000, -1000000, 9000000, 9000000],
 
-    ])("Negative integers", (coord1, coord2, offset1, offset2 , coord1Offset, coord2Offset) => {
-        expect(translateCoordinates({ x: coord1, y: coord2 }, { x: offset1, y: offset2})).toStrictEqual({ x: coord1Offset, y: coord2Offset })
+    ])("Negative integers", (coord1, coord2, offset1, offset2, coord1Offset, coord2Offset) => {
+        expect(translateCoordinates({ x: coord1, y: coord2 }, { x: offset1, y: offset2 })).toStrictEqual({ x: coord1Offset, y: coord2Offset })
     });
 
     test.each([
@@ -113,8 +188,8 @@ describe("Translate Coordinates", () => {
 
         [9000000.6, 9000000.6, 1000000.6, 1000000.6, 10000001.2, 10000001.2],
 
-    ])("Positive floats", (coord1, coord2, offset1, offset2 , coord1Offset, coord2Offset) => {
-        expect(translateCoordinates({ x: coord1, y: coord2 }, { x: offset1, y: offset2})).toStrictEqual({ x: coord1Offset, y: coord2Offset })
+    ])("Positive floats", (coord1, coord2, offset1, offset2, coord1Offset, coord2Offset) => {
+        expect(translateCoordinates({ x: coord1, y: coord2 }, { x: offset1, y: offset2 })).toStrictEqual({ x: coord1Offset, y: coord2Offset })
     });
 
     test.each([
@@ -127,11 +202,11 @@ describe("Translate Coordinates", () => {
         [-1, -1, -2.5, -2.5, -3.5, -3.5],
         [-1, -1.5, -1.5, -2, -2.5, -3.5],
         [-1.5, -1, -2, -1.5, -3.5, -2.5],
-        
+
         [10000001.2, 10000001.2, -9000000.6, -9000000.6, 1000000.6, 1000000.6],
 
-    ])("Negative floats", (coord1, coord2, offset1, offset2 , coord1Offset, coord2Offset) => {
-        expect(translateCoordinates({ x: coord1, y: coord2 }, { x: offset1, y: offset2})).toStrictEqual({ x: expect.closeTo(coord1Offset), y: expect.closeTo(coord2Offset) })
+    ])("Negative floats", (coord1, coord2, offset1, offset2, coord1Offset, coord2Offset) => {
+        expect(translateCoordinates({ x: coord1, y: coord2 }, { x: offset1, y: offset2 })).toStrictEqual({ x: expect.closeTo(coord1Offset), y: expect.closeTo(coord2Offset) })
     });
 });
 
