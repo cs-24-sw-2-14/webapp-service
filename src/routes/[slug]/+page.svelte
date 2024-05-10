@@ -5,19 +5,12 @@
 	import InfoPicker from '$lib/components/CustomizationForm.svelte';
 	import { boardId, socket, currentPage, Page } from '$lib/stores/stateStore';
 	import io from 'socket.io-client';
-	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
 
 	import {
 		PUBLIC_SOCKET_API_PROTOCOL,
 		PUBLIC_SOCKET_API_HOSTNAME,
 		PUBLIC_SOCKET_API_PORT
 	} from '$env/static/public';
-
-	let hostname = writable('');
-	onMount(() => {
-		hostname.set('http://' + window.location.hostname + ':5123');
-	});
 
 	export let data;
 	boardId.set(data.slug);
