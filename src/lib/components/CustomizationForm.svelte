@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { user, otherUsers, currentPage, Page } from '$lib/stores/stateStore';
+	import { user, otherUsers, currentPage } from '$lib/stores/stateStore';
 	import ColorPicker from './Input/ColorPicker.svelte';
+	import { Page } from '$lib/types';
 
 	let username = '';
 
