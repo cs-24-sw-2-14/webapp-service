@@ -10,16 +10,16 @@ export interface OtherUser extends User {
 }
 
 export enum Color {
-	red, // 0
-	orange, // 1
-	yellow, // 2
-	lime, // 3
-	green, // 4
-	teal, // 5
-	brown, // 6
-	blue, // 7
-	purple, // 8
-	pink // 9
+	red,
+	orange,
+	yellow,
+	lime,
+	green,
+	teal,
+	brown,
+	blue,
+	purple,
+	pink
 }
 
 export type UserColor = {
