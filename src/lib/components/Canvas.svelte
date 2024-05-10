@@ -50,11 +50,7 @@
 	}
 
 	cursorPosition.subscribe(() => {
-		let { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
-		$user.cursorPosition = {
-			x: x,
-			y: y
-		};
+		$user.cursorPosition = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 	});
 </script>
 
