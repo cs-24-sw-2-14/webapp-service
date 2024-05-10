@@ -3,9 +3,17 @@
 	import { writable } from 'svelte/store';
 	import { checkHexadecimal } from '$lib/utils';
 
+	import {
+		PUBLIC_REST_API_PROTOCOL,
+		PUBLIC_REST_API_HOSTNAME,
+		PUBLIC_REST_API_PORT
+	} from '$env/static/public';
+
 	let hostname = writable('');
 	onMount(() => {
-		hostname.set('http://' + window.location.hostname + ':5123');
+		hostname.set(
+			`${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}`
+		);
 	});
 
 	let boardIdInput = '';

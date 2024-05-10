@@ -8,6 +8,12 @@
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 
+	import {
+		PUBLIC_SOCKET_API_PROTOCOL,
+		PUBLIC_SOCKET_API_HOSTNAME,
+		PUBLIC_SOCKET_API_PORT
+	} from '$env/static/public';
+
 	let hostname = writable('');
 	onMount(() => {
 		hostname.set('http://' + window.location.hostname + ':5123');
@@ -16,8 +22,9 @@
 	export let data;
 	boardId.set(data.slug);
 
-	const ENDPOINT: string = 'ws://' + $hostname + ':5123' + '/' + $boardId;
-	socket.set(io(ENDPOINT));
+	const SOCKET_ENDPOINT: string = `${PUBLIC_SOCKET_API_PROTOCOL}://${PUBLIC_SOCKET_API_HOSTNAME}:${PUBLIC_SOCKET_API_PORT}/${$boardId}`;
+
+	socket.set(io(SOCKET_ENDPOINT));
 </script>
 
 {#if $currentPage === Page.CanvasPage}
