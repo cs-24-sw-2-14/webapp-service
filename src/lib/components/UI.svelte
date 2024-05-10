@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Zoom from '$lib/components/Tools/Zoom.svelte';
-	import ServerId from './ServerId.svelte';
+	import BoardId from './BoardId.svelte';
 	import Menu from './Menu.svelte';
 	import ChatButton from './Chat/ChatButton.svelte';
 	import Navbar from './Navbar/Navbar.svelte';
@@ -17,7 +17,7 @@
 
 <PositionDisplay></PositionDisplay>
 
-<ServerId></ServerId>
+<BoardId></BoardId>
 
 <Zoom></Zoom>
 
