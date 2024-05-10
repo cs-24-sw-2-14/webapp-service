@@ -12,7 +12,7 @@
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
 
-	const THRESHOLDDISTANCE = 10;
+	const THRESHOLD_DISTANCE = 10;
 
 	let currentCommandId = writable<number | null>(null);
 
@@ -34,13 +34,12 @@
 			$currentCommandId !== null
 		)
 			return;
-		const { x, y } = $user.position;
 		$socket.emit('startErase', {
-			coordinate: { x: x, y: y },
+			coordinate: $user.position,
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
 				return drawingUnderCursor.commandId;
 			}),
-			threshold: THRESHOLDDISTANCE,
+			threshold: THRESHOLD_DISTANCE,
 			username: $user.name
 		});
 	}
@@ -53,9 +52,8 @@
 			$currentCommandId === null
 		)
 			return;
-		const { x, y } = $user.position;
 		$socket.emit('doErase', {
-			coordinate: { x: x, y: y },
+			coordinate: $user.position,
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
 				return drawingUnderCursor.commandId;
 			}),
