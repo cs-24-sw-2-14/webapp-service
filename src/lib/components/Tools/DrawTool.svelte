@@ -21,11 +21,10 @@
 
 	function startDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
-		const { x, y } = $user.position;
 		$socket.emit('startDraw', {
 			placement: { x: 0, y: 0 },
-			path: { x: x, y: y },
-			stroke: $chosenColor,
+			path: $user.position,
+			stroke: $user.drawColor,
 			fill: 'transparent',
 			strokeWidth: 7,
 			username: $user.name

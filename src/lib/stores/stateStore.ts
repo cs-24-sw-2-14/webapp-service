@@ -27,8 +27,6 @@ export const toggleGrid = writable(true);
 
 export const settings = writable(false);
 
-export const chosenColor = writable('#27272A');
-
 export const canvasView = writable<CanvasView>({
 	position: { x: 0, y: 0 },
 	size: {

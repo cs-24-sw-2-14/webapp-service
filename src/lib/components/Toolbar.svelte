@@ -1,6 +1,6 @@
 <script lang="ts">
 
-	import { chosenColor, toggleGrid } from '$lib/stores/stateStore';
+	import { toggleGrid, user } from '$lib/stores/stateStore';
 
 	import MenuButton from './Navbar/MenuButton.svelte';
 	import PanTool from '$lib/components/Tools/PanTool.svelte';
@@ -19,7 +19,7 @@
 <div
 	class="fixed bottom-0 z-10 flex items-center gap-2 p-2 mb-4 transform -translate-x-1/2 rounded-lg left-1/2 bg-zinc-800"
 >
-	<input type="color" id="hs-color-input" class="mx-2" bind:value={$chosenColor} />
+	<input type="color" id="hs-color-input" class="mx-2" bind:value={$user.drawColor} />
 
 	<!-- Button for drawing -->
 	<DrawTool />
