@@ -8,7 +8,11 @@
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 
-	const { SOCKET_API_PROTOCOL, SOCKET_API_HOSTNAME, SOCKET_API_PORT } = import.meta.env;
+	import {
+		PUBLIC_SOCKET_API_PROTOCOL,
+		PUBLIC_SOCKET_API_HOSTNAME,
+		PUBLIC_SOCKET_API_PORT
+	} from '$env/static/public';
 
 	let hostname = writable('');
 	onMount(() => {
@@ -18,7 +22,8 @@
 	export let data;
 	boardId.set(data.slug);
 
-	const SOCKET_ENDPOINT: string = `${SOCKET_API_PROTOCOL}://${SOCKET_API_HOSTNAME}:${SOCKET_API_PORT}/${$boardId}`;
+	const SOCKET_ENDPOINT: string = `${PUBLIC_SOCKET_API_PROTOCOL}://${PUBLIC_SOCKET_API_HOSTNAME}:${PUBLIC_SOCKET_API_PORT}/${$boardId}`;
+
 	socket.set(io(SOCKET_ENDPOINT));
 </script>
 
