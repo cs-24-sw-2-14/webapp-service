@@ -1,6 +1,7 @@
 <script lang="ts">
 	import UserModal from './UserModal.svelte';
-	import { currentPage, Page, user } from '$lib/stores/stateStore';
+	import { currentPage, user } from '$lib/stores/stateStore';
+	import { Page } from '$lib/types';
 
 	let dialog: HTMLDialogElement;
 

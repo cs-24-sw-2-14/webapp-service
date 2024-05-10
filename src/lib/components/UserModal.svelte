@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { user, otherUsers, currentPage, Page } from '$lib/stores/stateStore';
+	import { user, otherUsers, currentPage } from '$lib/stores/stateStore';
 	import ColorPicker from './Input/ColorPicker.svelte';
 	import Modal from './Modal.svelte';
 	import { writable } from 'svelte/store';
+	import { Page } from '$lib/types';
 
 	export let title;
 	export let placeholder;

@@ -3,19 +3,16 @@ import Socket from 'socket.io-client';
 
 import { writable } from 'svelte/store';
 import {
-	ToolState,
-	type ViewportCoordinates,
-	type User,
-	type OtherUser,
 	type CanvasView,
-	Color
+	Color,
+	type OtherUser,
+	Page,
+	ToolState,
+	type User,
+	type ViewportCoordinates
 } from '$lib/types';
-export const boardId = writable('');
 
-export enum Page {
-	InitializationPage,
-	CanvasPage
-}
+export const boardId = writable('');
 
 export const currentPage = writable(Page.InitializationPage);
 

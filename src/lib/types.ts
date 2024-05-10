@@ -57,3 +57,8 @@ export type Username = string;
 export type ScaleFactor = number;
 // Currently a value between 0 and 100, but should be between 0 and 1 when refactor is done.
 export type ScaleFactor100 = number;
+
+export enum Page {
+	InitializationPage,
+	CanvasPage
+}

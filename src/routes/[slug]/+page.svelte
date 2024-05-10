@@ -3,7 +3,7 @@
 	import UI from '$lib/components/UI.svelte';
 	import Websocket from '$lib/components/Websocket.svelte';
 	import InitializationPage from '$lib/components/InitializationPage.svelte';
-	import { boardId, socket, currentPage, Page } from '$lib/stores/stateStore';
+	import { boardId, socket, currentPage } from '$lib/stores/stateStore';
 	import io from 'socket.io-client';
 
 	import {
@@ -11,6 +11,7 @@
 		PUBLIC_SOCKET_API_HOSTNAME,
 		PUBLIC_SOCKET_API_PORT
 	} from '$env/static/public';
+	import { Page } from '$lib/types';
 
 	export let data;
 	boardId.set(data.slug);
