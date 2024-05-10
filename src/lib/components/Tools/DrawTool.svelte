@@ -24,8 +24,7 @@
 	function startDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
 		$socket.emit('startDraw', {
-			placement: { x: 0, y: 0 }, // TODO: Mads, remove placement from backend. Rename path->coords.
-			path: $user.position,
+			coordinate: $user.position,
 			stroke: $user.drawColor,
 			fill: 'transparent',
 			strokeWidth: STROKE_WIDTH,
