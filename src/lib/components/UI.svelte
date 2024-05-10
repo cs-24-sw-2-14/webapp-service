@@ -7,11 +7,8 @@
 	import Chat from './Chat/Chat.svelte';
 
 	import { viewChat } from '$lib/stores/stateStore';
-	import SettingsModal from './SettingsModal.svelte';
 	import Coordinates from './Coordinates.svelte';
 </script>
-
-<SettingsModal />
 
 <Navbar></Navbar>
 
