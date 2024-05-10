@@ -4,11 +4,11 @@
 	import { ToolState } from '$lib/types';
 
 	import MenuButton from './Navbar/MenuButton.svelte';
-	import Pan from '$lib/components/Tools/Pan.svelte';
-	import Move from '$lib/components/Tools/Move.svelte';
-	import Draw from '$lib/components/Tools/Draw.svelte';
-	import UndoRedo from '$lib/components/Tools/UndoRedo.svelte';
-	import Erase from '$lib/components/Tools/Erase.svelte';
+	import PanTool from '$lib/components/Tools/PanTool.svelte';
+	import MoveTool from '$lib/components/Tools/MoveTool.svelte';
+	import DrawTool from '$lib/components/Tools/DrawTool.svelte';
+	import UndoRedoTool from '$lib/components/Tools/UndoRedoTool.svelte';
+	import EraseTool from '$lib/components/Tools/EraseTool.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 
 	function handleGridToggle() {
@@ -23,20 +23,20 @@
 	<input type="color" id="hs-color-input" class="mx-2" bind:value={$chosenColor} />
 
 	<!-- Button for drawing -->
-	<Draw />
+	<DrawTool />
 
 	<!-- Button for erasing -->
-	<Erase />
+	<EraseTool />
 
 	<!-- Button for panning around -->
-	<Pan />
+	<PanTool />
 
 	<!-- Button for moving elements -->
-	<Move />
+	<MoveTool />
 	<!-- SPACE -->
 	<div class="border-white border-r-[1.5px] h-6 mx-2"></div>
 
-	<UndoRedo />
+	<UndoRedoTool />
 
 	<!-- SPACE -->
 	<div class="border-white border-r-[1.5px] h-6 mx-2"></div>
