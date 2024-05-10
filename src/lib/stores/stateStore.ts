@@ -1,5 +1,5 @@
 // Store to handle global state
-import Socket from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 
 import { writable } from 'svelte/store';
 import {
@@ -16,7 +16,7 @@ export const boardId = writable('');
 
 export const currentPage = writable(Page.InitializationPage);
 
-export const socket = writable<typeof Socket>();
+export const socket = writable<Socket>();
 
 export const viewChat = writable(false);
 
