@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
 	import { checkHexadecimal } from '$lib/utils';
 
 	import {
@@ -9,12 +7,7 @@
 		PUBLIC_REST_API_PORT
 	} from '$env/static/public';
 
-	let hostname = writable('');
-	onMount(() => {
-		hostname.set(
-			`${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}`
-		);
-	});
+	const hostname: string = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}`;
 
 	let boardIdInput = '';
 
@@ -32,7 +25,7 @@
 		if (boardIdInput.length !== 6) return;
 
 		try {
-			const response = await fetch($hostname + '/v1/board/validate', {
+			const response = await fetch(hostname + '/v1/board/validate', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
@@ -50,7 +43,7 @@
 
 	async function createBoard() {
 		try {
-			const response = await fetch($hostname + '/v1/board/create', {
+			const response = await fetch(hostname + '/v1/board/create', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
