@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Zoom from '$lib/components/Tools/Zoom.svelte';
+	import ZoomTool from '$lib/components/Tools/ZoomTool.svelte';
 	import BoardId from './BoardId.svelte';
 	import Toolbar from './Toolbar.svelte';
 	import ChatButton from './Chat/ChatButton.svelte';
@@ -19,7 +19,7 @@
 
 <BoardId></BoardId>
 
-<Zoom></Zoom>
+<ZoomTool></ZoomTool>
 
 <Toolbar></Toolbar>
 
