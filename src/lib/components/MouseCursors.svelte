@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { colorMap } from '$lib/color';
 	import { afterUpdate } from 'svelte';
-	import { type ViewportCoordinates, ToolState, type CanvasCoordinates } from '$lib/types';
-	import { canvasView, toolState, user, otherUsers, cursorPosition } from '$lib/stores/stateStore';
+	import { ToolState, type CanvasCoordinates } from '$lib/types';
+	import { toolState, user, otherUsers } from '$lib/stores/stateStore';
 	import { translateCoordinates } from '$lib/utils';
 
 	const cursorOffset: CanvasCoordinates = {
