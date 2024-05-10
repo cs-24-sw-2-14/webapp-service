@@ -30,6 +30,7 @@
 
 	cursorPosition.subscribe(removeElements);
 
+	// TODO: Get SVG elements under cursor by bounding box instead, Mads.
 	function removeElements(pos: ViewportCoordinates) {
 		if (!$drawingsUnderCursor) return;
 		$drawingsUnderCursor.filter((drawing) => {
