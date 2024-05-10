@@ -8,14 +8,14 @@
 
 	import { viewChat } from '$lib/stores/stateStore';
 	import SettingsModal from './SettingsModal.svelte';
-	import Coordinates from './Coordinates.svelte';
+	import PositionDisplay from './PositionDisplay.svelte';
 </script>
 
 <SettingsModal />
 
 <Navbar></Navbar>
 
-<Coordinates></Coordinates>
+<PositionDisplay></PositionDisplay>
 
 <ServerId></ServerId>
 
