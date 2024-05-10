@@ -117,7 +117,7 @@
 				});
 			}}
 		>
-			{@html svg.svg}
+			{@html svg.svgString}
 		</g>
 	{/each}
 
