@@ -23,8 +23,7 @@
 	function startText(){
 		if (!$canvasTouched || $toolState !== ToolState.text || $currentCommandId !== null) return;
 		$socket.emit('startText', {
-			coordinate: $user.position,
-			content: "<empty>",
+			placement: $user.position,
 			username: $user.name,
 		});
 	}
