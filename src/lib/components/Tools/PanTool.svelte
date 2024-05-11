@@ -25,7 +25,7 @@
 		if (!$canvasTouched || $toolState !== ToolState.pan) return;
 		$canvasView = {
 			...$canvasView,
-			position: {
+			position: { // TODO: reimplment PanTool
 				x: $canvasView.position.x - (pos.x - startX) / ($canvasView.scale / 100),
 				y: $canvasView.position.y - (pos.y - startY) / ($canvasView.scale / 100)
 			}

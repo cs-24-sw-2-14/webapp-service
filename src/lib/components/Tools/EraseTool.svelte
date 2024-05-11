@@ -3,9 +3,7 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		cursorPosition,
 		canvasTouched,
-		canvasView,
 		drawingsUnderCursor,
 		socket,
 		user
@@ -13,9 +11,8 @@
 	import { ToolState } from '$lib/types';
 	import { writable } from 'svelte/store';
 	import { onMount } from 'svelte';
-	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
-	const THRESHOLDDISTANCE = 10;
+	const THRESHOLD_DISTANCE = 10;
 
 	let currentCommandId = writable<number | null>(null);
 
@@ -24,8 +21,8 @@
 			if (data.username !== $user.name) return;
 			$currentCommandId = data.commandId;
 		});
-		canvasTouched.subscribe(startErase);
-		cursorPosition.subscribe(doErase);
+		user.subscribe(startErase);
+		user.subscribe(doErase);
 		canvasTouched.subscribe(stopErase);
 	});
 
@@ -37,13 +34,12 @@
 			$currentCommandId !== null
 		)
 			return;
-		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 		$socket.emit('startErase', {
-			coordinate: { x: x, y: y },
+			coordinate: $user.position,
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
 				return drawingUnderCursor.commandId;
 			}),
-			threshold: THRESHOLDDISTANCE,
+			threshold: THRESHOLD_DISTANCE,
 			username: $user.name
 		});
 	}
@@ -56,9 +52,8 @@
 			$currentCommandId === null
 		)
 			return;
-		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 		$socket.emit('doErase', {
-			coordinate: { x: x, y: y },
+			coordinate: $user.position,
 			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
 				return drawingUnderCursor.commandId;
 			}),

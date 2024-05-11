@@ -27,32 +27,36 @@ export function getInitials(name: string) {
 		.join('');
 }
 
-export function viewportToCanvasCoordinatesFromCanvasView(coordinates: ViewportCoordinates, canvasView: CanvasView){
+export function viewportToCanvasCoordinatesFromCanvasView(
+	coordinates: ViewportCoordinates,
+	canvasView: CanvasView
+) {
 	return viewportToCanvasCoordinates(
 		coordinates,
 		canvasView.size,
 		canvasView.position,
 		100 / canvasView.scale
-	)
+	);
 }
 
-function viewportToCanvasCoordinates(coordinates: ViewportCoordinates, viewRect: Rectangle, viewPos: CanvasCoordinates, viewScale: ScaleFactor): CanvasCoordinates {
+export function viewportToCanvasCoordinates(
+	coordinates: ViewportCoordinates,
+	viewRect: Rectangle,
+	viewPos: CanvasCoordinates,
+	viewScale: ScaleFactor
+): CanvasCoordinates {
 	let coords = coordinates;
-
 	coords = centerCoordinatesInRect(coords, viewRect);
-
 	coords = scaleCoordinates(coords, viewScale);
-
 	coords = translateCoordinates(coords, viewPos);
-
 	return coords;
 }
 
-function centerCoordinatesInRect(coordinates: Coordinates, rect: Rectangle){
+export function centerCoordinatesInRect(coordinates: Coordinates, rect: Rectangle) {
 	const offset: Coordinates = {
 		x: rect.width / 2,
 		y: rect.height / 2
-	}
+	};
 
 	const negativeOffset = scaleCoordinates(offset, -1);
 
@@ -63,12 +67,12 @@ export function translateCoordinates(coordinates: Coordinates, offset: Coordinat
 	return {
 		x: coordinates.x + offset.x,
 		y: coordinates.y + offset.y
-	}
+	};
 }
 
-function scaleCoordinates(coordinates: Coordinates, scale: ScaleFactor): Coordinates {
+export function scaleCoordinates(coordinates: Coordinates, scale: ScaleFactor): Coordinates {
 	return {
 		x: coordinates.x * scale,
 		y: coordinates.y * scale
-	}
+	};
 }

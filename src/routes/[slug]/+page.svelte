@@ -1,29 +1,30 @@
 <script lang="ts">
 	import Canvas from '$lib/components/Canvas.svelte';
 	import UI from '$lib/components/UI.svelte';
-	import Websocket from '$lib/components/websocket.svelte';
-	import InfoPicker from '$lib/components/CustomizationForm.svelte';
-	import { boardId, socket, currentPage, Page } from '$lib/stores/stateStore';
+	import Websocket from '$lib/components/Websocket.svelte';
+	import InitializationPage from '$lib/components/InitializationPage.svelte';
+	import { boardId, socket, currentPage } from '$lib/stores/stateStore';
 	import io from 'socket.io-client';
-	import { onMount } from 'svelte';
-	import { writable } from 'svelte/store';
 
-	let hostname = writable('');
-	onMount(() => {
-		hostname.set('http://' + window.location.hostname + ':5123');
-	});
+	import {
+		PUBLIC_SOCKET_API_PROTOCOL,
+		PUBLIC_SOCKET_API_HOSTNAME,
+		PUBLIC_SOCKET_API_PORT
+	} from '$env/static/public';
+	import { Page } from '$lib/types';
 
 	export let data;
 	boardId.set(data.slug);
 
-	const ENDPOINT: string = 'ws://' + $hostname + ':5123' + '/' + $boardId;
-	socket.set(io(ENDPOINT));
+	const SOCKET_ENDPOINT: string = `${PUBLIC_SOCKET_API_PROTOCOL}://${PUBLIC_SOCKET_API_HOSTNAME}:${PUBLIC_SOCKET_API_PORT}/${$boardId}`;
+	// TODO: Mads, fix socket types
+	socket.set(io(SOCKET_ENDPOINT));
 </script>
 
 {#if $currentPage === Page.CanvasPage}
 	<Canvas />
 	<UI />
 {:else}
-	<InfoPicker />
+	<InitializationPage />
 {/if}
 <Websocket />

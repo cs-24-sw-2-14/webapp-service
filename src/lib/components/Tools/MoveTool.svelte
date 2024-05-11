@@ -27,7 +27,7 @@
 
 	function doMove(pos: ViewportCoordinates) {
 		if (!$canvasTouched || $toolState !== ToolState.move || currentIndex === null) return;
-		$svgs[currentIndex].placement = {
+		$svgs[currentIndex].placement = { // TODO: Reimplement move-tool for the 21st century, great again.
 			x: $svgs[currentIndex].x + (pos.x - startX) / ($canvasView.scale / 100),
 			y: $svgs[currentIndex].y + (pos.y - startY) / ($canvasView.scale / 100)
 		};
