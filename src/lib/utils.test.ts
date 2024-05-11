@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest';
-import { checkHexadecimal, getInitials, /*viewportToCanvasCoordinatesFromCanvasView, viewportToCanvasCoordinates,*/ centerCoordinatesInRect, translateCoordinates, scaleCoordinates } from '$lib/utils';
+import { checkHexadecimal, getInitials, centerCoordinatesInRect, translateCoordinates, scaleCoordinates } from '$lib/utils';
 
 describe("Example File", () => {
     test("Sample test", () => {
@@ -42,20 +42,6 @@ describe("URL validation (checkHexa)", () => {
         expect(checkHexadecimal("12345.")).equal(false);
     });
 });
-
-/* describe("", () => {
-    test("", () => {
-        expect().equal();
-    });
-});
-
-describe("", () => {
-    test("", () => {
-        expect().equal();
-    });
-});
-
-*/
 
 
 describe("Center Coordinates In Rectangle", () => {
