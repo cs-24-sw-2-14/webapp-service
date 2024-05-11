@@ -1,13 +1,17 @@
 import { describe, test, expect } from 'vitest';
-import { checkHexadecimal, getInitials, centerCoordinatesInRect, translateCoordinates, scaleCoordinates } from '$lib/utils';
+import {
+    checkHexadecimal,
+    getInitials,
+    centerCoordinatesInRect,
+    translateCoordinates,
+    scaleCoordinates
+} from '$lib/utils';
 
 describe("Example File", () => {
     test("Sample test", () => {
         expect(1 + 3).equal(4);
     });
 });
-
-
 
 describe("Extract initials (getInitials)", () => {
     test("Correct splitting", () => {
@@ -28,7 +32,6 @@ describe("Extract initials (getInitials)", () => {
     })
 });
 
-
 describe("URL validation (checkHexa)", () => {
     test("Upper-case validation", () => {
         expect(checkHexadecimal("ABCDEF")).equal(true);
@@ -42,7 +45,6 @@ describe("URL validation (checkHexa)", () => {
         expect(checkHexadecimal("12345.")).equal(false);
     });
 });
-
 
 describe("Center Coordinates In Rectangle", () => {
     test.each([
@@ -157,7 +159,6 @@ describe("Center Coordinates In Rectangle", () => {
     });
 });
 
-
 describe("Translate Coordinates", () => {
     test.each([
         [2/1, 4-2, 2, 2, 4, 4],
@@ -263,7 +264,6 @@ describe("Translate Coordinates", () => {
     });
 });
 
-
 describe("Scale Coordinates", () => {
     test.each([
         [2/1, 4-2, 2, 4, 4],
@@ -343,5 +343,4 @@ describe("Scale Coordinates", () => {
     ])("Negative floats", (coord1, coord2, scale, coord1Scaled, coord2Scaled) => {
         expect(scaleCoordinates({ x: coord1, y: coord2 }, scale)).toStrictEqual({ x: coord1Scaled, y: coord2Scaled })
     });
-
 });
