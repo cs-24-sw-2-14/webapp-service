@@ -39,7 +39,7 @@ export function viewportToCanvasCoordinatesFromCanvasView(
 	);
 }
 
-function viewportToCanvasCoordinates(
+export function viewportToCanvasCoordinates(
 	coordinates: ViewportCoordinates,
 	viewRect: Rectangle,
 	viewPos: CanvasCoordinates,
@@ -52,7 +52,7 @@ function viewportToCanvasCoordinates(
 	return coords;
 }
 
-function centerCoordinatesInRect(coordinates: Coordinates, rect: Rectangle) {
+export function centerCoordinatesInRect(coordinates: Coordinates, rect: Rectangle) {
 	const offset: Coordinates = {
 		x: rect.width / 2,
 		y: rect.height / 2
@@ -70,7 +70,7 @@ export function translateCoordinates(coordinates: Coordinates, offset: Coordinat
 	};
 }
 
-function scaleCoordinates(coordinates: Coordinates, scale: ScaleFactor): Coordinates {
+export function scaleCoordinates(coordinates: Coordinates, scale: ScaleFactor): Coordinates {
 	return {
 		x: coordinates.x * scale,
 		y: coordinates.y * scale
