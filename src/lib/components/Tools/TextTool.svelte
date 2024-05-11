@@ -18,6 +18,7 @@
 	});
 
 	user.subscribe(startText);
+	canvasTouched.subscribe(startText);
 
 	function startText(){
 		if (!$canvasTouched || $toolState !== ToolState.text || $currentCommandId !== null) return;
