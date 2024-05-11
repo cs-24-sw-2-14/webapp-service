@@ -14,6 +14,9 @@
 		$socket.on('startTextSuccess', (data: ToolSuccess) => {
 			if (data.username !== $user.name) return;
 			$currentCommandId = data.commandId;
+
+			// Testing
+			updateCurrentText("TEST");
 		});
 	});
 
