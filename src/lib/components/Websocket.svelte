@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { socket } from '$lib/stores/stateStore';
-	import { svgs, type Svg } from '$lib/stores/svgStore';
+	import { svgs } from '$lib/stores/svgStore';
 	import { onMount } from 'svelte';
+	import type { Edit, Remove, Svg } from '$lib/types';
 
 	onMount(() => {
 		$socket.on('edit', handleEdit);
@@ -9,25 +10,19 @@
 	});
 
 	// TODO: Mads, optionals i interface.
-	function handleEdit(data: any) {
+
+	function handleEdit(data: Edit) {
 		// check if the command already exists
 		const commandIndex = $svgs.findIndex((svg: Svg) => svg.commandId === data.commandId);
 
 		// if it exists, modify it
-		// HACK: Maybe rewrite to loop through the keys of data instead
-		if (commandIndex !== -1) {
-			// only modify the property if it exists on the data object
-			if ('x' in data) {
-				$svgs[commandIndex].x = data.x;
-			}
-			if ('y' in data) {
-				$svgs[commandIndex].y = data.y;
-			}
-			if ('svg' in data) {
-				$svgs[commandIndex].svg = data.svg;
-			}
+		if (commandIndex === -1) {
+			$svgs[commandIndex].placement = data.placement ?? $svgs[commandIndex].placement;
+			$svgs[commandIndex].svgString = data.svgString ?? $svgs[commandIndex].svgString;
 			return;
 		}
+
+		if (!data.svgString || !data.placement) return;
 		// else add it
 		svgs.update((current) => {
 			let spliceIndex = 0;
@@ -38,13 +33,18 @@
 					break;
 				}
 			}
+			let svg: Svg = {
+				svgString: data.svgString!,
+				placement: data.placement!,
+				commandId: data.commandId
+			};
 			let resultArray = current;
-			resultArray.splice(spliceIndex, 0, data);
+			resultArray.splice(spliceIndex, 0, svg);
 			return resultArray;
 		});
 	}
 
-	function handleRemove(data: any) {
+	function handleRemove(data: Remove) {
 		svgs.update((current) => {
 			return current.filter((svg) => svg.commandId !== data.commandId);
 		});

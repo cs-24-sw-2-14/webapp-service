@@ -108,7 +108,7 @@
 		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<g
-			transform={`translate(${svg.x}, ${svg.y})`}
+			transform={`translate(${svg.placement.x}, ${svg.placement.y})`}
 			on:mouseover={(event) => {
 				if (!event.target) return;
 				$drawingsUnderCursor.push({
@@ -117,7 +117,7 @@
 				});
 			}}
 		>
-			{@html svg.svg}
+			{@html svg.svgString}
 		</g>
 	{/each}
 
