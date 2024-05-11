@@ -44,6 +44,7 @@
 	"type": "module",
 	"dependencies": {
 		"dotenv": "^16.4.5",
-		"socket.io-client": "^4.7.5"
+		"socket.io-client": "^4.7.5",
+		"surrealdb.js": "^1.0.0-beta.6"
 	}
 }
