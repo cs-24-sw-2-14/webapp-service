@@ -1,9 +1,13 @@
 import { error } from '@sveltejs/kit';
 
-const ENDPOINT = 'http://64.227.121.226:5123' + '/v1/board/validate';
+// Load environment variable
+import { PUBLIC_REST_API_PROTOCOL, PUBLIC_REST_API_HOSTNAME, PUBLIC_REST_API_PORT } from '$env/static/public';
+
+const VALIDATE_BOARD_ENDPOINT = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}/v1/board/validate`;
+
 export async function load({ params }) {
 	try {
-		const response = await fetch(ENDPOINT, {
+		const response = await fetch(VALIDATE_BOARD_ENDPOINT, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json'

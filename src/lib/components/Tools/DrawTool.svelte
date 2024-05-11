@@ -1,54 +1,42 @@
 <script lang="ts">
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-	import {
-		toolState,
-		cursorPosition,
-		canvasTouched,
-		canvasView,
-		socket,
-		chosenColor,
-		user
-	} from '$lib/stores/stateStore';
+	import { toolState, canvasTouched, socket, user } from '$lib/stores/stateStore';
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { ToolState } from '$lib/types';
-	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
+	const STROKE_WIDTH = 7;
 	let currentCommandId = writable<number | null>(null);
 
 	onMount(() => {
 		$socket.on('startDrawSuccess', (data) => {
-			console.log('startDrawSuccess');
 			if (data.username !== $user.name) return;
 			$currentCommandId = data.commandId;
 		});
 	});
 
-	canvasTouched.subscribe(startDraw);
-	cursorPosition.subscribe(doDraw);
+	user.subscribe(startDraw);
+	user.subscribe(doDraw);
 	canvasTouched.subscribe(stopDraw);
 
 	function startDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
-		console.log('startDraw');
-		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 		$socket.emit('startDraw', {
-			placement: { x: 0, y: 0 },
-			path: { x: x, y: y },
-			stroke: $chosenColor,
+			placement: { x: 0, y: 0 }, // TODO: Mads, remove placement from backend. Rename path->coords.
+			path: $user.position,
+			stroke: $user.drawColor,
 			fill: 'transparent',
-			strokeWidth: 7,
+			strokeWidth: STROKE_WIDTH,
 			username: $user.name
 		});
 	}
 
 	function doDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
-		console.log('doDraw');
-		const { x, y } = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
+		const { x, y } = $user.position;
 		$socket.emit('doDraw', {
-			x: x,
+			x: x, // TODO: Det der X og Y er noget rod. Skal hedde coordinates. Mads.
 			y: y,
 			commandId: $currentCommandId
 		});

@@ -8,6 +8,7 @@
 		$socket.on('remove', handleRemove);
 	});
 
+	// TODO: Mads, optionals i interface.
 	function handleEdit(data: any) {
 		// check if the command already exists
 		const commandIndex = $svgs.findIndex((svg: Svg) => svg.commandId === data.commandId);
@@ -44,7 +45,6 @@
 	}
 
 	function handleRemove(data: any) {
-		console.log('handleremove');
 		svgs.update((current) => {
 			return current.filter((svg) => svg.commandId !== data.commandId);
 		});
