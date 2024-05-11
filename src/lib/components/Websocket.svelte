@@ -16,7 +16,7 @@
 		const commandIndex = $svgs.findIndex((svg: Svg) => svg.commandId === data.commandId);
 
 		// if it exists, modify it
-		if (commandIndex === -1) {
+		if (commandIndex !== -1) {
 			$svgs[commandIndex].placement = data.placement ?? $svgs[commandIndex].placement;
 			$svgs[commandIndex].svgString = data.svgString ?? $svgs[commandIndex].svgString;
 			return;
