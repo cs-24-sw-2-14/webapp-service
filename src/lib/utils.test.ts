@@ -4,7 +4,8 @@ import {
     getInitials,
     centerCoordinatesInRect,
     translateCoordinates,
-    scaleCoordinates
+    scaleCoordinates,
+    viewportToCanvasCoordinates
 } from '$lib/utils';
 
 describe("Example File", () => {
@@ -46,6 +47,70 @@ describe("URL validation (checkHexa)", () => {
     });
 });
 
+// viewportToCanvasCoordinatesFromCanvasView
+
+
+describe("Viewport to Canvas Coordinates", () => {
+    test.each([
+
+        [2/1, 4-2, 2, 2, 1, 1, 1, 2, 2],
+        [0.5*4, 1+1, 2, 2, 1, 1, 1, 2, 2],
+        
+        [2, 2, 2/1, 4-2, 1, 1, 1, 2, 2],
+        [2, 2, 0.5*4, 1+1, 1, 1, 1, 2, 2],
+        
+        [3, 3, 2, 2, 2/1, 4-2, 1, 4, 4],
+        [3, 3, 2, 2, 0.5*4, 1+1, 1, 4, 4],
+
+        [3, 3, 2, 2, 3+2/-2, 3+2/-2, 1, 4, 4],
+        [4, 5, 2, 2, 2, 2, 4, (4-2/2)*4+2, (5-2/2)*4+2],
+        //[4, 4, 1080, 1920, 2, 2, 4, 14, 10],
+
+    ])("Numbers as calculations", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
+        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
+    });
+
+    test.each([
+        [NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
+        [NaN, NaN, NaN, NaN, NaN, NaN, 2, NaN, NaN],
+        [NaN, NaN, NaN, NaN, 1, 1, NaN, NaN, NaN],
+        [NaN, NaN, 2, 2, NaN, NaN, NaN, NaN, NaN],
+        [1, 1, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
+       
+    ])("Not a Number", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
+        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
+    });
+
+    test.each([
+        [2,2,2,2,1,1,1,2,2],
+        [1,1,0,0,0,0,1,1,1],
+        [0,0,2,2,2,2,1,1,1],
+        [0,0,0,0,1,1,0,1,1],
+        [1,1,0,0,0,0,3,3,3],
+        [2,1,2,0,1,0,1,3,0],
+        [10000000010,10000000010,20,20,5000000000,5000000000,2,25000000000,25000000000],
+
+    ])("Positive integers", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
+        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
+    });
+
+    test.each([
+    ])("Negative integers", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
+        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
+    });
+    
+    test.each([
+    ])("Positive floats", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
+        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expect.closeTo(expectedCoord1), y: expect.closeTo(expectedCoord2) });
+    });
+
+    test.each([
+    ])("Negative floats", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
+        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expect.closeTo(expectedCoord1), y: expect.closeTo(expectedCoord2) });
+    });
+})
+
+/*
 describe("Center Coordinates In Rectangle", () => {
     test.each([
         [2/1, 4-2, 2, 2, 1, 1],
@@ -344,3 +409,4 @@ describe("Scale Coordinates", () => {
         expect(scaleCoordinates({ x: coord1, y: coord2 }, scale)).toStrictEqual({ x: coord1Scaled, y: coord2Scaled })
     });
 });
+*/
