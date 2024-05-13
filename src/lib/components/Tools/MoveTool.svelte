@@ -3,37 +3,61 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		cursorPosition,
 		canvasTouched,
-		canvasView,
-		drawingsUnderCursor
+		commandIdsUnderCursor,
+		user,
+		socket
 	} from '$lib/stores/stateStore';
-	import { type ViewportCoordinates, ToolState } from '$lib/types';
-	import { svgs } from '$lib/stores/svgStore';
+	import { ToolState, type CanvasCoordinate, type CommandId } from '$lib/types';
+	import { writable } from 'svelte/store';
+	let currentCommandId = writable<number | null>(null);
 
-	let startX: number, startY: number;
-	let currentIndex: number | null = null;
+	user.subscribe(startMove);
+	user.subscribe(doMove);
+	canvasTouched.subscribe(stopDraw);
 
-	canvasTouched.subscribe(startMove);
-	cursorPosition.subscribe(doMove);
+	let startPosition: CanvasCoordinate | null = null;
 
-	function startMove(isDown: boolean) {
-		if ($toolState !== ToolState.move) return;
-		if (!isDown) return;
-		startX = $cursorPosition.x;
-		startY = $cursorPosition.y;
-		currentIndex = $drawingsUnderCursor[0].index;
+	function startMove() {
+		if (
+			!$canvasTouched ||
+			$toolState !== ToolState.move ||
+			$commandIdsUnderCursor.length === 0 ||
+			$currentCommandId !== null
+		)
+			return;
+		startPosition = $user.position;
+		$socket.emit(
+			'startMove',
+			{
+				movedCommandId: $commandIdsUnderCursor[0],
+				newCoordinate: $user.position,
+				username: $user.name
+			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
+		);
 	}
 
-	function doMove(pos: ViewportCoordinates) {
-		if (!$canvasTouched || $toolState !== ToolState.move || currentIndex === null) return;
-		$svgs[currentIndex].placement = { // TODO: Reimplement move-tool for the 21st century, great again.
-			x: $svgs[currentIndex].x + (pos.x - startX) / ($canvasView.scale / 100),
-			y: $svgs[currentIndex].y + (pos.y - startY) / ($canvasView.scale / 100)
-		};
-		startX = pos.x;
-		startY = pos.y;
+	function doMove() {
+		if (
+			!$canvasTouched ||
+			$toolState !== ToolState.move ||
+			$currentCommandId === null ||
+			startPosition === null
+		)
+			return;
+		$socket.emit('doMove', {
+			offset: {
+				x: $user.position.x - startPosition.x,
+				y: $user.position.y - startPosition.y
+			},
+			commandId: $currentCommandId
+		});
+	}
+
+	function stopDraw() {
+		if ($canvasTouched || $toolState !== ToolState.move) return;
+		$currentCommandId = null;
 	}
 </script>
 
