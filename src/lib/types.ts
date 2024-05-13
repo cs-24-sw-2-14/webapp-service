@@ -68,16 +68,7 @@ export enum Page {
 	CanvasPage
 }
 
-export interface Edit {
-	placementParameter?: CanvasCoordinate;
-	svgStringParameter?: SvgString;
-	commandId: CommandId;
-}
 export type SvgString = string;
-
-export interface Remove {
-	commandId: CommandId;
-}
 export type CommandId = number;
 
 export interface BoundingBox extends Rectangle {
