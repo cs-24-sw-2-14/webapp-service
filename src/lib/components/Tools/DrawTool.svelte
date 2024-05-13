@@ -2,20 +2,11 @@
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { toolState, canvasTouched, socket, user } from '$lib/stores/stateStore';
-	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { ToolState, type ToolSuccess } from '$lib/types';
 
 	const STROKE_WIDTH = 7;
 	let currentCommandId = writable<number | null>(null);
-
-	onMount(() => {
-		if ($socket === undefined) return;
-		$socket.on('startDrawSuccess', (data: ToolSuccess) => {
-			if (data.username !== $user.name) return;
-			$currentCommandId = data.commandId;
-		});
-	});
 
 	user.subscribe(startDraw);
 	user.subscribe(doDraw);
@@ -30,6 +21,8 @@
 			strokeWidth: STROKE_WIDTH,
 			username: $user.name
 		});
+			(commandId: CommandId) => currentCommandId.set(commandId)
+		);
 	}
 
 	function doDraw() {

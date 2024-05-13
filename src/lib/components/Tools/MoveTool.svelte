@@ -23,6 +23,7 @@
 		startX = $cursorPosition.x;
 		startY = $cursorPosition.y;
 		currentIndex = $drawingsUnderCursor[0].index;
+			(commandId: CommandId) => currentCommandId.set(commandId)
 	}
 
 	function doMove(pos: ViewportCoordinates) {

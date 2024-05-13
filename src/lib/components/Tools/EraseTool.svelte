@@ -10,17 +10,11 @@
 	} from '$lib/stores/stateStore';
 	import { ToolState, type ToolSuccess } from '$lib/types';
 	import { writable } from 'svelte/store';
-	import { onMount } from 'svelte';
 
 	const THRESHOLD_DISTANCE = 10;
 
 	let currentCommandId = writable<number | null>(null);
 
-	onMount(() => {
-		$socket.on('startEraseSuccess', (data: ToolSuccess) => {
-			if (data.username !== $user.name) return;
-			$currentCommandId = data.commandId;
-		});
 		user.subscribe(startErase);
 		user.subscribe(doErase);
 		canvasTouched.subscribe(stopErase);
@@ -42,6 +36,8 @@
 			threshold: THRESHOLD_DISTANCE,
 			username: $user.name
 		});
+			(commandId: CommandId) => currentCommandId.set(commandId)
+		);
 	}
 
 	function doErase() {
