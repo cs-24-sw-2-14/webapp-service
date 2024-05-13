@@ -9,7 +9,8 @@ import {
 	Page,
 	ToolState,
 	type User,
-	type ViewportCoordinates
+	type ViewportCoordinates,
+	type CommandId
 } from '$lib/types';
 
 export const boardId = writable('');

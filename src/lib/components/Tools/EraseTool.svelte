@@ -8,17 +8,16 @@
 		socket,
 		user
 	} from '$lib/stores/stateStore';
-	import { ToolState, type ToolSuccess } from '$lib/types';
+	import { ToolState, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 
 	const THRESHOLD_DISTANCE = 10;
 
 	let currentCommandId = writable<number | null>(null);
 
-		user.subscribe(startErase);
-		user.subscribe(doErase);
-		canvasTouched.subscribe(stopErase);
-	});
+	user.subscribe(startErase);
+	user.subscribe(doErase);
+	canvasTouched.subscribe(stopErase);
 
 	function startErase() {
 		if (
@@ -28,14 +27,14 @@
 			$currentCommandId !== null
 		)
 			return;
-		$socket.emit('startErase', {
-			coordinate: $user.position,
-			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
-				return drawingUnderCursor.commandId;
-			}),
-			threshold: THRESHOLD_DISTANCE,
-			username: $user.name
-		});
+		$socket.emit(
+			'startErase',
+			{
+				coordinate: $user.position,
+				commandIdsUnderCursor: $commandIdsUnderCursor,
+				threshold: THRESHOLD_DISTANCE,
+				username: $user.name
+			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
 	}

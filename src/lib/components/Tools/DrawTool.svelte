@@ -3,7 +3,7 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { toolState, canvasTouched, socket, user } from '$lib/stores/stateStore';
 	import { writable } from 'svelte/store';
-	import { ToolState, type ToolSuccess } from '$lib/types';
+	import { ToolState, type CommandId } from '$lib/types';
 
 	const STROKE_WIDTH = 7;
 	let currentCommandId = writable<number | null>(null);
@@ -14,13 +14,15 @@
 
 	function startDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
-		$socket.emit('startDraw', {
-			coordinate: $user.position,
-			stroke: $user.drawColor,
-			fill: 'transparent',
-			strokeWidth: STROKE_WIDTH,
-			username: $user.name
-		});
+		$socket.emit(
+			'startDraw',
+			{
+				coordinate: $user.position,
+				stroke: $user.drawColor,
+				fill: 'transparent',
+				strokeWidth: STROKE_WIDTH,
+				username: $user.name
+			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
 	}
