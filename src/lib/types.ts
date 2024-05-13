@@ -69,8 +69,8 @@ export enum Page {
 }
 
 export interface Edit {
-	placement?: CanvasCoordinate;
-	svgString?: SvgString;
+	placementParameter?: CanvasCoordinate;
+	svgStringParameter?: SvgString;
 	commandId: CommandId;
 }
 export type SvgString = string;
