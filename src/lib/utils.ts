@@ -1,6 +1,6 @@
 import type {
 	Coordinates,
-	CanvasCoordinates,
+	CanvasCoordinate,
 	ViewportCoordinates,
 	Rectangle,
 	ScaleFactor,
@@ -42,9 +42,9 @@ export function viewportToCanvasCoordinatesFromCanvasView(
 function viewportToCanvasCoordinates(
 	coordinates: ViewportCoordinates,
 	viewRect: Rectangle,
-	viewPos: CanvasCoordinates,
+	viewPos: CanvasCoordinate,
 	viewScale: ScaleFactor
-): CanvasCoordinates {
+): CanvasCoordinate {
 	let coords = coordinates;
 	coords = centerCoordinatesInRect(coords, viewRect);
 	coords = scaleCoordinates(coords, viewScale);
