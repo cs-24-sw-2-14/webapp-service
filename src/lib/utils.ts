@@ -94,7 +94,7 @@ function isCoordinateInBoundingBox(
 }
 
 export function getCommandIdsUnderCursor(cursorPosition: CanvasCoordinate, svgs: Svg[]) {
-	let commandIdsUnderCursor: CommandId[] = [];
+	const commandIdsUnderCursor: CommandId[] = [];
 	svgs.forEach((svg) => {
 		if (!svg.boundingBox) return;
 		if (isCoordinateInBoundingBox(cursorPosition, svg.boundingBox, svg.offset)) {
