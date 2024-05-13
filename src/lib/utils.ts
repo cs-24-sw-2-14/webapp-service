@@ -4,7 +4,10 @@ import type {
 	ViewportCoordinates,
 	Rectangle,
 	ScaleFactor,
-	CanvasView
+	CanvasView,
+	BoundingBox,
+	Svg,
+	CommandId
 } from '$lib/types';
 
 export function checkHexadecimal(input: string) {
@@ -75,4 +78,28 @@ function scaleCoordinates(coordinates: Coordinates, scale: ScaleFactor): Coordin
 		x: coordinates.x * scale,
 		y: coordinates.y * scale
 	};
+}
+
+function isCoordinateInBoundingBox(
+	coordinate: CanvasCoordinate,
+	boundingBox: BoundingBox,
+	offset: CanvasCoordinate
+) {
+	return (
+		coordinate.x >= boundingBox.placement.x + offset.x &&
+		coordinate.x <= boundingBox.placement.x + offset.x + boundingBox.width &&
+		coordinate.y >= boundingBox.placement.y + offset.y &&
+		coordinate.y <= boundingBox.placement.y + offset.y + boundingBox.width
+	);
+}
+
+export function getCommandIdsUnderCursor(cursorPosition: CanvasCoordinate, svgs: Svg[]) {
+	let commandIdsUnderCursor: CommandId[] = [];
+	svgs.forEach((svg) => {
+		if (!svg.boundingBox) return;
+		if (isCoordinateInBoundingBox(cursorPosition, svg.boundingBox, svg.offset)) {
+			commandIdsUnderCursor.push(svg.commandId);
+		}
+	});
+	return commandIdsUnderCursor;
 }

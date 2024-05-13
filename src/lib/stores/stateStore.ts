@@ -118,9 +118,4 @@ export const mouseEvents = {
 	up: () => canvasTouched.set(false)
 };
 
-export interface DrawingUnderCursor {
-	commandId: number;
-	eventTarget: EventTarget;
-}
-
-export const drawingsUnderCursor = writable<DrawingUnderCursor[]>([]);
+export const commandIdsUnderCursor = writable<CommandId[]>([]);

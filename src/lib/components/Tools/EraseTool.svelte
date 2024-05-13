@@ -4,7 +4,7 @@
 	import {
 		toolState,
 		canvasTouched,
-		drawingsUnderCursor,
+		commandIdsUnderCursor,
 		socket,
 		user
 	} from '$lib/stores/stateStore';
@@ -23,7 +23,7 @@
 		if (
 			!$canvasTouched ||
 			$toolState !== ToolState.erase ||
-			$drawingsUnderCursor.length === 0 ||
+			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId !== null
 		)
 			return;
@@ -43,15 +43,13 @@
 		if (
 			!$canvasTouched ||
 			$toolState !== ToolState.erase ||
-			$drawingsUnderCursor.length === 0 ||
+			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId === null
 		)
 			return;
 		$socket.emit('doErase', {
 			coordinate: $user.position,
-			commandIds: $drawingsUnderCursor.map((drawingUnderCursor) => {
-				return drawingUnderCursor.commandId;
-			}),
+			commandIdsUnderCursor: $commandIdsUnderCursor,
 			commandId: $currentCommandId
 		});
 	}

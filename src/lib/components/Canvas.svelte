@@ -4,7 +4,7 @@
 		canvasView,
 		touchEvents,
 		mouseEvents,
-		drawingsUnderCursor,
+		commandIdsUnderCursor,
 		cursorPosition,
 		toggleGrid,
 		user
@@ -12,9 +12,9 @@
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
-	import type { ViewportCoordinates } from '$lib/types';
 	import MouseCursors from './MouseCursors.svelte';
-	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
+	import { viewportToCanvasCoordinatesFromCanvasView, getCommandIdsUnderCursor } from '$lib/utils';
+	import StoreUpdater from '$lib/components/StoreUpdater.svelte';
 
 	onMount(() => {
 		resizeCanvas();
@@ -28,31 +28,23 @@
 		};
 	}
 
-	cursorPosition.subscribe(removeElements);
-
-	// TODO: Get SVG elements under cursor by bounding box instead, Mads.
-	function removeElements(pos: ViewportCoordinates) {
-		if (!$drawingsUnderCursor) return;
-		$drawingsUnderCursor.filter((drawing) => {
-			const node = drawing.eventTarget as HTMLElement;
-			const svgRect = node.getBoundingClientRect();
-			if (
-				pos.x < svgRect.left ||
-				pos.x > svgRect.right ||
-				pos.y < svgRect.top ||
-				pos.y > svgRect.bottom
-			) {
-				return false;
-			}
-			return true;
-		});
+	$: $user.position = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
+	$: {
+		$commandIdsUnderCursor = getCommandIdsUnderCursor($user.position, $svgs);
+		console.log($commandIdsUnderCursor);
 	}
 
-	cursorPosition.subscribe(() => {
-		$user.position = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
-	});
+	function setBoundingBox(element: SVGGraphicsElement, svgIndex: number) {
+		const bbox = element.getBBox();
+		$svgs[svgIndex].boundingBox = {
+			placement: { x: bbox.x, y: bbox.y },
+			width: bbox.width,
+			height: bbox.height
+		};
+	}
 </script>
 
+<StoreUpdater />
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
@@ -104,21 +96,12 @@
 	{/if}
 
 	<!-- Render the Drawings -->
-	{#each $svgs as svg}
-		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<g
-			transform={`translate(${svg.placement.x}, ${svg.placement.y})`}
-			on:mouseover={(event) => {
-				if (!event.target) return;
-				$drawingsUnderCursor.push({
-					commandId: svg.commandId,
-					eventTarget: event.target
-				});
-			}}
-		>
-			{@html svg.svgString}
-		</g>
+	{#each $svgs as svg, index}
+		{#key svg.svgString}
+			<g transform={`translate(${svg.offset.x}, ${svg.offset.y})`} use:setBoundingBox={index}>
+				{@html svg.svgString}
+			</g>
+		{/key}
 	{/each}
 
 	<!-- Mouse Cursor (local and remote) -->
