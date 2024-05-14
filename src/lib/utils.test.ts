@@ -15,44 +15,82 @@ describe("Example File", () => {
 });
 
 describe("Extract initials (getInitials)", () => {
-    test("Correct splitting", () => {
-        expect(getInitials("Rosa Parks")).equal("RP");
-        expect(getInitials("Rosa Parks")).not.equal("R P");
-        expect(getInitials("Rosa Parks")).not.equal("Ro");
-        expect(getInitials("Rosa Parks")).not.equal("RoP");
-        expect(getInitials("Rosa Parks")).not.equal("RPa");
-        expect(getInitials("Rosa Parks")).not.equal("R");
-        expect(getInitials("Rosa Parks")).not.equal("P");
-        expect(getInitials("Rosa Parks")).not.equal("PR");
-    })
-    test("Correct casing", () => {
-        expect(getInitials("Bob Ross")).equal("BR");
-        expect(getInitials("Bob Ross")).not.equal("br");
-        expect(getInitials("bob ross")).equal("br");
-        expect(getInitials("bob ross")).not.equal("BR");
-    })
+    test.each([  
+        ["Rosa Parks", "RP"],
+        ["Rosa", "R"],
+
+    ])("Correct splitting", (input, expectedResult) => {
+        expect(getInitials(input)).toStrictEqual(expectedResult);
+    });
+
+    test.each([  
+        ["Rosa Parks", "R P"],
+        ["Rosa Parks", "Ro"],
+        ["Rosa Parks", "RoP"],
+        ["Rosa Parks", "RPa"],
+        ["Rosa Parks", "R"],
+        ["Rosa Parks", "P"],
+        ["Rosa Parks", "PR"],
+
+    ])("Inorrect splitting", (input, expectedResult) => {
+        expect(getInitials(input)).not.equal(expectedResult);
+    });
+
+    test.each([  
+        ["Bob Ross", "BR"],
+        ["bob ross", "br"],
+        ["bobRoss", "b"],
+        ["Bob_Ross", "B"],
+
+    ])("Correct casing", (input, expectedResult) => {
+        expect(getInitials(input)).toStrictEqual(expectedResult);
+    });
+
+    test.each([  
+        ["Bob Ross", "br"],
+        ["bob ross", "BR"],
+        ["Bob ross", "BR"],
+
+    ])("Inorrect casing", (input, expectedResult) => {
+        expect(getInitials(input)).not.equal(expectedResult);
+    });
+
+    test.each([  
+        [":) (:", ":("],
+        [":)", ":"],
+        ["1234", "1"],
+        ["12 34", "13"],
+
+    ])("Not Letters", (input, expectedResult) => {
+        expect(getInitials(input)).toStrictEqual(expectedResult);
+    });
 });
 
 describe("URL validation (checkHexa)", () => {
-    test("Upper-case validation", () => {
-        expect(checkHexadecimal("ABCDEF")).equal(true);
-        expect(checkHexadecimal("abcdef")).equal(false);
-        expect(checkHexadecimal("ABCDEf")).equal(false);
-    });
-    test("Char validation", () => {
-        expect(checkHexadecimal("123456")).equal(true);
-        expect(checkHexadecimal("12345Q")).equal(false);
-        expect(checkHexadecimal("12345#")).equal(false);
-        expect(checkHexadecimal("12345.")).equal(false);
-    });
-});
+    test.each([
+        ["ABCDEF", true],
+        ["abcdef", false],
+        ["ABCDEf", false],
 
-// viewportToCanvasCoordinatesFromCanvasView
+    ])("Upper-case validation", (input, expectedResult) => {
+        expect(checkHexadecimal(input)).toStrictEqual(expectedResult);
+    });
+
+    test.each([
+        ["123456", true],
+        ["12345Q", false],
+        ["12345#", false],
+        ["12345.", false],
+
+    ])("Char validation", (input, expectedResult) => {
+        expect(checkHexadecimal(input)).toStrictEqual(expectedResult);
+    });
+
+});
 
 
 describe("Viewport to Canvas Coordinates", () => {
     test.each([
-
         [2/1, 4-2, 2, 2, 1, 1, 1, 2, 2],
         [0.5*4, 1+1, 2, 2, 1, 1, 1, 2, 2],
         
@@ -63,11 +101,10 @@ describe("Viewport to Canvas Coordinates", () => {
         [3, 3, 2, 2, 0.5*4, 1+1, 1, 4, 4],
 
         [3, 3, 2, 2, 3+2/-2, 3+2/-2, 1, 4, 4],
-        [4, 5, 2, 2, 2, 2, 4, (4-2/2)*4+2, (5-2/2)*4+2],
-        //[4, 4, 1080, 1920, 2, 2, 4, 14, 10],
+        [4, 5, 2, 6, 2, 2, 4, (4-2/2)*4+2, (5-6/2)*4+2],
 
-    ])("Numbers as calculations", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
-        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
+    ])("Numbers as calculations", (coord1, coord2, width, height, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
+        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {width, height}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
     });
 
     test.each([
@@ -77,8 +114,8 @@ describe("Viewport to Canvas Coordinates", () => {
         [NaN, NaN, 2, 2, NaN, NaN, NaN, NaN, NaN],
         [1, 1, NaN, NaN, NaN, NaN, NaN, NaN, NaN],
        
-    ])("Not a Number", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
-        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
+    ])("Not a Number", (coord1, coord2, width, height, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
+        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {width, height}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
     });
 
     test.each([
@@ -87,30 +124,32 @@ describe("Viewport to Canvas Coordinates", () => {
         [0,0,2,2,2,2,1,1,1],
         [0,0,0,0,1,1,0,1,1],
         [1,1,0,0,0,0,3,3,3],
-        [2,1,2,0,1,0,1,3,0],
+        [2,1,2,0,1,0,1,2,1],
         [10000000010,10000000010,20,20,5000000000,5000000000,2,25000000000,25000000000],
 
-    ])("Positive integers", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
-        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
+        [4, 4, 1080, 1920, 0, 0, 4, -2144, -3824],
+        [1, 1, 1366, 768, 0, 0, 1, -682, -383],
+        [-10, -10, 1600, 1900, 0, 0, 10, -8100, -9600],
+
+    ])("Positive integers", (coord1, coord2, width, height, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
+        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {width, height}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
     });
 
     test.each([
-    ])("Negative integers", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
-        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
-    });
-    
-    test.each([
-    ])("Positive floats", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
-        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expect.closeTo(expectedCoord1), y: expect.closeTo(expectedCoord2) });
-    });
+        [-1,-1,0,0,0,0,1,-1,-1],
+        [-1,-1,0,0,0,0,-1,1,1],
+        [-1,-1,2,2,0,0,1,-2,-2],
+        [-1,-1,0,0,-1,-1,1,-2,-2],
 
-    test.each([
-    ])("Negative floats", (coord1, coord2, height, width, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
-        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {height, width}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expect.closeTo(expectedCoord1), y: expect.closeTo(expectedCoord2) });
+        [1,-1,0,0,0,0,1,1,-1],
+        [-1,1,0,0,0,0,1,-1,1],
+
+    ])("Negative integers", (coord1, coord2, width, height, canvasCoord1, canvasCoord2, scale, expectedCoord1, expectedCoord2) => {
+        expect(viewportToCanvasCoordinates({x: coord1, y: coord2}, {width, height}, {x: canvasCoord1, y: canvasCoord2}, scale)).toStrictEqual({ x: expectedCoord1, y: expectedCoord2 });
     });
 })
 
-/*
+
 describe("Center Coordinates In Rectangle", () => {
     test.each([
         [2/1, 4-2, 2, 2, 1, 1],
@@ -409,4 +448,3 @@ describe("Scale Coordinates", () => {
         expect(scaleCoordinates({ x: coord1, y: coord2 }, scale)).toStrictEqual({ x: coord1Scaled, y: coord2Scaled })
     });
 });
-*/
