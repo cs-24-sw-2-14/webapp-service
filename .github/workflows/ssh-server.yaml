@@ -11,12 +11,10 @@ env:
   IMAGE: ${{ secrets.DOCKER_USERNAME }}/${{ vars.IMAGE_NAME }}
 
 jobs:
-  build_image:
-    uses: ./.github/workflows/docker.yaml
-
   update:
     name: Run Docker commands
     runs-on: ubuntu-latest
+    needs: [Publish Docker image]
     steps:
     - name: Executing Docker commands
       uses: appleboy/ssh-action@v1.0.3
