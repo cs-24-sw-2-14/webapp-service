@@ -32,7 +32,7 @@ export interface SocketData {
 export type StartAck = (commandId: CommandId) => void;
 
 export interface StartDraw {
-	coordinate: CanvasCoordinate;
+	position: CanvasCoordinate;
 	stroke: HexColorString;
 	fill: FillString;
 	strokeWidth: StrokeWidth;
@@ -40,31 +40,31 @@ export interface StartDraw {
 }
 
 export interface DoDraw {
-	coordinate: CanvasCoordinate;
+	position: CanvasCoordinate;
 	commandId: CommandId;
 }
 
 export interface StartErase {
-	coordinate: CanvasCoordinate;
+	position: CanvasCoordinate;
 	commandIdsUnderCursor: CommandId[];
 	threshold: Threshold;
 	username: Username;
 }
 
 export interface DoErase {
-	coordinate: CanvasCoordinate;
+	position: CanvasCoordinate;
 	commandIdsUnderCursor: CommandId[];
 	commandId: CommandId;
 }
 
 export interface StartMove {
 	movedCommandId: CommandId;
-	offset: CanvasCoordinate;
+	position: CanvasCoordinate;
 	username: Username;
 }
 
 export interface DoMove {
-	offset: CanvasCoordinate;
+	position: CanvasCoordinate;
 	commandId: CommandId;
 }
 
@@ -83,7 +83,7 @@ export interface Redo {
 
 export interface Edit {
 	svgString?: SvgString;
-	placement?: CanvasCoordinate;
+	position?: CanvasCoordinate;
 	commandId: CommandId;
 }
 

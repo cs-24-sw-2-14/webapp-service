@@ -30,7 +30,7 @@
 		$socket.emit(
 			'startErase',
 			{
-				coordinate: $user.position,
+				position: $user.position,
 				commandIdsUnderCursor: $commandIdsUnderCursor,
 				threshold: THRESHOLD_DISTANCE,
 				username: $user.name
@@ -48,7 +48,7 @@
 		)
 			return;
 		$socket.emit('doErase', {
-			coordinate: $user.position,
+			position: $user.position,
 			commandIdsUnderCursor: $commandIdsUnderCursor,
 			commandId: $currentCommandId
 		});

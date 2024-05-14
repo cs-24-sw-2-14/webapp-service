@@ -31,7 +31,7 @@
 			'startMove',
 			{
 				movedCommandId: $commandIdsUnderCursor[0],
-				newCoordinate: $user.position,
+				position: $user.position,
 				username: $user.name
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
@@ -47,7 +47,7 @@
 		)
 			return;
 		$socket.emit('doMove', {
-			offset: {
+			position: {
 				x: $user.position.x - startPosition.x,
 				y: $user.position.y - startPosition.y
 			},

@@ -17,7 +17,7 @@
 		$socket.emit(
 			'startDraw',
 			{
-				coordinate: $user.position,
+				position: $user.position,
 				stroke: $user.drawColor,
 				fill: 'transparent',
 				strokeWidth: STROKE_WIDTH,
@@ -30,7 +30,7 @@
 	function doDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
 		$socket.emit('doDraw', {
-			coordinate: $user.position,
+			position: $user.position,
 			commandId: $currentCommandId
 		});
 	}

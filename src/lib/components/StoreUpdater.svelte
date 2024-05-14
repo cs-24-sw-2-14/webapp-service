@@ -16,13 +16,13 @@
 
 		// if it exists, modify it
 		if (commandIndex !== -1) {
-			$svgs[commandIndex].offset = data.placement ?? $svgs[commandIndex].offset;
+			$svgs[commandIndex].position = data.position ?? $svgs[commandIndex].position;
 			$svgs[commandIndex].svgString = data.svgString ?? $svgs[commandIndex].svgString;
 			return;
 		}
 
 		// else add it, if all fields are present
-		if (!data.svgString || !data.placement) return;
+		if (!data.svgString || !data.position) return;
 
 		svgs.update((current) => {
 			let spliceIndex = 0;
@@ -35,7 +35,7 @@
 			}
 			let svg: Svg = {
 				svgString: data.svgString!,
-				offset: data.placement!,
+				position: data.position!,
 				commandId: data.commandId
 			};
 			let resultArray = current;

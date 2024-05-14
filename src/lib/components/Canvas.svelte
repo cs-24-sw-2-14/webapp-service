@@ -37,7 +37,7 @@
 	function setBoundingBox(element: SVGGraphicsElement, svgIndex: number) {
 		const bbox = element.getBBox();
 		$svgs[svgIndex].boundingBox = {
-			placement: { x: bbox.x, y: bbox.y },
+			position: { x: bbox.x, y: bbox.y },
 			width: bbox.width,
 			height: bbox.height
 		};

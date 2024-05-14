@@ -86,10 +86,10 @@ function isCoordinateInBoundingBox(
 	offset: CanvasCoordinate
 ) {
 	return (
-		coordinate.x >= boundingBox.placement.x + offset.x &&
-		coordinate.x <= boundingBox.placement.x + offset.x + boundingBox.width &&
-		coordinate.y >= boundingBox.placement.y + offset.y &&
-		coordinate.y <= boundingBox.placement.y + offset.y + boundingBox.width
+		coordinate.x >= boundingBox.position.x + offset.x &&
+		coordinate.x <= boundingBox.position.x + offset.x + boundingBox.width &&
+		coordinate.y >= boundingBox.position.y + offset.y &&
+		coordinate.y <= boundingBox.position.y + offset.y + boundingBox.width
 	);
 }
 
@@ -97,7 +97,7 @@ export function getCommandIdsUnderCursor(cursorPosition: CanvasCoordinate, svgs:
 	const commandIdsUnderCursor: CommandId[] = [];
 	svgs.forEach((svg) => {
 		if (!svg.boundingBox) return;
-		if (isCoordinateInBoundingBox(cursorPosition, svg.boundingBox, svg.offset)) {
+		if (isCoordinateInBoundingBox(cursorPosition, svg.boundingBox, svg.position)) {
 			commandIdsUnderCursor.push(svg.commandId);
 		}
 	});
