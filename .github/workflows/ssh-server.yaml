@@ -1,26 +1,20 @@
 name: Update Docker on server
 
 on:
-  push:
-    branches:
-      - main
-      - ssh-action
+  workflow_run:
+    workflows: ["Publish Docker image"]
+    types:
+      - completed
   workflow_dispatch:
 
 env:
   IMAGE: ${{ secrets.DOCKER_USERNAME }}/${{ vars.IMAGE_NAME }}
 
 jobs:
-  independent_job:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Nop
-        run: echo "This is independent"
-
   update:
     name: Run Docker commands
     runs-on: ubuntu-latest
-    needs: [Publish Docker image]
+    needs: Publish Docker image
     steps:
     - name: Executing Docker commands
       uses: appleboy/ssh-action@v1.0.3
