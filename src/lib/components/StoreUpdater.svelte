@@ -3,14 +3,14 @@
 	import { svgs } from '$lib/stores/svgStore';
 	import { onMount } from 'svelte';
 	import type { Svg } from '$lib/types';
-	import type { Edit, Remove } from '$lib/socketioInterface';
+	import type { EditEvent, RemoveEvent } from '$lib/socketioInterface';
 
 	onMount(() => {
 		$socket.on('edit', handleEdit);
 		$socket.on('remove', handleRemove);
 	});
 
-	function handleEdit(data: Edit) {
+	function handleEdit(data: EditEvent) {
 		// check if the command already exists
 		const commandIndex = $svgs.findIndex((svg: Svg) => svg.commandId === data.commandId);
 
@@ -44,7 +44,7 @@
 		});
 	}
 
-	function handleRemove(data: Remove) {
+	function handleRemove(data: RemoveEvent) {
 		svgs.update((current) => {
 			return current.filter((svg) => svg.commandId !== data.commandId);
 		});

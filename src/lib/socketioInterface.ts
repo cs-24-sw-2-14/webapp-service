@@ -10,19 +10,19 @@ import type {
 } from './types';
 
 export interface ServerToClientEvents {
-	edit: (data: Edit) => void;
-	remove: (data: Remove) => void;
+	edit: (data: EditEvent) => void;
+	remove: (data: RemoveEvent) => void;
 }
 
 export interface ClientToServerEvents {
-	startDraw: (data: StartDraw, callback: StartAck) => void;
-	doDraw: (data: DoDraw) => void;
-	startErase: (data: StartErase, callback: StartAck) => void;
-	doErase: (data: DoErase) => void;
-	startMove: (data: StartMove, callback: StartAck) => void;
-	doMove: (data: DoMove) => void;
-	undo: (data: Undo) => void;
-	redo: (data: Redo) => void;
+	startDraw: (data: StartDrawEvent, callback: StartAck) => void;
+	doDraw: (data: DoDrawEvent) => void;
+	startErase: (data: StartEraseEvent, callback: StartAck) => void;
+	doErase: (data: DoEraseEvent) => void;
+	startMove: (data: StartMoveEvent, callback: StartAck) => void;
+	doMove: (data: DoMoveEvent) => void;
+	undo: (data: UndoEvent) => void;
+	redo: (data: RedoEvent) => void;
 }
 
 export interface SocketData {
@@ -31,7 +31,7 @@ export interface SocketData {
 
 export type StartAck = (commandId: CommandId) => void;
 
-export interface StartDraw {
+export interface StartDrawEvent {
 	position: CanvasCoordinate;
 	stroke: HexColorString;
 	fill: FillString;
@@ -39,54 +39,54 @@ export interface StartDraw {
 	username: Username;
 }
 
-export interface DoDraw {
+export interface DoDrawEvent {
 	position: CanvasCoordinate;
 	commandId: CommandId;
 }
 
-export interface StartErase {
+export interface StartEraseEvent {
 	position: CanvasCoordinate;
 	commandIdsUnderCursor: CommandId[];
 	threshold: Threshold;
 	username: Username;
 }
 
-export interface DoErase {
+export interface DoEraseEvent {
 	position: CanvasCoordinate;
 	commandIdsUnderCursor: CommandId[];
 	commandId: CommandId;
 }
 
-export interface StartMove {
+export interface StartMoveEvent {
 	movedCommandId: CommandId;
 	position: CanvasCoordinate;
 	username: Username;
 }
 
-export interface DoMove {
+export interface DoMoveEvent {
 	position: CanvasCoordinate;
 	commandId: CommandId;
 }
 
-export interface StartSuccess {
+export interface StartSuccessEvent {
 	commandId: CommandId;
 	username: Username;
 }
 
-export interface Undo {
+export interface UndoEvent {
 	username: Username;
 }
 
-export interface Redo {
+export interface RedoEvent {
 	username: Username;
 }
 
-export interface Edit {
+export interface EditEvent {
 	svgString?: SvgString;
 	position?: CanvasCoordinate;
 	commandId: CommandId;
 }
 
-export interface Remove {
+export interface RemoveEvent {
 	commandId: CommandId;
 }
