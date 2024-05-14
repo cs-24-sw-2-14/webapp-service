@@ -98,7 +98,7 @@
 	<!-- Render the Drawings -->
 	{#each $svgs as svg, index}
 		{#key svg.svgString}
-			<g transform={`translate(${svg.offset.x}, ${svg.offset.y})`} use:setBoundingBox={index}>
+			<g transform={`translate(${svg.position.x}, ${svg.position.y})`} use:setBoundingBox={index}>
 				{@html svg.svgString}
 			</g>
 		{/key}
