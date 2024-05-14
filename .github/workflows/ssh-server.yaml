@@ -11,6 +11,12 @@ env:
   IMAGE: ${{ secrets.DOCKER_USERNAME }}/${{ vars.IMAGE_NAME }}
 
 jobs:
+  independent_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Nop
+        run: echo "This is independent"
+
   update:
     name: Run Docker commands
     runs-on: ubuntu-latest
