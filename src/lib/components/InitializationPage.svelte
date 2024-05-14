@@ -1,13 +1,36 @@
 <script lang="ts">
 	import UserModal from './UserModal.svelte';
-	import { currentPage, user } from '$lib/stores/stateStore';
+	import { currentPage, user, boardId, socket } from '$lib/stores/stateStore';
 	import { Page } from '$lib/types';
+	import { io, Socket } from 'socket.io-client';
+	import {
+		PUBLIC_SOCKET_API_PROTOCOL,
+		PUBLIC_SOCKET_API_HOSTNAME,
+		PUBLIC_SOCKET_API_PORT
+	} from '$env/static/public';
+	import type { ServerToClientEvents, ClientToServerEvents } from '$lib/socketioInterface';
 
 	let dialog: HTMLDialogElement;
+	const SOCKET_ENDPOINT: string = `${PUBLIC_SOCKET_API_PROTOCOL}://${PUBLIC_SOCKET_API_HOSTNAME}:${PUBLIC_SOCKET_API_PORT}/${$boardId}`;
 
 	function handleSubmit(username: string) {
 		$user.name = username;
-		$currentPage = Page.CanvasPage;
+
+		const newSocket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_ENDPOINT, {
+			auth: {
+				username: username
+			}
+		});
+
+		newSocket.on('connect_error', (err) => {
+			console.log(err.message);
+		});
+
+		newSocket.on('connect', () => {
+			console.log('Connected!');
+			socket.set(newSocket);
+			$currentPage = Page.CanvasPage;
+		});
 	}
 	$: if (dialog) dialog.showModal();
 </script>

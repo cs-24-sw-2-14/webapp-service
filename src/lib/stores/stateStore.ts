@@ -1,5 +1,5 @@
 // Store to handle global state
-import Socket from 'socket.io-client';
+import { Socket } from 'socket.io-client';
 
 import { writable } from 'svelte/store';
 import {
@@ -9,14 +9,15 @@ import {
 	Page,
 	ToolState,
 	type User,
-	type ViewportCoordinates
+	type ViewportCoordinates,
+	type CommandId
 } from '$lib/types';
 
 export const boardId = writable('');
 
 export const currentPage = writable(Page.InitializationPage);
 
-export const socket = writable<typeof Socket>();
+export const socket = writable<Socket>();
 
 export const viewChat = writable(false);
 
@@ -117,9 +118,4 @@ export const mouseEvents = {
 	up: () => canvasTouched.set(false)
 };
 
-export interface DrawingUnderCursor {
-	commandId: number;
-	eventTarget: EventTarget;
-}
-
-export const drawingsUnderCursor = writable<DrawingUnderCursor[]>([]);
+export const commandIdsUnderCursor = writable<CommandId[]>([]);

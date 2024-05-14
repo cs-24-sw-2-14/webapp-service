@@ -1,10 +1,13 @@
 import type {
 	Coordinates,
-	CanvasCoordinates,
+	CanvasCoordinate,
 	ViewportCoordinates,
 	Rectangle,
 	ScaleFactor,
-	CanvasView
+	CanvasView,
+	BoundingBox,
+	Svg,
+	CommandId
 } from '$lib/types';
 
 export function checkHexadecimal(input: string) {
@@ -42,9 +45,9 @@ export function viewportToCanvasCoordinatesFromCanvasView(
 export function viewportToCanvasCoordinates(
 	coordinates: ViewportCoordinates,
 	viewRect: Rectangle,
-	viewPos: CanvasCoordinates,
+	viewPos: CanvasCoordinate,
 	viewScale: ScaleFactor
-): CanvasCoordinates {
+): CanvasCoordinate {
 	let coords = coordinates;
 	coords = centerCoordinatesInRect(coords, viewRect);
 	coords = scaleCoordinates(coords, viewScale);
@@ -75,4 +78,28 @@ export function scaleCoordinates(coordinates: Coordinates, scale: ScaleFactor): 
 		x: coordinates.x * scale,
 		y: coordinates.y * scale
 	};
+}
+
+function isCoordinateInBoundingBox(
+	coordinate: CanvasCoordinate,
+	boundingBox: BoundingBox,
+	offset: CanvasCoordinate
+) {
+	return (
+		coordinate.x >= boundingBox.position.x + offset.x &&
+		coordinate.x <= boundingBox.position.x + offset.x + boundingBox.width &&
+		coordinate.y >= boundingBox.position.y + offset.y &&
+		coordinate.y <= boundingBox.position.y + offset.y + boundingBox.width
+	);
+}
+
+export function getCommandIdsUnderCursor(cursorPosition: CanvasCoordinate, svgs: Svg[]) {
+	const commandIdsUnderCursor: CommandId[] = [];
+	svgs.forEach((svg) => {
+		if (!svg.boundingBox) return;
+		if (isCoordinateInBoundingBox(cursorPosition, svg.boundingBox, svg.position)) {
+			commandIdsUnderCursor.push(svg.commandId);
+		}
+	});
+	return commandIdsUnderCursor;
 }

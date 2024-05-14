@@ -2,19 +2,11 @@
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { toolState, canvasTouched, socket, user } from '$lib/stores/stateStore';
-	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
-	import { ToolState } from '$lib/types';
+	import { ToolState, type CommandId } from '$lib/types';
 
 	const STROKE_WIDTH = 7;
 	let currentCommandId = writable<number | null>(null);
-
-	onMount(() => {
-		$socket.on('startDrawSuccess', (data) => {
-			if (data.username !== $user.name) return;
-			$currentCommandId = data.commandId;
-		});
-	});
 
 	user.subscribe(startDraw);
 	user.subscribe(doDraw);
@@ -22,22 +14,23 @@
 
 	function startDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
-		$socket.emit('startDraw', {
-			placement: { x: 0, y: 0 }, // TODO: Mads, remove placement from backend. Rename path->coords.
-			path: $user.position,
-			stroke: $user.drawColor,
-			fill: 'transparent',
-			strokeWidth: STROKE_WIDTH,
-			username: $user.name
-		});
+		$socket.emit(
+			'startDraw',
+			{
+				position: $user.position,
+				stroke: $user.drawColor,
+				fill: 'transparent',
+				strokeWidth: STROKE_WIDTH,
+				username: $user.name
+			},
+			(commandId: CommandId) => currentCommandId.set(commandId)
+		);
 	}
 
 	function doDraw() {
 		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
-		const { x, y } = $user.position;
 		$socket.emit('doDraw', {
-			x: x, // TODO: Det der X og Y er noget rod. Skal hedde coordinates. Mads.
-			y: y,
+			position: $user.position,
 			commandId: $currentCommandId
 		});
 	}
