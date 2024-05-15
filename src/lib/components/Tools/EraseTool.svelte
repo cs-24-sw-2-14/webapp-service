@@ -6,9 +6,9 @@
 		cursorDown,
 		canvasCursorPosition,
 		commandIdsUnderCursor,
-		socket,
 		username
 	} from '$lib/stores/stateStore';
+	import { socket } from '$lib/stores/socketioStore';
 	import { ToolState, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 
