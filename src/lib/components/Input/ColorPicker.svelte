@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { colorMap } from '$lib/color';
-	import { type User, Color, type Username } from '$lib/types';
-	export let otherUsers: Map<Username, User>;
+	import { Color } from '$lib/types';
+	import { otherUsers } from '$lib/stores/socketioStore';
 	export let colorPicked: Color | null = null;
 
 	function isDisabledByOtherUser(color: Color): boolean {
-		for (const [_, user] of otherUsers) {
+		for (const [_, user] of $otherUsers) {
 			if (user.color === color) {
 				return true;
 			}
