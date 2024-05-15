@@ -33,6 +33,8 @@
 		{handleSubmit}
 		closable={false}
 		boardId={$boardId}
+		colorPicked={$color}
+		fieldDefaultValue={$username ?? ''}
 	/>
 </main>
 

@@ -40,11 +40,13 @@
 	}
 
 	$: {
-		$boardSocket?.emit('userChange', {
-			username: $username,
-			color: $color,
-			position: $canvasCursorPosition
-		});
+		if ($username !== null && $color !== null) {
+			$boardSocket?.emit('userChange', {
+				username: $username,
+				color: $color,
+				position: $canvasCursorPosition
+			});
+		}
 	}
 </script>
 
