@@ -18,6 +18,9 @@ export const currentPage = writable(Page.InitializationPage);
 
 
 export const viewChat = writable(false);
+// USERS
+export const username = writable<Username>();
+export const color = writable<Color>();
 
 export const toggleGrid = writable(true);
 // CURSOR
@@ -55,12 +58,6 @@ export const canvasCursorPosition = derived(
 	}
 );
 
-export const user = writable<User>({
-	name: 'Marc', // Empty string as the default Username
-	color: Color.pink, // Default user color set to pink, BECAUSE WHY NOT!
-	position: { x: 0, y: 0 },
-	drawColor: '#000000'
-});
 
 export const commandIdsUnderCursor = derived([cursorPosition, svgs], ([cursorPosition, $svgs]) => {
 	return getCommandIdsUnderCursor(cursorPosition, $svgs);
