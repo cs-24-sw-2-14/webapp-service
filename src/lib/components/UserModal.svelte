@@ -54,7 +54,7 @@
 			class="mt-4 px-4 py-2 bg-yellow-500 rounded shadow hover:bg-yellow-600 disabled:bg-yellow-600 w-full"
 			disabled={!usernameIsValid || !colorIsValid}
 			on:click={() => {
-				if (!colorPicked) return;
+				if (colorPicked === null) return;
 				handleSubmit(usernameField, colorPicked);
 			}}
 		>
