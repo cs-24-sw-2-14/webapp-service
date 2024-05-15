@@ -1,6 +1,3 @@
-// Store to handle global state
-import { Socket } from 'socket.io-client';
-
 import { writable } from 'svelte/store';
 import {
 	type CanvasView,
@@ -17,7 +14,6 @@ export const boardId = writable('');
 
 export const currentPage = writable(Page.InitializationPage);
 
-export const socket = writable<Socket>();
 
 export const viewChat = writable(false);
 
@@ -39,55 +35,6 @@ export const cursorPosition = writable<ViewportCoordinates>({
 	y: 0
 });
 
-export const otherUsers = writable<OtherUser[]>([
-	{
-		name: 'Elma Vukicevic',
-		color: Color.red,
-		position: { x: -50, y: 50 },
-		drawColor: '#a4eb34',
-		isOnline: true
-	},
-	{
-		name: 'Amalie Jensen',
-		color: Color.orange,
-		position: { x: -100, y: 100 },
-		drawColor: '#a4eb34',
-		isOnline: true
-	},
-	{
-		name: 'Cecilie Lassen',
-		color: Color.yellow,
-		position: { x: -150, y: 150 },
-		drawColor: '#000000',
-		isOnline: true
-	},
-	{
-		name: 'Kresten Sckerl',
-		color: Color.lime,
-		position: { x: -200, y: 200 },
-		drawColor: '#000000',
-		isOnline: true
-	},
-	{
-		name: 'Mads Fagerlund',
-		color: Color.green,
-		position: { x: -250, y: 250 },
-		drawColor: '#000000',
-		isOnline: true
-	},
-	{
-		name: 'Marc Nygaard',
-		color: Color.teal,
-		position: { x: -300, y: 300 },
-		drawColor: '#000000',
-		isOnline: true
-	},
-	{
-		name: 'Thorbjørn Larsen',
-		color: Color.brown,
-		position: { x: -350, y: 350 },
-		drawColor: '#000000',
-		isOnline: true
 	}
 ]);
 
