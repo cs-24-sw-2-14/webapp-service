@@ -1,37 +1,25 @@
 <script lang="ts">
 	import UserModal from './UserModal.svelte';
-	import { currentPage, user, boardId, socket } from '$lib/stores/stateStore';
-	import { Page } from '$lib/types';
-	import { io, Socket } from 'socket.io-client';
-	import {
-		PUBLIC_SOCKET_API_PROTOCOL,
-		PUBLIC_SOCKET_API_HOSTNAME,
-		PUBLIC_SOCKET_API_PORT
-	} from '$env/static/public';
-	import type { ServerToClientEvents, ClientToServerEvents } from '$lib/socketioInterface';
-
+	import { currentPage, username, boardId, color } from '$lib/stores/stateStore';
+	import { otherUsers, connectToBoardSocket, connectToInitSocket } from '$lib/stores/socketioStore';
+	import { Page, type Color } from '$lib/types';
+	import { onMount } from 'svelte';
 	let dialog: HTMLDialogElement;
-	const SOCKET_ENDPOINT: string = `${PUBLIC_SOCKET_API_PROTOCOL}://${PUBLIC_SOCKET_API_HOSTNAME}:${PUBLIC_SOCKET_API_PORT}/${$boardId}`;
 
-	function handleSubmit(username: string) {
-		$user.name = username;
-
-		const newSocket: Socket<ServerToClientEvents, ClientToServerEvents> = io(SOCKET_ENDPOINT, {
-			auth: {
-				username: username
-			}
+	onMount(() => {
+		connectToInitSocket($boardId, () => {
+			console.log('connected to init socket');
 		});
+	});
 
-		newSocket.on('connect_error', (err) => {
-			console.log(err.message);
-		});
-
-		newSocket.on('connect', () => {
-			console.log('Connected!');
-			socket.set(newSocket);
+	function handleSubmit(username: string, color: Color) {
+		connectToBoardSocket(username, color, $boardId, () => {
+			$username = username;
+			$color = color;
 			$currentPage = Page.CanvasPage;
 		});
 	}
+
 	$: if (dialog) dialog.showModal();
 </script>
 
@@ -43,6 +31,8 @@
 		submitButtonName="Continue"
 		{handleSubmit}
 		closable={false}
+		otherUsers={$otherUsers}
+		boardId={$boardId}
 	/>
 </main>
 

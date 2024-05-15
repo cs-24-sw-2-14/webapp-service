@@ -1,42 +1,49 @@
 <script lang="ts">
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-	import { chosenTool, canvasTouched, socket, user } from '$lib/stores/stateStore';
+	import {
+		chosenTool,
+		drawColor,
+		canvasCursorPosition,
+		cursorDown,
+		username
+	} from '$lib/stores/stateStore';
+	import { boardSocket } from '$lib/stores/socketioStore';
 	import { writable } from 'svelte/store';
 	import { ToolState, type CommandId } from '$lib/types';
 
 	const STROKE_WIDTH = 7;
 	let currentCommandId = writable<number | null>(null);
 
-	user.subscribe(startDraw);
-	user.subscribe(doDraw);
-	canvasTouched.subscribe(stopDraw);
+	canvasCursorPosition.subscribe(startDraw);
+	canvasCursorPosition.subscribe(doDraw);
+	cursorDown.subscribe(stopDraw);
 
 	function startDraw() {
-		if (!$canvasTouched || $chosenTool !== ToolState.draw || $currentCommandId !== null) return;
-		$socket.emit(
+		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId !== null) return;
+		$boardSocket.emit(
 			'startDraw',
 			{
-				position: $user.position,
-				stroke: $user.drawColor,
+				position: $canvasCursorPosition,
+				stroke: $drawColor,
 				fill: 'transparent',
 				strokeWidth: STROKE_WIDTH,
-				username: $user.name
+				username: $username
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
 	}
 
 	function doDraw() {
-		if (!$canvasTouched || $chosenTool !== ToolState.draw || $currentCommandId === null) return;
-		$socket.emit('doDraw', {
-			position: $user.position,
+		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId === null) return;
+		$boardSocket.emit('doDraw', {
+			position: $canvasCursorPosition,
 			commandId: $currentCommandId
 		});
 	}
 
 	function stopDraw() {
-		if ($canvasTouched || $chosenTool !== ToolState.draw) return;
+		if ($cursorDown || $chosenTool !== ToolState.draw) return;
 		$currentCommandId = null;
 	}
 </script>

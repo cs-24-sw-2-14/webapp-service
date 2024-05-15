@@ -1,16 +1,17 @@
 <script lang="ts">
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-	import { user, socket } from '$lib/stores/stateStore';
+	import { username } from '$lib/stores/stateStore';
+	import { boardSocket } from '$lib/stores/socketioStore';
 
 	function undo() {
-		$socket.emit('undo', {
-			username: $user.name
+		$boardSocket.emit('undo', {
+			username: $username
 		});
 	}
 	function redo() {
-		$socket.emit('redo', {
-			username: $user.name
+		$boardSocket.emit('redo', {
+			username: $username
 		});
 	}
 </script>

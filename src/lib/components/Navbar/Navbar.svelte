@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Logo from './Logo.svelte';
-	import { otherUsers } from '$lib/stores/stateStore';
 	import UserBubbles from '$lib/components/Navbar/UserBubbles.svelte';
 	import SettingsModal from '../SettingsModal.svelte';
 </script>
@@ -19,6 +18,6 @@
 
 	<!-- Who is online? -->
 	<div class="fixed top-0 right-0 z-20 mt-2 mr-14">
-		<UserBubbles otherUsers={$otherUsers} />
+		<UserBubbles />
 	</div>
 </div>

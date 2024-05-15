@@ -3,36 +3,37 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		chosenTool,
-		canvasTouched,
+		cursorDown,
 		commandIdsUnderCursor,
-		user,
-		socket
+		canvasCursorPosition,
+		username
 	} from '$lib/stores/stateStore';
+	import { boardSocket } from '$lib/stores/socketioStore';
 	import { ToolState, type CanvasCoordinateSet, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 	let currentCommandId = writable<number | null>(null);
 
-	user.subscribe(startMove);
-	user.subscribe(doMove);
-	canvasTouched.subscribe(stopDraw);
+	cursorDown.subscribe(startMove);
+	canvasCursorPosition.subscribe(doMove);
+	cursorDown.subscribe(stopDraw);
 
 	let startPosition: CanvasCoordinateSet | null = null;
 
 	function startMove() {
 		if (
-			!$canvasTouched ||
+			!$cursorDown ||
 			$chosenTool !== ToolState.move ||
 			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId !== null
 		)
 			return;
-		startPosition = $user.position;
-		$socket.emit(
+		startPosition = $canvasCursorPosition;
+		$boardSocket.emit(
 			'startMove',
 			{
 				movedCommandId: $commandIdsUnderCursor[0],
-				position: $user.position,
-				username: $user.name
+				position: $canvasCursorPosition,
+				username: $username
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
@@ -40,23 +41,23 @@
 
 	function doMove() {
 		if (
-			!$canvasTouched ||
+			!$cursorDown ||
 			$chosenTool !== ToolState.move ||
 			$currentCommandId === null ||
 			startPosition === null
 		)
 			return;
-		$socket.emit('doMove', {
+		$boardSocket.emit('doMove', {
 			position: {
-				x: $user.position.x - startPosition.x,
-				y: $user.position.y - startPosition.y
+				x: $canvasCursorPosition.x - startPosition.x,
+				y: $canvasCursorPosition.y - startPosition.y
 			},
 			commandId: $currentCommandId
 		});
 	}
 
 	function stopDraw() {
-		if ($canvasTouched || $chosenTool !== ToolState.move) return;
+		if ($cursorDown || $chosenTool !== ToolState.move) return;
 		$currentCommandId = null;
 	}
 </script>

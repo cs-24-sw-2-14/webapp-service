@@ -1,6 +1,7 @@
 <script lang="ts">
 	import UserModal from './UserModal.svelte';
-	import { user } from '$lib/stores/stateStore';
+	import { boardId, username } from '$lib/stores/stateStore';
+	import { otherUsers } from '$lib/stores/socketioStore';
 	import MenuButton from './Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 
@@ -8,16 +9,19 @@
 
 	function handleSubmit(username: string) {
 		dialog.close();
-		$user.name = username;
+		$username = username;
 	}
 </script>
 
 <UserModal
 	bind:dialog
 	title="Settings"
-	placeholder={$user.name}
+	placeholder={$username}
 	submitButtonName="Update"
 	{handleSubmit}
+	otherUsers={$otherUsers}
+	boardId={$boardId}
+	fieldDefaultValue={$username}
 />
 
 <MenuButton

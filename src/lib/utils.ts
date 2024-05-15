@@ -93,7 +93,10 @@ function isCoordinateInBoundingBox(
 	);
 }
 
-export function getCommandIdsUnderCursor(cursorPosition: CanvasCoordinateSet, svgs: Svg[]) {
+export function getCommandIdsUnderCursor(
+	cursorPosition: CanvasCoordinateSet,
+	svgs: Map<CommandId, Svg>
+) {
 	const commandIdsUnderCursor: CommandId[] = [];
 	svgs.forEach((svg) => {
 		if (!svg.boundingBox) return;
