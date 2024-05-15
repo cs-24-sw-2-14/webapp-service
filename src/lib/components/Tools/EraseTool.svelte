@@ -8,7 +8,7 @@
 		commandIdsUnderCursor,
 		username
 	} from '$lib/stores/stateStore';
-	import { socket } from '$lib/stores/socketioStore';
+	import { boardSocket } from '$lib/stores/socketioStore';
 	import { ToolState, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 
@@ -28,7 +28,7 @@
 			$currentCommandId !== null
 		)
 			return;
-		$socket.emit(
+		$boardSocket.emit(
 			'startErase',
 			{
 				coordinate: $canvasCursorPosition,
@@ -48,7 +48,7 @@
 			$currentCommandId === null
 		)
 			return;
-		$socket.emit('doErase', {
+		$boardSocket.emit('doErase', {
 			coordinate: $canvasCursorPosition,
 			commandIdsUnderCursor: $commandIdsUnderCursor,
 			commandId: $currentCommandId

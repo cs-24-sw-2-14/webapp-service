@@ -8,7 +8,7 @@
 		canvasCursorPosition,
 		username
 	} from '$lib/stores/stateStore';
-	import { socket } from '$lib/stores/socketioStore';
+	import { boardSocket } from '$lib/stores/socketioStore';
 	import { ToolState, type CanvasCoordinateSet, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 	let currentCommandId = writable<number | null>(null);
@@ -28,11 +28,11 @@
 		)
 			return;
 		startPosition = $canvasCursorPosition;
-		$socket.emit(
+		$boardSocket.emit(
 			'startMove',
 			{
 				movedCommandId: $commandIdsUnderCursor[0],
-				newCoordinate: $canvasCursorPosition,
+				offset: $canvasCursorPosition,
 				username: $username
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
@@ -47,7 +47,7 @@
 			startPosition === null
 		)
 			return;
-		$socket.emit('doMove', {
+		$boardSocket.emit('doMove', {
 			offset: {
 				x: $canvasCursorPosition.x - startPosition.x,
 				y: $canvasCursorPosition.y - startPosition.y

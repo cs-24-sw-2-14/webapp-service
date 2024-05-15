@@ -8,7 +8,7 @@
 		cursorDown,
 		username
 	} from '$lib/stores/stateStore';
-	import { socket } from '$lib/stores/socketioStore';
+	import { boardSocket } from '$lib/stores/socketioStore';
 	import { writable } from 'svelte/store';
 	import { ToolState, type CommandId } from '$lib/types';
 
@@ -21,7 +21,7 @@
 
 	function startDraw() {
 		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId !== null) return;
-		$socket.emit(
+		$boardSocket.emit(
 			'startDraw',
 			{
 				coordinate: $canvasCursorPosition,
@@ -36,7 +36,7 @@
 
 	function doDraw() {
 		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId === null) return;
-		$socket.emit('doDraw', {
+		$boardSocket.emit('doDraw', {
 			coordinate: $canvasCursorPosition,
 			commandId: $currentCommandId
 		});

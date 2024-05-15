@@ -10,7 +10,7 @@
 	} from '$lib/stores/stateStore';
 	import { ToolState, type CommandId } from '$lib/types';
 	import { onMount } from 'svelte';
-	import { svgs, socket } from '$lib/stores/socketioStore';
+	import { svgs, boardSocket } from '$lib/stores/socketioStore';
 	import MouseCursors from './MouseCursors.svelte';
 
 	onMount(() => {
@@ -40,7 +40,7 @@
 	}
 
 	$: {
-		$socket.emit('userChange', {
+		$boardSocket.emit('userChange', {
 			username: $username,
 			color: $color,
 			position: $canvasCursorPosition
