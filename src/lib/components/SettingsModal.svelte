@@ -1,7 +1,6 @@
 <script lang="ts">
 	import UserModal from './UserModal.svelte';
 	import { boardId, username } from '$lib/stores/stateStore';
-	import { otherUsers } from '$lib/stores/socketioStore';
 	import MenuButton from './Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 
@@ -19,7 +18,6 @@
 	placeholder={$username}
 	submitButtonName="Update"
 	{handleSubmit}
-	otherUsers={$otherUsers}
 	boardId={$boardId}
 	fieldDefaultValue={$username}
 />

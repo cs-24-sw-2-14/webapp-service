@@ -28,7 +28,7 @@
 			$currentCommandId !== null
 		)
 			return;
-		$boardSocket.emit(
+		$boardSocket?.emit(
 			'startErase',
 			{
 				position: $canvasCursorPosition,
@@ -48,7 +48,7 @@
 			$currentCommandId === null
 		)
 			return;
-		$boardSocket.emit('doErase', {
+		$boardSocket?.emit('doErase', {
 			position: $canvasCursorPosition,
 			commandIdsUnderCursor: $commandIdsUnderCursor,
 			commandId: $currentCommandId

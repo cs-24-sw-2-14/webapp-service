@@ -1,19 +1,25 @@
 <script lang="ts">
 	import UserModal from './UserModal.svelte';
 	import { currentPage, username, boardId, color } from '$lib/stores/stateStore';
-	import { otherUsers, connectToBoardSocket, connectToInitSocket } from '$lib/stores/socketioStore';
-	import { Page, type Color } from '$lib/types';
+	import {
+		connectToBoardSocket,
+		connectToInitSocket,
+		initSocket,
+		otherUsers
+	} from '$lib/stores/socketioStore';
 	import { onMount } from 'svelte';
+	import { Page, type Color } from '$lib/types';
 	let dialog: HTMLDialogElement;
 
 	onMount(() => {
 		connectToInitSocket($boardId, () => {
-			console.log('connected to init socket');
+			console.log('connected to initsocket!');
 		});
 	});
 
 	function handleSubmit(username: string, color: Color) {
 		connectToBoardSocket(username, color, $boardId, () => {
+			$initSocket?.disconnect();
 			$username = username;
 			$color = color;
 			$currentPage = Page.CanvasPage;

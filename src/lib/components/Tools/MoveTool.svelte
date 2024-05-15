@@ -28,7 +28,7 @@
 		)
 			return;
 		startPosition = $canvasCursorPosition;
-		$boardSocket.emit(
+		$boardSocket?.emit(
 			'startMove',
 			{
 				movedCommandId: $commandIdsUnderCursor[0],
@@ -47,7 +47,7 @@
 			startPosition === null
 		)
 			return;
-		$boardSocket.emit('doMove', {
+		$boardSocket?.emit('doMove', {
 			position: {
 				x: $canvasCursorPosition.x - startPosition.x,
 				y: $canvasCursorPosition.y - startPosition.y

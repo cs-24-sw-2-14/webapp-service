@@ -5,12 +5,12 @@
 	import { boardSocket } from '$lib/stores/socketioStore';
 
 	function undo() {
-		$boardSocket.emit('undo', {
+		$boardSocket?.emit('undo', {
 			username: $username
 		});
 	}
 	function redo() {
-		$boardSocket.emit('redo', {
+		$boardSocket?.emit('redo', {
 			username: $username
 		});
 	}

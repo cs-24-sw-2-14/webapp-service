@@ -21,7 +21,7 @@
 
 	function startDraw() {
 		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId !== null) return;
-		$boardSocket.emit(
+		$boardSocket?.emit(
 			'startDraw',
 			{
 				position: $canvasCursorPosition,
@@ -36,7 +36,7 @@
 
 	function doDraw() {
 		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId === null) return;
-		$boardSocket.emit('doDraw', {
+		$boardSocket?.emit('doDraw', {
 			position: $canvasCursorPosition,
 			commandId: $currentCommandId
 		});
