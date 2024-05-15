@@ -1,6 +1,6 @@
 <script lang="ts">
 	import UserModal from './UserModal.svelte';
-	import { boardId, username } from '$lib/stores/stateStore';
+	import { boardId, color, username } from '$lib/stores/stateStore';
 	import MenuButton from './Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 
@@ -19,7 +19,8 @@
 	submitButtonName="Update"
 	{handleSubmit}
 	boardId={$boardId}
-	fieldDefaultValue={$username}
+	fieldDefaultValue={$username ?? ''}
+	colorPicked={$color}
 />
 
 <MenuButton

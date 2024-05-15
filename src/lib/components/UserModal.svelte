@@ -14,7 +14,7 @@
 	export let fieldDefaultValue = '';
 
 	let usernameField = fieldDefaultValue;
-	let colorPicked: Color | null = null;
+	export let colorPicked: Color | null = null;
 
 	$: usernameIsValid = validateUsername(boardId, usernameField);
 	$: colorIsValid = colorPicked !== null ? validateColor(boardId, colorPicked) : false;
