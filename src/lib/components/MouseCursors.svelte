@@ -3,9 +3,10 @@
 	import { afterUpdate } from 'svelte';
 	import { ToolState, type CanvasCoordinates } from '$lib/types';
 	import { toolState, user, otherUsers } from '$lib/stores/stateStore';
+	import { ToolState, type CanvasCoordinateSet } from '$lib/types';
 	import { translateCoordinates } from '$lib/utils';
 
-	const cursorOffset: CanvasCoordinates = {
+	const cursorOffset: CanvasCoordinateSet = {
 		x: -10.5,
 		y: -11
 	};

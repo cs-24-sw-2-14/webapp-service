@@ -1,12 +1,12 @@
 export interface User {
 	name: Username;
 	color: Color;
-	position: CanvasCoordinate;
 	drawColor: HexColorString;
 }
 
 export interface OtherUser extends User {
 	isOnline: boolean;
+	position: CanvasCoordinateSet;
 }
 
 export enum Color {
@@ -31,7 +31,7 @@ export type ColorName = string;
 export type HexColorString = string;
 
 export interface CanvasView {
-	position: CanvasCoordinate;
+	position: CanvasCoordinateSet;
 	size: Rectangle;
 	scale: ScaleFactor100;
 }
@@ -48,13 +48,13 @@ export interface Rectangle {
 	height: number;
 }
 
-export interface Coordinates {
+export interface CoordinateSet {
 	x: number;
 	y: number;
 }
 
-export type ViewportCoordinates = Coordinates;
-export type CanvasCoordinate = Coordinates;
+export type ViewportCoordinateSet = CoordinateSet;
+export type CanvasCoordinateSet = CoordinateSet;
 export type Username = string;
 export type ScaleFactor = number;
 // Currently a value between 0 and 100, but should be between 0 and 1 when refactor is done.
@@ -72,12 +72,12 @@ export type SvgString = string;
 export type CommandId = number;
 
 export interface BoundingBox extends Rectangle {
-	position: CanvasCoordinate;
+	placement: CanvasCoordinateSet;
 }
 
 export type Svg = {
 	svgString: SvgString;
-	position: CanvasCoordinate;
+	placement: CanvasCoordinateSet;
 	commandId: CommandId;
 	boundingBox?: BoundingBox;
 };

@@ -7,7 +7,7 @@
 		cursorPosition,
 		canvasTouched
 	} from '$lib/stores/stateStore';
-	import { type ViewportCoordinates, ToolState } from '$lib/types';
+	import { type ViewportCoordinateSet, ToolState } from '$lib/types';
 	let startX: number, startY: number;
 
 	canvasTouched.subscribe(startDrag);
@@ -21,8 +21,8 @@
 		}
 	}
 
-	function doDrag(pos: ViewportCoordinates) {
 		if (!$canvasTouched || $toolState !== ToolState.pan) return;
+	function doDrag(pos: ViewportCoordinateSet) {
 		$canvasView = {
 			...$canvasView,
 			position: { // TODO: reimplment PanTool
