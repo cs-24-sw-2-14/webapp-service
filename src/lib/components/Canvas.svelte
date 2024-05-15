@@ -32,7 +32,7 @@
 		$svgs.set(commandId, {
 			...oldSvg,
 			boundingBox: {
-				placement: { x: bbox.x, y: bbox.y },
+				position: { x: bbox.x, y: bbox.y },
 				width: bbox.width,
 				height: bbox.height
 			}
@@ -103,7 +103,7 @@
 		{#key svg.svgString}
 			{#if svg.display}
 				<g
-					transform={`translate(${svg.placement.x}, ${svg.placement.y})`}
+					transform={`translate(${svg.position.x}, ${svg.position.y})`}
 					use:setBoundingBox={commandId}
 				>
 					{@html svg.svgString}
