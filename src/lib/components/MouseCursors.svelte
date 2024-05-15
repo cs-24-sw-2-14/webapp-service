@@ -41,10 +41,8 @@
 {/if}
 
 <!-- REMOTE CURSORS (OTHER USERS) -->
-{#each $otherUsers as user, index}
-	<g
-		transform={`translate(${user.position.x}, ${user.position.y})`}
-	>
+{#each $otherUsers as [_, user], index}
+	<g transform={`translate(${user.position.x}, ${user.position.y})`}>
 		<!-- Remote cursor dot -->
 		<circle cx="10" cy="10" r="3" fill={colorMap.get(user.color)?.primary} />
 
