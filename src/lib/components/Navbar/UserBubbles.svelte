@@ -2,14 +2,12 @@
 	import { colorMap } from '$lib/color';
 	import { canvasView } from '$lib/stores/stateStore';
 	import { getInitials } from '$lib/utils';
-	import { type OtherUser } from '$lib/types';
-
-	export let otherUsers: OtherUser[];
+	import { otherUsers } from '$lib/stores/socketioStore';
 </script>
 
 <!-- Display all online users -->
 <div class="relative h-10">
-	{#each otherUsers as user, i (user.name)}
+	{#each $otherUsers as [_, user], i}
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		{#if user.isOnline}
