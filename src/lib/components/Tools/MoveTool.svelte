@@ -5,9 +5,8 @@
 		toolState,
 		cursorDown,
 		commandIdsUnderCursor,
-		user,
-		socket
 		canvasCursorPosition,
+		username
 	} from '$lib/stores/stateStore';
 	import { ToolState, type CanvasCoordinate, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
@@ -21,8 +20,8 @@
 
 	function startMove() {
 		if (
-			!$canvasTouched ||
-			$toolState !== ToolState.move ||
+			!$cursorDown ||
+			$chosenTool !== ToolState.move ||
 			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId !== null
 		)
@@ -32,8 +31,8 @@
 			'startMove',
 			{
 				movedCommandId: $commandIdsUnderCursor[0],
-				username: $user.name
 				newCoordinate: $canvasCursorPosition,
+				username: $username
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
@@ -41,8 +40,8 @@
 
 	function doMove() {
 		if (
-			$toolState !== ToolState.move ||
 			!$cursorDown ||
+			$chosenTool !== ToolState.move ||
 			$currentCommandId === null ||
 			startPosition === null
 		)
@@ -63,9 +62,9 @@
 </script>
 
 <MenuButton
-	isActive={$toolState === ToolState.move}
+	isActive={$chosenTool === ToolState.move}
 	icon={Icons.move}
 	on:click={() => {
-		$toolState = ToolState.move;
+		$chosenTool = ToolState.move;
 	}}
 ></MenuButton>
