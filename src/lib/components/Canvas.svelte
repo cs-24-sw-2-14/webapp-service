@@ -2,19 +2,16 @@
 	import {
 		toolState,
 		canvasView,
-		touchEvents,
-		mouseEvents,
 		commandIdsUnderCursor,
-		cursorPosition,
+		cursorEvents,
 		toggleGrid,
 		user
+		canvasCursorPosition
 	} from '$lib/stores/stateStore';
 	import { ToolState } from '$lib/types';
 	import { onMount } from 'svelte';
 	import { svgs } from '$lib/stores/svgStore.js';
 	import MouseCursors from './MouseCursors.svelte';
-	import { viewportToCanvasCoordinatesFromCanvasView, getCommandIdsUnderCursor } from '$lib/utils';
-	import StoreUpdater from '$lib/components/StoreUpdater.svelte';
 
 	onMount(() => {
 		resizeCanvas();
@@ -28,10 +25,6 @@
 		};
 	}
 
-	$: $user.position = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
-	$: {
-		$commandIdsUnderCursor = getCommandIdsUnderCursor($user.position, $svgs);
-		console.log($commandIdsUnderCursor);
 	}
 
 	function setBoundingBox(element: SVGGraphicsElement, svgIndex: number) {
@@ -44,7 +37,6 @@
 	}
 </script>
 
-<StoreUpdater />
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
@@ -61,14 +53,14 @@
   ${$canvasView.size.width / ($canvasView.scale / 100)}
   ${$canvasView.size.height / ($canvasView.scale / 100)}
 `}
-	on:mousedown={mouseEvents.down}
-	on:mousemove={mouseEvents.move}
-	on:mouseup={mouseEvents.up}
-	on:mouseleave={mouseEvents.up}
-	on:touchstart={touchEvents.start}
-	on:touchmove={touchEvents.move}
-	on:touchend={touchEvents.end}
-	on:touchcancel={touchEvents.end}
+	on:mousedown={cursorEvents.down}
+	on:mousemove={cursorEvents.move}
+	on:mouseup={cursorEvents.up}
+	on:mouseleave={cursorEvents.up}
+	on:touchstart={cursorEvents.down}
+	on:touchmove={cursorEvents.move}
+	on:touchend={cursorEvents.up}
+	on:touchcancel={cursorEvents.up}
 	on:resize={resizeCanvas}
 >
 	<!-- Define the pattern for the dotted background -->
