@@ -62,4 +62,6 @@ export const user = writable<User>({
 	drawColor: '#000000'
 });
 
-export const commandIdsUnderCursor = writable<CommandId[]>([]);
+export const commandIdsUnderCursor = derived([cursorPosition, svgs], ([cursorPosition, $svgs]) => {
+	return getCommandIdsUnderCursor(cursorPosition, $svgs);
+});
