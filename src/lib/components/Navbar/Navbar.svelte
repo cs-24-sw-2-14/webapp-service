@@ -6,8 +6,8 @@
 
 <!-- Navbar -->
 <div class="fixed top-0 w-full h-14 bg-zinc-800">
-	<!-- MagicBoard logo. Now clickable and navigates to the frontpage -->
-	<a href="/" class="inline-block">
+	<!-- MagicBoard logo. Clickable and navigates to the frontpage -->
+	<a href="/">
 		<Logo />
 	</a>
 
