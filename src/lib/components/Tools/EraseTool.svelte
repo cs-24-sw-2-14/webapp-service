@@ -3,7 +3,8 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasTouched,
+		cursorDown,
+		canvasCursorPosition,
 		commandIdsUnderCursor,
 		socket,
 		user
@@ -15,14 +16,14 @@
 
 	let currentCommandId = writable<number | null>(null);
 
-	user.subscribe(startErase);
-	user.subscribe(doErase);
-	canvasTouched.subscribe(stopErase);
+	cursorDown.subscribe(startErase);
+	canvasCursorPosition.subscribe(doErase);
+	cursorDown.subscribe(stopErase);
 
 	function startErase() {
 		if (
-			!$canvasTouched ||
 			$toolState !== ToolState.erase ||
+			!$cursorDown ||
 			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId !== null
 		)
@@ -31,6 +32,7 @@
 			'startErase',
 			{
 				position: $user.position,
+				coordinate: $canvasCursorPosition,
 				commandIdsUnderCursor: $commandIdsUnderCursor,
 				threshold: THRESHOLD_DISTANCE,
 				username: $user.name
@@ -41,21 +43,21 @@
 
 	function doErase() {
 		if (
-			!$canvasTouched ||
 			$toolState !== ToolState.erase ||
+			!$cursorDown ||
 			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId === null
 		)
 			return;
 		$socket.emit('doErase', {
-			position: $user.position,
+			coordinate: $canvasCursorPosition,
 			commandIdsUnderCursor: $commandIdsUnderCursor,
 			commandId: $currentCommandId
 		});
 	}
 
 	function stopErase() {
-		if ($canvasTouched || $toolState !== ToolState.erase) return;
+		if ($cursorDown || $chosenTool !== ToolState.erase) return;
 		$currentCommandId = null;
 	}
 </script>
