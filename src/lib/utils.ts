@@ -96,10 +96,14 @@ function isCoordinateInBoundingBox(
 	);
 }
 
+export function getCommandIdsUnderCursor(
+	cursorPosition: CanvasCoordinateSet,
+	svgs: Map<CommandId, Svg>
+) {
 	const commandIdsUnderCursor: CommandId[] = [];
 	svgs.forEach((svg) => {
 		if (!svg.boundingBox) return;
-		if (isCoordinateInBoundingBox(cursorPosition, svg.boundingBox, svg.position)) {
+		if (isCoordinateInBoundingBox(cursorPosition, svg.boundingBox, svg.placement)) {
 			commandIdsUnderCursor.push(svg.commandId);
 		}
 	});
