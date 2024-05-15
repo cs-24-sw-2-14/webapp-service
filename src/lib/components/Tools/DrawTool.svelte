@@ -1,6 +1,7 @@
 <script lang="ts">
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
+		chosenTool,
 		canvasCursorPosition,
 		cursorDown,
 	import { writable } from 'svelte/store';
@@ -43,9 +44,9 @@
 </script>
 
 <MenuButton
-	isActive={$toolState === ToolState.draw}
+	isActive={$chosenTool === ToolState.draw}
 	icon={Icons.pencil}
 	on:click={() => {
-		$toolState = ToolState.draw;
+		$chosenTool = ToolState.draw;
 	}}
 ></MenuButton>
