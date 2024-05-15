@@ -13,7 +13,7 @@
 
 	let rectElements: any[] = [];
 	let textElements: any[] = [];
-	$: adjustedCursorPosition = translateCoordinates($user.position, cursorOffset);
+	$: adjustedCursorPosition = translateCoordinates($canvasCursorPosition, cursorOffset);
 
 	/**
 	 * Function to dynamically adjust the width of the name label to accommodate the length of the name
@@ -36,7 +36,7 @@
 <!-- LOCAL CURSOR (DOSENT HAVE NAME LABEL) -->
 {#if $chosenTool === ToolState.draw}
 	<g transform={`translate(${adjustedCursorPosition.x}, ${adjustedCursorPosition.y})`}>
-		<circle cx="10" cy="10" r="3" fill={$user.drawColor} />
+		<circle cx="10" cy="10" r="3" fill={$drawColor} />
 	</g>
 {/if}
 
