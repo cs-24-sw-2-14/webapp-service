@@ -3,20 +3,21 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		toolState,
-		canvasTouched,
+		cursorDown,
 		commandIdsUnderCursor,
 		user,
 		socket
+		canvasCursorPosition,
 	} from '$lib/stores/stateStore';
 	import { ToolState, type CanvasCoordinate, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 	let currentCommandId = writable<number | null>(null);
 
-	user.subscribe(startMove);
-	user.subscribe(doMove);
-	canvasTouched.subscribe(stopDraw);
+	cursorDown.subscribe(startMove);
+	canvasCursorPosition.subscribe(doMove);
+	cursorDown.subscribe(stopDraw);
 
-	let startPosition: CanvasCoordinate | null = null;
+	let startPosition: CanvasCoordinateSet | null = null;
 
 	function startMove() {
 		if (
@@ -26,13 +27,13 @@
 			$currentCommandId !== null
 		)
 			return;
-		startPosition = $user.position;
+		startPosition = $canvasCursorPosition;
 		$socket.emit(
 			'startMove',
 			{
 				movedCommandId: $commandIdsUnderCursor[0],
-				position: $user.position,
 				username: $user.name
+				newCoordinate: $canvasCursorPosition,
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
@@ -40,23 +41,23 @@
 
 	function doMove() {
 		if (
-			!$canvasTouched ||
 			$toolState !== ToolState.move ||
+			!$cursorDown ||
 			$currentCommandId === null ||
 			startPosition === null
 		)
 			return;
 		$socket.emit('doMove', {
-			position: {
-				x: $user.position.x - startPosition.x,
-				y: $user.position.y - startPosition.y
+			offset: {
+				x: $canvasCursorPosition.x - startPosition.x,
+				y: $canvasCursorPosition.y - startPosition.y
 			},
 			commandId: $currentCommandId
 		});
 	}
 
 	function stopDraw() {
-		if ($canvasTouched || $toolState !== ToolState.move) return;
+		if ($cursorDown || $chosenTool !== ToolState.move) return;
 		$currentCommandId = null;
 	}
 </script>
