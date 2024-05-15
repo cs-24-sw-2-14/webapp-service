@@ -1,16 +1,16 @@
 <script lang="ts">
 	import {
-		toolState,
+		chosenTool,
 		canvasView,
-		commandIdsUnderCursor,
 		cursorEvents,
 		toggleGrid,
-		user
+		username,
+		color,
 		canvasCursorPosition
 	} from '$lib/stores/stateStore';
-	import { ToolState } from '$lib/types';
+	import { ToolState, type CommandId } from '$lib/types';
 	import { onMount } from 'svelte';
-	import { svgs } from '$lib/stores/svgStore.js';
+	import { svgs, socket } from '$lib/stores/socketioStore';
 	import MouseCursors from './MouseCursors.svelte';
 
 	onMount(() => {
@@ -40,8 +40,8 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
-	class:draw={$toolState === ToolState.draw}
-	class:draggable={$toolState === ToolState.pan}
+	class:draw={$chosenTool === ToolState.draw}
+	class:draggable={$chosenTool === ToolState.pan}
 	role="application"
 	aria-label="Interactive infinite whiteboard with draggable grid"
 	xmlns="http://www.w3.org/2000/svg"
