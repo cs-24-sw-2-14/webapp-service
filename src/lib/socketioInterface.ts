@@ -1,6 +1,6 @@
 import type {
 	CanvasCoordinateSet,
-	HexColorString,
+	ColorString,
 	FillString,
 	StrokeWidth,
 	CommandId,
@@ -33,7 +33,7 @@ export type StartAck = (commandId: CommandId) => void;
 
 export interface StartDrawEvent {
 	position: CanvasCoordinateSet;
-	stroke: HexColorString;
+	stroke: ColorString;
 	fill: FillString;
 	strokeWidth: StrokeWidth;
 	username: Username;
