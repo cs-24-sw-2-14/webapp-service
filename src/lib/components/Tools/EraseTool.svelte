@@ -2,7 +2,7 @@
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
-		toolState,
+		chosenTool,
 		cursorDown,
 		canvasCursorPosition,
 		commandIdsUnderCursor,
@@ -22,8 +22,8 @@
 
 	function startErase() {
 		if (
-			$toolState !== ToolState.erase ||
 			!$cursorDown ||
+			$chosenTool !== ToolState.erase ||
 			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId !== null
 		)
@@ -43,8 +43,8 @@
 
 	function doErase() {
 		if (
-			$toolState !== ToolState.erase ||
 			!$cursorDown ||
+			$chosenTool !== ToolState.erase ||
 			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId === null
 		)
@@ -63,9 +63,9 @@
 </script>
 
 <MenuButton
-	isActive={$toolState === ToolState.erase}
+	isActive={$chosenTool === ToolState.erase}
 	icon={Icons.erase}
 	on:click={() => {
-		$toolState = ToolState.erase;
+		$chosenTool = ToolState.erase;
 	}}
 ></MenuButton>
