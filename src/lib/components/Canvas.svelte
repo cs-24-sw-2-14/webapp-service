@@ -39,6 +39,12 @@
 		});
 	}
 
+	$: {
+		$socket.emit('userChange', {
+			username: $username,
+			color: $color,
+			position: $canvasCursorPosition
+		});
 	}
 </script>
 
