@@ -5,10 +5,10 @@ import type {
 	ClientToServerEvents,
 	ServerToClientEvents,
 	InitServerToClientEvents,
-	UserChange,
-	UserRemove,
-	Edit,
-	Remove
+	UserChangeEvent,
+	UserRemoveEvent,
+	EditEvent,
+	RemoveEvent
 } from '$lib/socketioInterface';
 import { username } from './stateStore';
 
@@ -76,7 +76,7 @@ export const svgs = writable<Map<CommandId, Svg>>(new Map(), (set) => {
 });
 
 function handleUserChange(
-	data: UserChange,
+	data: UserChangeEvent,
 	otherUsers: Map<Username, User>,
 	username: Username,
 	set: (otherUsers: Map<Username, User>) => void
@@ -92,7 +92,7 @@ function handleUserChange(
 }
 
 function handleUserRemove(
-	data: UserRemove,
+	data: UserRemoveEvent,
 	otherUsers: Map<Username, User>,
 	set: (otherUsers: Map<Username, User>) => void
 ) {
@@ -101,7 +101,7 @@ function handleUserRemove(
 }
 
 function handleEdit(
-	data: Edit,
+	data: EditEvent,
 	svgs: Map<CommandId, Svg>,
 	set: (svgs: Map<CommandId, Svg>) => void
 ) {
@@ -110,14 +110,14 @@ function handleEdit(
 	svgs.set(data.commandId, {
 		commandId: data.commandId,
 		svgString: data.svgString ?? oldSvg.svgString,
-		placement: data.placement ?? oldSvg.placement,
+		position: data.position ?? oldSvg.position,
 		display: true
 	});
 	set(svgs);
 }
 
 function handleRemove(
-	data: Remove,
+	data: RemoveEvent,
 	svgs: Map<CommandId, Svg>,
 	set: (svgs: Map<CommandId, Svg>) => void
 ) {

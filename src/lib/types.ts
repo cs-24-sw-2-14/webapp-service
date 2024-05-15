@@ -67,12 +67,12 @@ export type SvgString = string;
 export type CommandId = number;
 
 export interface BoundingBox extends Rectangle {
-	placement: CanvasCoordinateSet;
+	position: CanvasCoordinateSet;
 }
 
 export type Svg = {
 	svgString: SvgString;
-	placement: CanvasCoordinateSet;
+	position: CanvasCoordinateSet;
 	commandId: CommandId;
 	display: boolean;
 	boundingBox?: BoundingBox;

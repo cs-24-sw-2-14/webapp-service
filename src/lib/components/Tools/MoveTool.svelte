@@ -32,7 +32,7 @@
 			'startMove',
 			{
 				movedCommandId: $commandIdsUnderCursor[0],
-				offset: $canvasCursorPosition,
+				position: $canvasCursorPosition,
 				username: $username
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
@@ -48,7 +48,7 @@
 		)
 			return;
 		$boardSocket.emit('doMove', {
-			offset: {
+			position: {
 				x: $canvasCursorPosition.x - startPosition.x,
 				y: $canvasCursorPosition.y - startPosition.y
 			},

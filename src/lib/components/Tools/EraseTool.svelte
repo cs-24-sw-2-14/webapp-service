@@ -31,7 +31,7 @@
 		$boardSocket.emit(
 			'startErase',
 			{
-				coordinate: $canvasCursorPosition,
+				position: $canvasCursorPosition,
 				commandIdsUnderCursor: $commandIdsUnderCursor,
 				threshold: THRESHOLD_DISTANCE,
 				username: $username
@@ -49,7 +49,7 @@
 		)
 			return;
 		$boardSocket.emit('doErase', {
-			coordinate: $canvasCursorPosition,
+			position: $canvasCursorPosition,
 			commandIdsUnderCursor: $commandIdsUnderCursor,
 			commandId: $currentCommandId
 		});

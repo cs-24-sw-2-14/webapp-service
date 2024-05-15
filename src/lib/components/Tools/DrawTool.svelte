@@ -24,7 +24,7 @@
 		$boardSocket.emit(
 			'startDraw',
 			{
-				coordinate: $canvasCursorPosition,
+				position: $canvasCursorPosition,
 				stroke: $drawColor,
 				fill: 'transparent',
 				strokeWidth: STROKE_WIDTH,
@@ -37,7 +37,7 @@
 	function doDraw() {
 		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId === null) return;
 		$boardSocket.emit('doDraw', {
-			coordinate: $canvasCursorPosition,
+			position: $canvasCursorPosition,
 			commandId: $currentCommandId
 		});
 	}
