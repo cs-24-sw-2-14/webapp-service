@@ -1,7 +1,5 @@
 <script lang="ts">
 	import UserModal from './UserModal.svelte';
-	import { currentPage, user, boardId, socket } from '$lib/stores/stateStore';
-	import { Page } from '$lib/types';
 	import { io, Socket } from 'socket.io-client';
 	import {
 		PUBLIC_SOCKET_API_PROTOCOL,

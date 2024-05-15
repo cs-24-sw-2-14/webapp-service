@@ -1,24 +1,21 @@
 <script lang="ts">
-	import { user, otherUsers } from '$lib/stores/stateStore';
 	import ColorPicker from './Input/ColorPicker.svelte';
 	import Modal from './Modal.svelte';
-	import { writable } from 'svelte/store';
+	import type { Color, Username } from '$lib/types';
+	import { validateUsername, validateColor } from '$lib/http';
 
+	export let dialog: HTMLDialogElement;
 	export let title;
 	export let placeholder;
 	export let submitButtonName;
 	export let handleSubmit;
-	export let dialog: HTMLDialogElement;
 	export let closable = true;
 
-	const usernameIsValid = writable(false);
-	let usernameField = '';
+	let usernameField = fieldDefaultValue;
+	let colorPicked: Color | null = null;
 
-	// TODO: Validate username?
-	function handleUsernameFieldChange() {
-		// if username does not exist in otherUsers, set usernameIsValid to true
-		usernameIsValid.set($otherUsers.find((user) => user.name === usernameField) === undefined);
-	}
+	$: usernameIsValid = validateUsername(boardId, usernameField);
+	$: colorIsValid = colorPicked !== null ? validateColor(boardId, colorPicked) : false;
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -42,7 +39,6 @@
 				type="text"
 				id="username"
 				bind:value={usernameField}
-				on:change={handleUsernameFieldChange}
 				{placeholder}
 				class="mt-1 p-2 border rounded w-full placeholder-zinc-300 bg-zinc-500 border-none focus:outline-none focus:ring-0 focus:border-none text-zinc-300"
 			/>
