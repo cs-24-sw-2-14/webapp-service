@@ -9,6 +9,9 @@
 			if (user.color === color) {
 				return true;
 			}
+			if (colorPicked === user.color) {
+				colorPicked = null;
+			}
 		}
 		return false;
 	}
