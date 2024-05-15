@@ -1,7 +1,7 @@
 import type {
-	Coordinates,
-	CanvasCoordinates,
-	ViewportCoordinates,
+	CoordinateSet,
+	CanvasCoordinateSet,
+	ViewportCoordinateSet,
 	Rectangle,
 	ScaleFactor,
 	CanvasView,
@@ -31,7 +31,7 @@ export function getInitials(name: string) {
 }
 
 export function viewportToCanvasCoordinatesFromCanvasView(
-	coordinates: ViewportCoordinates,
+	coordinates: ViewportCoordinateSet,
 	canvasView: CanvasView
 ) {
 	return viewportToCanvasCoordinates(
@@ -43,11 +43,11 @@ export function viewportToCanvasCoordinatesFromCanvasView(
 }
 
 export function viewportToCanvasCoordinates(
-	coordinates: ViewportCoordinates,
+	coordinates: ViewportCoordinateSet,
 	viewRect: Rectangle,
-	viewPos: CanvasCoordinates,
+	viewPos: CanvasCoordinateSet,
 	viewScale: ScaleFactor
-): CanvasCoordinates {
+): CanvasCoordinateSet {
 	let coords = coordinates;
 	coords = centerCoordinatesInRect(coords, viewRect);
 	coords = scaleCoordinates(coords, viewScale);
@@ -55,8 +55,8 @@ export function viewportToCanvasCoordinates(
 	return coords;
 }
 
-export function centerCoordinatesInRect(coordinates: Coordinates, rect: Rectangle) {
-	const offset: Coordinates = {
+export function centerCoordinatesInRect(coordinates: CoordinateSet, rect: Rectangle) {
+	const offset: CoordinateSet = {
 		x: rect.width / 2,
 		y: rect.height / 2
 	};
@@ -66,14 +66,14 @@ export function centerCoordinatesInRect(coordinates: Coordinates, rect: Rectangl
 	return translateCoordinates(coordinates, negativeOffset);
 }
 
-export function translateCoordinates(coordinates: Coordinates, offset: Coordinates): Coordinates {
+export function translateCoordinates(coordinates: CoordinateSet, offset: CoordinateSet): CoordinateSet {
 	return {
 		x: coordinates.x + offset.x,
 		y: coordinates.y + offset.y
 	};
 }
 
-export function scaleCoordinates(coordinates: Coordinates, scale: ScaleFactor): Coordinates {
+export function scaleCoordinates(coordinates: CoordinateSet, scale: ScaleFactor): CoordinateSet {
 	return {
 		x: coordinates.x * scale,
 		y: coordinates.y * scale
@@ -81,9 +81,9 @@ export function scaleCoordinates(coordinates: Coordinates, scale: ScaleFactor): 
 }
 
 function isCoordinateInBoundingBox(
-	coordinate: CanvasCoordinates,
+	coordinate: CanvasCoordinateSet,
 	boundingBox: BoundingBox,
-	offset: CanvasCoordinates
+	offset: CanvasCoordinateSet
 ) {
 	return (
 		coordinate.x >= boundingBox.position.x + offset.x &&
@@ -93,7 +93,7 @@ function isCoordinateInBoundingBox(
 	);
 }
 
-export function getCommandIdsUnderCursor(cursorPosition: CanvasCoordinates, svgs: Svg[]) {
+export function getCommandIdsUnderCursor(cursorPosition: CanvasCoordinateSet, svgs: Svg[]) {
 	const commandIdsUnderCursor: CommandId[] = [];
 	svgs.forEach((svg) => {
 		if (!svg.boundingBox) return;

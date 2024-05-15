@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { colorMap } from '$lib/color';
 	import { afterUpdate } from 'svelte';
-	import { ToolState, type CanvasCoordinates } from '$lib/types';
+	import { ToolState, type CanvasCoordinateSet } from '$lib/types';
 	import { chosenTool, user, otherUsers } from '$lib/stores/stateStore';
 	import { translateCoordinates } from '$lib/utils';
 
-	const cursorOffset: CanvasCoordinates = {
+	const cursorOffset: CanvasCoordinateSet = {
 		x: -10.5,
 		y: -11
 	};

@@ -7,7 +7,7 @@
 		cursorPosition,
 		canvasTouched
 	} from '$lib/stores/stateStore';
-	import { type ViewportCoordinates, ToolState } from '$lib/types';
+	import { type ViewportCoordinateSet, ToolState } from '$lib/types';
 	let startX: number, startY: number;
 
 	canvasTouched.subscribe(startDrag);
@@ -21,7 +21,7 @@
 		}
 	}
 
-	function doDrag(pos: ViewportCoordinates) {
+	function doDrag(pos: ViewportCoordinateSet) {
 		if (!$canvasTouched || $chosenTool !== ToolState.pan) return;
 		$canvasView = {
 			...$canvasView,

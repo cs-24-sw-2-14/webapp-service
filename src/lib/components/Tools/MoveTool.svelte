@@ -8,7 +8,7 @@
 		user,
 		socket
 	} from '$lib/stores/stateStore';
-	import { ToolState, type CanvasCoordinates, type CommandId } from '$lib/types';
+	import { ToolState, type CanvasCoordinateSet, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 	let currentCommandId = writable<number | null>(null);
 
@@ -16,7 +16,7 @@
 	user.subscribe(doMove);
 	canvasTouched.subscribe(stopDraw);
 
-	let startPosition: CanvasCoordinates | null = null;
+	let startPosition: CanvasCoordinateSet | null = null;
 
 	function startMove() {
 		if (

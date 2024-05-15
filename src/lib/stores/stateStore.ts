@@ -9,7 +9,7 @@ import {
 	Page,
 	ToolState,
 	type User,
-	type ViewportCoordinates,
+	type ViewportCoordinateSet,
 	type CommandId
 } from '$lib/types';
 
@@ -34,7 +34,7 @@ export const canvasView = writable<CanvasView>({
 
 export const chosenTool = writable<ToolState>(ToolState.pan);
 
-export const cursorPosition = writable<ViewportCoordinates>({
+export const cursorPosition = writable<ViewportCoordinateSet>({
 	x: 0,
 	y: 0
 });
