@@ -25,15 +25,20 @@
 		};
 	}
 
+	function setBoundingBox(element: SVGGraphicsElement, commandId: CommandId) {
+		const bbox = element.getBBox();
+		if (!$svgs.has(commandId)) return;
+		const oldSvg = $svgs.get(commandId)!;
+		$svgs.set(commandId, {
+			...oldSvg,
+			boundingBox: {
+				placement: { x: bbox.x, y: bbox.y },
+				width: bbox.width,
+				height: bbox.height
+			}
+		});
 	}
 
-	function setBoundingBox(element: SVGGraphicsElement, svgIndex: number) {
-		const bbox = element.getBBox();
-		$svgs[svgIndex].boundingBox = {
-			position: { x: bbox.x, y: bbox.y },
-			width: bbox.width,
-			height: bbox.height
-		};
 	}
 </script>
 
