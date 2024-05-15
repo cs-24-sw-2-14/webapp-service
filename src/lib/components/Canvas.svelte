@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {
-		toolState,
+		chosenTool,
 		canvasView,
 		touchEvents,
 		mouseEvents,
@@ -48,8 +48,8 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
-	class:draw={$toolState === ToolState.draw}
-	class:draggable={$toolState === ToolState.pan}
+	class:draw={$chosenTool === ToolState.draw}
+	class:draggable={$chosenTool === ToolState.pan}
 	role="application"
 	aria-label="Interactive infinite whiteboard with draggable grid"
 	xmlns="http://www.w3.org/2000/svg"

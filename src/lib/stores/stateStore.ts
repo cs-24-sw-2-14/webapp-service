@@ -32,7 +32,7 @@ export const canvasView = writable<CanvasView>({
 	scale: 100
 });
 
-export const toolState = writable<ToolState>(ToolState.pan);
+export const chosenTool = writable<ToolState>(ToolState.pan);
 
 export const cursorPosition = writable<ViewportCoordinates>({
 	x: 0,

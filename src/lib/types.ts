@@ -1,7 +1,7 @@
 export interface User {
 	name: Username;
 	color: Color;
-	position: CanvasCoordinate;
+	position: CanvasCoordinates;
 	drawColor: HexColorString;
 }
 
@@ -31,7 +31,7 @@ export type ColorName = string;
 export type HexColorString = string;
 
 export interface CanvasView {
-	position: CanvasCoordinate;
+	position: CanvasCoordinates;
 	size: Rectangle;
 	scale: ScaleFactor100;
 }
@@ -54,7 +54,7 @@ export interface Coordinates {
 }
 
 export type ViewportCoordinates = Coordinates;
-export type CanvasCoordinate = Coordinates;
+export type CanvasCoordinates = Coordinates;
 export type Username = string;
 export type ScaleFactor = number;
 // Currently a value between 0 and 100, but should be between 0 and 1 when refactor is done.
@@ -72,12 +72,12 @@ export type SvgString = string;
 export type CommandId = number;
 
 export interface BoundingBox extends Rectangle {
-	position: CanvasCoordinate;
+	position: CanvasCoordinates;
 }
 
 export type Svg = {
 	svgString: SvgString;
-	position: CanvasCoordinate;
+	position: CanvasCoordinates;
 	commandId: CommandId;
 	boundingBox?: BoundingBox;
 };

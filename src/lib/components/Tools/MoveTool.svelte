@@ -2,13 +2,13 @@
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
-		toolState,
+		chosenTool,
 		canvasTouched,
 		commandIdsUnderCursor,
 		user,
 		socket
 	} from '$lib/stores/stateStore';
-	import { ToolState, type CanvasCoordinate, type CommandId } from '$lib/types';
+	import { ToolState, type CanvasCoordinates, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 	let currentCommandId = writable<number | null>(null);
 
@@ -16,12 +16,12 @@
 	user.subscribe(doMove);
 	canvasTouched.subscribe(stopDraw);
 
-	let startPosition: CanvasCoordinate | null = null;
+	let startPosition: CanvasCoordinates | null = null;
 
 	function startMove() {
 		if (
 			!$canvasTouched ||
-			$toolState !== ToolState.move ||
+			$chosenTool !== ToolState.move ||
 			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId !== null
 		)
@@ -41,7 +41,7 @@
 	function doMove() {
 		if (
 			!$canvasTouched ||
-			$toolState !== ToolState.move ||
+			$chosenTool !== ToolState.move ||
 			$currentCommandId === null ||
 			startPosition === null
 		)
@@ -56,15 +56,15 @@
 	}
 
 	function stopDraw() {
-		if ($canvasTouched || $toolState !== ToolState.move) return;
+		if ($canvasTouched || $chosenTool !== ToolState.move) return;
 		$currentCommandId = null;
 	}
 </script>
 
 <MenuButton
-	isActive={$toolState === ToolState.move}
+	isActive={$chosenTool === ToolState.move}
 	icon={Icons.move}
 	on:click={() => {
-		$toolState = ToolState.move;
+		$chosenTool = ToolState.move;
 	}}
 ></MenuButton>

@@ -2,7 +2,7 @@
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
-		toolState,
+		chosenTool,
 		canvasView,
 		cursorPosition,
 		canvasTouched
@@ -14,7 +14,7 @@
 	cursorPosition.subscribe(doDrag);
 
 	function startDrag(isDown: boolean) {
-		if ($toolState !== ToolState.pan) return;
+		if ($chosenTool !== ToolState.pan) return;
 		if (isDown) {
 			startX = $cursorPosition.x;
 			startY = $cursorPosition.y;
@@ -22,7 +22,7 @@
 	}
 
 	function doDrag(pos: ViewportCoordinates) {
-		if (!$canvasTouched || $toolState !== ToolState.pan) return;
+		if (!$canvasTouched || $chosenTool !== ToolState.pan) return;
 		$canvasView = {
 			...$canvasView,
 			position: { // TODO: reimplment PanTool
@@ -36,9 +36,9 @@
 </script>
 
 <MenuButton
-	isActive={$toolState === ToolState.pan}
+	isActive={$chosenTool === ToolState.pan}
 	icon={Icons.pan}
 	on:click={() => {
-		$toolState = ToolState.pan;
+		$chosenTool = ToolState.pan;
 	}}
 ></MenuButton>

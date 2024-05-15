@@ -2,7 +2,7 @@
 	import { colorMap } from '$lib/color';
 	import { afterUpdate } from 'svelte';
 	import { ToolState, type CanvasCoordinates } from '$lib/types';
-	import { toolState, user, otherUsers } from '$lib/stores/stateStore';
+	import { chosenTool, user, otherUsers } from '$lib/stores/stateStore';
 	import { translateCoordinates } from '$lib/utils';
 
 	const cursorOffset: CanvasCoordinates = {
@@ -33,7 +33,7 @@
 </script>
 
 <!-- LOCAL CURSOR (DOSENT HAVE NAME LABEL) -->
-{#if $toolState === ToolState.draw}
+{#if $chosenTool === ToolState.draw}
 	<g transform={`translate(${adjustedCursorPosition.x}, ${adjustedCursorPosition.y})`}>
 		<circle cx="10" cy="10" r="3" fill={$user.drawColor} />
 	</g>

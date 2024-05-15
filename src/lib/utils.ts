@@ -1,6 +1,6 @@
 import type {
 	Coordinates,
-	CanvasCoordinate,
+	CanvasCoordinates,
 	ViewportCoordinates,
 	Rectangle,
 	ScaleFactor,
@@ -45,9 +45,9 @@ export function viewportToCanvasCoordinatesFromCanvasView(
 export function viewportToCanvasCoordinates(
 	coordinates: ViewportCoordinates,
 	viewRect: Rectangle,
-	viewPos: CanvasCoordinate,
+	viewPos: CanvasCoordinates,
 	viewScale: ScaleFactor
-): CanvasCoordinate {
+): CanvasCoordinates {
 	let coords = coordinates;
 	coords = centerCoordinatesInRect(coords, viewRect);
 	coords = scaleCoordinates(coords, viewScale);
@@ -81,9 +81,9 @@ export function scaleCoordinates(coordinates: Coordinates, scale: ScaleFactor): 
 }
 
 function isCoordinateInBoundingBox(
-	coordinate: CanvasCoordinate,
+	coordinate: CanvasCoordinates,
 	boundingBox: BoundingBox,
-	offset: CanvasCoordinate
+	offset: CanvasCoordinates
 ) {
 	return (
 		coordinate.x >= boundingBox.position.x + offset.x &&
@@ -93,7 +93,7 @@ function isCoordinateInBoundingBox(
 	);
 }
 
-export function getCommandIdsUnderCursor(cursorPosition: CanvasCoordinate, svgs: Svg[]) {
+export function getCommandIdsUnderCursor(cursorPosition: CanvasCoordinates, svgs: Svg[]) {
 	const commandIdsUnderCursor: CommandId[] = [];
 	svgs.forEach((svg) => {
 		if (!svg.boundingBox) return;
