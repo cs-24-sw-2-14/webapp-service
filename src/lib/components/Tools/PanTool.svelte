@@ -1,16 +1,11 @@
 <script lang="ts">
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-	import {
-		chosenTool,
-		canvasView,
-		cursorPosition,
-		canvasTouched
-	} from '$lib/stores/stateStore';
+	import { chosenTool, canvasView, cursorPosition, cursorDown } from '$lib/stores/stateStore';
 	import { type ViewportCoordinateSet, ToolState } from '$lib/types';
 	let startX: number, startY: number;
 
-	canvasTouched.subscribe(startDrag);
+	cursorDown.subscribe(startDrag);
 	cursorPosition.subscribe(doDrag);
 
 	function startDrag(isDown: boolean) {
@@ -22,10 +17,11 @@
 	}
 
 	function doDrag(pos: ViewportCoordinateSet) {
-		if (!$canvasTouched || $chosenTool !== ToolState.pan) return;
+		if (!$cursorDown || $chosenTool !== ToolState.pan) return;
 		$canvasView = {
 			...$canvasView,
-			position: { // TODO: reimplment PanTool
+			position: {
+				// TODO: reimplment PanTool
 				x: $canvasView.position.x - (pos.x - startX) / ($canvasView.scale / 100),
 				y: $canvasView.position.y - (pos.y - startY) / ($canvasView.scale / 100)
 			}

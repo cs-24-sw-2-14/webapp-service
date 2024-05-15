@@ -2,19 +2,16 @@
 	import {
 		chosenTool,
 		canvasView,
-		touchEvents,
-		mouseEvents,
-		commandIdsUnderCursor,
-		cursorPosition,
+		cursorEvents,
 		toggleGrid,
-		user
+		username,
+		color,
+		canvasCursorPosition
 	} from '$lib/stores/stateStore';
-	import { ToolState } from '$lib/types';
+	import { ToolState, type CommandId } from '$lib/types';
 	import { onMount } from 'svelte';
-	import { svgs } from '$lib/stores/svgStore.js';
+	import { svgs, boardSocket } from '$lib/stores/socketioStore';
 	import MouseCursors from './MouseCursors.svelte';
-	import { viewportToCanvasCoordinatesFromCanvasView, getCommandIdsUnderCursor } from '$lib/utils';
-	import StoreUpdater from '$lib/components/StoreUpdater.svelte';
 
 	onMount(() => {
 		resizeCanvas();
@@ -28,23 +25,29 @@
 		};
 	}
 
-	$: $user.position = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
-	$: {
-		$commandIdsUnderCursor = getCommandIdsUnderCursor($user.position, $svgs);
-		console.log($commandIdsUnderCursor);
+	function setBoundingBox(element: SVGGraphicsElement, commandId: CommandId) {
+		const bbox = element.getBBox();
+		if (!$svgs.has(commandId)) return;
+		const oldSvg = $svgs.get(commandId)!;
+		$svgs.set(commandId, {
+			...oldSvg,
+			boundingBox: {
+				position: { x: bbox.x, y: bbox.y },
+				width: bbox.width,
+				height: bbox.height
+			}
+		});
 	}
 
-	function setBoundingBox(element: SVGGraphicsElement, svgIndex: number) {
-		const bbox = element.getBBox();
-		$svgs[svgIndex].boundingBox = {
-			position: { x: bbox.x, y: bbox.y },
-			width: bbox.width,
-			height: bbox.height
-		};
+	$: {
+		$boardSocket?.emit('userChange', {
+			username: $username,
+			color: $color,
+			position: $canvasCursorPosition
+		});
 	}
 </script>
 
-<StoreUpdater />
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
@@ -61,14 +64,14 @@
   ${$canvasView.size.width / ($canvasView.scale / 100)}
   ${$canvasView.size.height / ($canvasView.scale / 100)}
 `}
-	on:mousedown={mouseEvents.down}
-	on:mousemove={mouseEvents.move}
-	on:mouseup={mouseEvents.up}
-	on:mouseleave={mouseEvents.up}
-	on:touchstart={touchEvents.start}
-	on:touchmove={touchEvents.move}
-	on:touchend={touchEvents.end}
-	on:touchcancel={touchEvents.end}
+	on:mousedown={cursorEvents.down}
+	on:mousemove={cursorEvents.move}
+	on:mouseup={cursorEvents.up}
+	on:mouseleave={cursorEvents.up}
+	on:touchstart={cursorEvents.down}
+	on:touchmove={cursorEvents.move}
+	on:touchend={cursorEvents.up}
+	on:touchcancel={cursorEvents.up}
 	on:resize={resizeCanvas}
 >
 	<!-- Define the pattern for the dotted background -->
@@ -96,11 +99,16 @@
 	{/if}
 
 	<!-- Render the Drawings -->
-	{#each $svgs as svg, index}
+	{#each $svgs as [commandId, svg]}
 		{#key svg.svgString}
-			<g transform={`translate(${svg.position.x}, ${svg.position.y})`} use:setBoundingBox={index}>
-				{@html svg.svgString}
-			</g>
+			{#if svg.display}
+				<g
+					transform={`translate(${svg.position.x}, ${svg.position.y})`}
+					use:setBoundingBox={commandId}
+				>
+					{@html svg.svgString}
+				</g>
+			{/if}
 		{/key}
 	{/each}
 

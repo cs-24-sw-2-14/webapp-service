@@ -1,47 +1,36 @@
 <script lang="ts">
-	import { user, otherUsers } from '$lib/stores/stateStore';
 	import { colorMap } from '$lib/color';
-	import { type User, Color } from '$lib/types';
+	import { Color } from '$lib/types';
+	import { otherUsers } from '$lib/stores/socketioStore';
+	export let colorPicked: Color | null = null;
 
-	enum DisabledBy {
-		CurrentUser,
-		OtherUser,
-		NotDisabled
-	}
-
-	/* Checks if a color is chosen and returns true or false so the color-button gets disabled */
-	function isColorChosen(color: Color, user: User, otherUsers: User[]) {
-		if (user.color === color) {
-			return DisabledBy.CurrentUser;
-		}
-
-		for (let i = 0; i < otherUsers.length; i++) {
-			const onlineUser = otherUsers[i];
-			if (onlineUser?.color === color) {
-				return DisabledBy.OtherUser;
+	function isDisabledByOtherUser(color: Color): boolean {
+		for (const [_, user] of $otherUsers) {
+			if (user.color === color) {
+				return true;
+			}
+			if (colorPicked === user.color) {
+				colorPicked = null;
 			}
 		}
-		return DisabledBy.NotDisabled;
+		return false;
 	}
 </script>
 
-<!-- Grid of all the colors -->
-<div class=" grid grid-cols-5 gap-3 place-content-center p-5">
-	{#each colorMap as color}
-		<div class="justify-center">
-			<button
-				style={`background-color: ${color[1].primary}; border-color: ${color[1].secondary};`}
-				disabled={isColorChosen(color[0], $user, $otherUsers) !== DisabledBy.NotDisabled}
-				class:disabled-by-user={isColorChosen(color[0], $user, $otherUsers) ===
-					DisabledBy.CurrentUser}
-				class:disabled-by-other-user={isColorChosen(color[0], $user, $otherUsers) ===
-					DisabledBy.OtherUser}
-				on:click={() => {
-					$user = { ...$user, color: color[0] };
-				}}
-			>
-			</button>
-		</div>
+<div class="grid grid-cols-5 gap-3 place-content-center p-5">
+	{#each colorMap as [colorName, color]}
+		{#key $otherUsers}
+			<div class="justify-center">
+				<button
+					style={`background-color: ${color.primary}; border-color: ${color.secondary}; ${colorPicked === colorName ? 'border-width: 0.45em;' : ''}`}
+					disabled={isDisabledByOtherUser(colorName)}
+					on:click={() => {
+						colorPicked = colorName;
+					}}
+				>
+				</button>
+			</div>
+		{/key}
 	{/each}
 </div>
 
@@ -63,17 +52,13 @@
 		border-width: 0.3em; /* Increase border thickness on hover */
 	}
 
-	.disabled-by-user {
-		border-width: 0.5em; /* Set border width to 2px for buttons disabled by other users */
-	}
-
 	/* Color-button when disabled style*/
-	.disabled-by-other-user::after {
+	button:disabled::after {
 		content: '✕'; /* Add 'X' as button-content */
 		position: absolute;
 		font-weight: 900;
 		top: 45%; /* Align to the center vertically - usually 50% but the X is not full height and so needs to be raised a bit*/
-		transform: translate(-50%, -52%); /* Center the content */
+		transform: translate(-50%, -50%); /* Center the content */
 		font-size: 370%; /* Increase font size */
 		z-index: 1; /* Ensure X appears above button */
 		pointer-events: none;

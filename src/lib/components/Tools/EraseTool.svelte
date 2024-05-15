@@ -3,11 +3,12 @@
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
 		chosenTool,
-		canvasTouched,
+		cursorDown,
+		canvasCursorPosition,
 		commandIdsUnderCursor,
-		socket,
-		user
+		username
 	} from '$lib/stores/stateStore';
+	import { boardSocket } from '$lib/stores/socketioStore';
 	import { ToolState, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 
@@ -15,25 +16,25 @@
 
 	let currentCommandId = writable<number | null>(null);
 
-	user.subscribe(startErase);
-	user.subscribe(doErase);
-	canvasTouched.subscribe(stopErase);
+	cursorDown.subscribe(startErase);
+	canvasCursorPosition.subscribe(doErase);
+	cursorDown.subscribe(stopErase);
 
 	function startErase() {
 		if (
-			!$canvasTouched ||
+			!$cursorDown ||
 			$chosenTool !== ToolState.erase ||
 			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId !== null
 		)
 			return;
-		$socket.emit(
+		$boardSocket?.emit(
 			'startErase',
 			{
-				position: $user.position,
+				position: $canvasCursorPosition,
 				commandIdsUnderCursor: $commandIdsUnderCursor,
 				threshold: THRESHOLD_DISTANCE,
-				username: $user.name
+				username: $username
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
@@ -41,21 +42,21 @@
 
 	function doErase() {
 		if (
-			!$canvasTouched ||
+			!$cursorDown ||
 			$chosenTool !== ToolState.erase ||
 			$commandIdsUnderCursor.length === 0 ||
 			$currentCommandId === null
 		)
 			return;
-		$socket.emit('doErase', {
-			position: $user.position,
+		$boardSocket?.emit('doErase', {
+			position: $canvasCursorPosition,
 			commandIdsUnderCursor: $commandIdsUnderCursor,
 			commandId: $currentCommandId
 		});
 	}
 
 	function stopErase() {
-		if ($canvasTouched || $chosenTool !== ToolState.erase) return;
+		if ($cursorDown || $chosenTool !== ToolState.erase) return;
 		$currentCommandId = null;
 	}
 </script>
