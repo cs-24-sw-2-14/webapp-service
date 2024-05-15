@@ -59,6 +59,9 @@ export const boardId = writable('');
 export const currentPage = writable(Page.InitializationPage);
 export const viewChat = writable(false);
 
-export const commandIdsUnderCursor = derived([cursorPosition, svgs], ([cursorPosition, $svgs]) => {
-	return getCommandIdsUnderCursor(cursorPosition, $svgs);
-});
+export const commandIdsUnderCursor = derived(
+	[canvasCursorPosition, svgs],
+	([$canvasCursorPosition, $svgs]) => {
+		return getCommandIdsUnderCursor($canvasCursorPosition, $svgs);
+	}
+);
