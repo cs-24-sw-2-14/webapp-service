@@ -1,9 +1,14 @@
 <script lang="ts">
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
+	import {
 		chosenTool,
+		drawColor,
 		canvasCursorPosition,
 		cursorDown,
+		username
+	} from '$lib/stores/stateStore';
+	import { socket } from '$lib/stores/socketioStore';
 	import { writable } from 'svelte/store';
 	import { ToolState, type CommandId } from '$lib/types';
 
@@ -19,11 +24,11 @@
 		$socket.emit(
 			'startDraw',
 			{
-				stroke: $user.drawColor,
 				coordinate: $canvasCursorPosition,
+				stroke: $drawColor,
 				fill: 'transparent',
 				strokeWidth: STROKE_WIDTH,
-				username: $user.name
+				username: $username
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
