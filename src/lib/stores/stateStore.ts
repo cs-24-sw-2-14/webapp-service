@@ -1,4 +1,5 @@
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
+import { svgs } from '$lib/stores/socketioStore';
 import {
 	type CanvasView,
 	Color,
@@ -9,6 +10,7 @@ import {
 	type ViewportCoordinates,
 	type CommandId
 } from '$lib/types';
+import { getCommandIdsUnderCursor, viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
 export const boardId = writable('');
 
@@ -29,14 +31,12 @@ export const canvasView = writable<CanvasView>({
 });
 
 export const toolState = writable<ToolState>(ToolState.pan);
-
-export const cursorPosition = writable<ViewportCoordinates>({
-	x: 0,
-	y: 0
-});
-
+export const canvasCursorPosition = derived(
+	[cursorPosition, canvasView],
+	([$cursorPosition, $canvasView]) => {
+		return viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 	}
-]);
+);
 
 export const user = writable<User>({
 	name: 'Marc', // Empty string as the default Username
