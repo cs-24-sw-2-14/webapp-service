@@ -19,16 +19,18 @@
 
 <div class="grid grid-cols-5 gap-3 place-content-center p-5">
 	{#each colorMap as [colorName, color]}
-		<div class="justify-center">
-			<button
-				style={`background-color: ${color.primary}; border-color: ${color.secondary}; ${colorPicked === colorName ? 'border-width: 0.45em;' : ''}`}
-				disabled={isDisabledByOtherUser(colorName)}
-				on:click={() => {
-					colorPicked = colorName;
-				}}
-			>
-			</button>
-		</div>
+		{#key $otherUsers}
+			<div class="justify-center">
+				<button
+					style={`background-color: ${color.primary}; border-color: ${color.secondary}; ${colorPicked === colorName ? 'border-width: 0.45em;' : ''}`}
+					disabled={isDisabledByOtherUser(colorName)}
+					on:click={() => {
+						colorPicked = colorName;
+					}}
+				>
+				</button>
+			</div>
+		{/key}
 	{/each}
 </div>
 
