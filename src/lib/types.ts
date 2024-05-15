@@ -1,11 +1,6 @@
 export interface User {
 	name: Username;
 	color: Color;
-	drawColor: HexColorString;
-}
-
-export interface OtherUser extends User {
-	isOnline: boolean;
 	position: CanvasCoordinateSet;
 }
 
@@ -24,11 +19,11 @@ export enum Color {
 
 export type UserColor = {
 	name: ColorName;
-	primary: HexColorString;
-	secondary: HexColorString;
+	primary: ColorString;
+	secondary: ColorString;
 };
 export type ColorName = string;
-export type HexColorString = string;
+export type ColorString = string;
 
 export interface CanvasView {
 	position: CanvasCoordinateSet;
@@ -60,8 +55,8 @@ export type ScaleFactor = number;
 // Currently a value between 0 and 100, but should be between 0 and 1 when refactor is done.
 export type ScaleFactor100 = number;
 export type StrokeWidth = number;
-export type FillString = string;
 export type Threshold = number;
+export type BoardId = string;
 
 export enum Page {
 	InitializationPage,
@@ -79,6 +74,7 @@ export type Svg = {
 	svgString: SvgString;
 	placement: CanvasCoordinateSet;
 	commandId: CommandId;
+	display: boolean;
 	boundingBox?: BoundingBox;
 };
 
