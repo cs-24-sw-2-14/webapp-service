@@ -8,34 +8,39 @@
 	let boardIdIsValid = false;
 
 	$: {
-		boardIdInput = boardIdInput.toUpperCase();
-		if (!checkHexadecimal(boardIdInput)) {
-			boardIdInput = boardIdInput.slice(0, -1);
-		}
-		if (boardIdInput.length > 6) {
-			boardIdInput = boardIdInput.slice(0, -1);
-		}
+		boardIdInput = sanitizeBoardId(boardIdInput);
+		validateBoardId(boardIdInput).then((isValid) => (boardIdIsValid = isValid));
 	}
 
+	function sanitizeBoardId(boardId: BoardId) {
+		boardId = boardId.toUpperCase();
+		if (!checkHexadecimal(boardId)) {
+			boardId = boardId.slice(0, -1);
+		}
+		if (boardId.length > 6) {
+			boardId = boardId.slice(0, -1);
+		}
+		return boardId;
+	}
+
+	function join() {
 		if (boardIdIsValid) {
+			window.location.href = window.location.href + boardIdInput;
 		}
 	}
 
+	async function create() {
 		$boardId = await createBoard();
+		window.location.href = window.location.href + $boardId;
 	}
 </script>
 
 <svelte:window
 	on:keydown={(event) => {
-		if (event.key === 'Enter') validateBoard();
+		if (event.key === 'Enter') join();
 	}}
 />
 <!--It is an eventlistener. When the key "Enter" is pressed down, it will run the redirect fuction.-->
-
-<!--<link
-	href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
-	rel="stylesheet"
-/>-->
 
 <main>
 	<div class="mid-box">
@@ -49,16 +54,15 @@
 				<!--A div with a class named create-box)-->
 				<p>Click to create a new board</p>
 				<!--Text. Paragraph)-->
-				<button id="create-button" class="button" on:click={createBoard}>Create Board</button>
+				<button id="create-button" class="button" on:click={create}>Create Board</button>
 				<!--A button with the id 'create-button' and class 'button'-->
 			</div>
 			<div class="join-box">
-				<!-- TODO: Visually disable button when not valid. -->
 				<!--A div with a class named join-box)-->
 				<p>Insert Code to Join Board</p>
 				<!--Text. Paragraph)-->
 				<input id="insert-code-box" bind:value={boardIdInput} placeholder="Insert code" />
-				<button id="join-button" class="button" on:click={validateBoard}> Join Board</button>
+				<button id="join-button" class="button" on:click={join}> Join Board</button>
 				<!--A button with the id 'join-button' and class 'button'-->
 				<!--on:click={redirect} does so when the button is clicked on, the function redirect runs-->
 			</div>
