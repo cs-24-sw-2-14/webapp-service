@@ -32,7 +32,6 @@
 			'startMove',
 			{
 				movedCommandId: $commandIdsUnderCursor[0],
-				position: $cursorPosition,
 				username: $username
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
