@@ -2,27 +2,24 @@ import { writable, derived } from 'svelte/store';
 import { svgs } from '$lib/stores/socketioStore';
 import {
 	type CanvasView,
-	Color,
-	type OtherUser,
 	Page,
 	ToolState,
-	type User,
-	type ViewportCoordinates,
-	type CommandId
+	type CanvasCoordinateSet,
+	type ColorString,
+	type Username,
+	type Color
 } from '$lib/types';
 import { getCommandIdsUnderCursor, viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
-export const boardId = writable('');
+// TOOLSTATE
+export const toggleGrid = writable(true);
+export const drawColor = writable<ColorString>('#000000');
+export const chosenTool = writable<ToolState>(ToolState.pan);
 
-export const currentPage = writable(Page.InitializationPage);
-
-
-export const viewChat = writable(false);
 // USERS
 export const username = writable<Username>();
 export const color = writable<Color>();
 
-export const toggleGrid = writable(true);
 // CURSOR
 export const cursorDown = writable(false);
 export const cursorEvents = {
@@ -41,6 +38,7 @@ export const cursorPosition = writable<CanvasCoordinateSet>({
 	y: 0
 });
 
+// SVG CANVAS
 export const canvasView = writable<CanvasView>({
 	position: { x: 0, y: 0 },
 	size: {
@@ -50,7 +48,6 @@ export const canvasView = writable<CanvasView>({
 	scale: 100
 });
 
-export const toolState = writable<ToolState>(ToolState.pan);
 export const canvasCursorPosition = derived(
 	[cursorPosition, canvasView],
 	([$cursorPosition, $canvasView]) => {
@@ -58,6 +55,9 @@ export const canvasCursorPosition = derived(
 	}
 );
 
+export const boardId = writable('');
+export const currentPage = writable(Page.InitializationPage);
+export const viewChat = writable(false);
 
 export const commandIdsUnderCursor = derived([cursorPosition, svgs], ([cursorPosition, $svgs]) => {
 	return getCommandIdsUnderCursor(cursorPosition, $svgs);
