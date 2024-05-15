@@ -37,7 +37,6 @@
 		submitButtonName="Continue"
 		{handleSubmit}
 		closable={false}
-		otherUsers={$otherUsers}
 		boardId={$boardId}
 	/>
 </main>
