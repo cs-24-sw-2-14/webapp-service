@@ -18,8 +18,8 @@ export const drawColor = writable<ColorString>('#000000');
 export const chosenTool = writable<ToolState>(ToolState.pan);
 
 // USERS
-export const username = writable<Username>();
-export const color = writable<Color>();
+export const username = writable<Username | null>(null);
+export const color = writable<Color | null>(null);
 
 if (browser) {
 	username.set(localStorage.username ?? null);
