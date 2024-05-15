@@ -1,7 +1,7 @@
 <script lang="ts">
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
-	import { toolState, canvasTouched, socket, user } from '$lib/stores/stateStore';
+	import { chosenTool, canvasTouched, socket, user } from '$lib/stores/stateStore';
 	import { writable } from 'svelte/store';
 	import { ToolState, type CommandId } from '$lib/types';
 
@@ -13,7 +13,7 @@
 	canvasTouched.subscribe(stopDraw);
 
 	function startDraw() {
-		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId !== null) return;
+		if (!$canvasTouched || $chosenTool !== ToolState.draw || $currentCommandId !== null) return;
 		$socket.emit(
 			'startDraw',
 			{
@@ -28,7 +28,7 @@
 	}
 
 	function doDraw() {
-		if (!$canvasTouched || $toolState !== ToolState.draw || $currentCommandId === null) return;
+		if (!$canvasTouched || $chosenTool !== ToolState.draw || $currentCommandId === null) return;
 		$socket.emit('doDraw', {
 			position: $user.position,
 			commandId: $currentCommandId
@@ -36,15 +36,15 @@
 	}
 
 	function stopDraw() {
-		if ($canvasTouched || $toolState !== ToolState.draw) return;
+		if ($canvasTouched || $chosenTool !== ToolState.draw) return;
 		$currentCommandId = null;
 	}
 </script>
 
 <MenuButton
-	isActive={$toolState === ToolState.draw}
+	isActive={$chosenTool === ToolState.draw}
 	icon={Icons.pencil}
 	on:click={() => {
-		$toolState = ToolState.draw;
+		$chosenTool = ToolState.draw;
 	}}
 ></MenuButton>
