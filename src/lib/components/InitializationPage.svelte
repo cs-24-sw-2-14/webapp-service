@@ -1,12 +1,7 @@
 <script lang="ts">
 	import UserModal from './UserModal.svelte';
 	import { currentPage, username, boardId, color } from '$lib/stores/stateStore';
-	import {
-		connectToBoardSocket,
-		connectToInitSocket,
-		initSocket,
-		otherUsers
-	} from '$lib/stores/socketioStore';
+	import { connectToBoardSocket, connectToInitSocket, initSocket } from '$lib/stores/socketioStore';
 	import { onMount } from 'svelte';
 	import { Page, type Color } from '$lib/types';
 	let dialog: HTMLDialogElement;
