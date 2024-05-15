@@ -2,13 +2,14 @@
 	import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import {
-		toolState,
+		chosenTool,
 		cursorDown,
 		commandIdsUnderCursor,
 		canvasCursorPosition,
 		username
 	} from '$lib/stores/stateStore';
-	import { ToolState, type CanvasCoordinate, type CommandId } from '$lib/types';
+	import { socket } from '$lib/stores/socketioStore';
+	import { ToolState, type CanvasCoordinateSet, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 	let currentCommandId = writable<number | null>(null);
 
