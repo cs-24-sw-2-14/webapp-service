@@ -7,7 +7,7 @@
 		canvasCursorPosition,
 		commandIdsUnderCursor,
 		socket,
-		user
+		username
 	} from '$lib/stores/stateStore';
 	import { ToolState, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
@@ -31,11 +31,10 @@
 		$socket.emit(
 			'startErase',
 			{
-				position: $user.position,
 				coordinate: $canvasCursorPosition,
 				commandIdsUnderCursor: $commandIdsUnderCursor,
 				threshold: THRESHOLD_DISTANCE,
-				username: $user.name
+				username: $username
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
