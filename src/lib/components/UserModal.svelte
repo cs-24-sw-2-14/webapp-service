@@ -10,7 +10,6 @@
 	export let submitButtonName;
 	export let handleSubmit: (username: Username, color: Color) => void;
 	export let closable = true;
-	export let otherUsers;
 	export let boardId;
 	export let fieldDefaultValue = '';
 
@@ -48,7 +47,7 @@
 		</div>
 
 		<!-- Color Picker -->
-		<ColorPicker {otherUsers} bind:colorPicked></ColorPicker>
+		<ColorPicker bind:colorPicked></ColorPicker>
 
 		<button
 			class="mt-4 px-4 py-2 bg-yellow-500 rounded shadow hover:bg-yellow-600 disabled:bg-yellow-600 w-full"
