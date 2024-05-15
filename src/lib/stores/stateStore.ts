@@ -10,6 +10,7 @@ import {
 	type Color
 } from '$lib/types';
 import { getCommandIdsUnderCursor, viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
+import { browser } from '$app/environment';
 
 // TOOLSTATE
 export const toggleGrid = writable(true);
@@ -19,6 +20,13 @@ export const chosenTool = writable<ToolState>(ToolState.pan);
 // USERS
 export const username = writable<Username>();
 export const color = writable<Color>();
+
+if (browser) {
+	username.set(localStorage.username ?? null);
+	color.set(parseInt(localStorage.color) ?? null);
+	username.subscribe((value) => (localStorage.username = value));
+	color.subscribe((value) => (localStorage.color = value?.toString()));
+}
 
 // CURSOR
 export const cursorDown = writable(false);
