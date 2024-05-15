@@ -57,9 +57,13 @@ describe("Extract initials (getInitials)", () => {
 
     test.each([  
         [":) (:", ":("],
-        [":)", ":"],
         ["1234", "1"],
         ["12 34", "13"],
+        ["` ~ _ § £ ¤ ´ ¨ ", "`~_§£¤´¨"],
+        ["$ @ # & | ", "$@#&|"],
+        ["! : ; ' . , ?", "!:;'.,?"],
+        ["( ) { } [ ]", "(){}[]"],
+        [" ^ + - / * % = < > ", "^+-/*%=<>", ],
 
     ])("Not Letters", (input, expectedResult) => {
         expect(getInitials(input)).toStrictEqual(expectedResult);
