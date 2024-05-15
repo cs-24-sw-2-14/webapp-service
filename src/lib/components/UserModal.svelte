@@ -8,8 +8,11 @@
 	export let title;
 	export let placeholder;
 	export let submitButtonName;
-	export let handleSubmit;
+	export let handleSubmit: (username: Username, color: Color) => void;
 	export let closable = true;
+	export let otherUsers;
+	export let boardId;
+	export let fieldDefaultValue = '';
 
 	let usernameField = fieldDefaultValue;
 	let colorPicked: Color | null = null;
@@ -45,13 +48,14 @@
 		</div>
 
 		<!-- Color Picker -->
-		<ColorPicker></ColorPicker>
+		<ColorPicker {otherUsers} bind:colorPicked></ColorPicker>
 
 		<button
 			class="mt-4 px-4 py-2 bg-yellow-500 rounded shadow hover:bg-yellow-600 disabled:bg-yellow-600 w-full"
-			disabled={$user.color === null || usernameField === '' || !$usernameIsValid}
+			disabled={!usernameIsValid && !colorIsValid}
 			on:click={() => {
-				handleSubmit(usernameField);
+				if (!colorPicked) return;
+				handleSubmit(usernameField, colorPicked);
 			}}
 		>
 			{submitButtonName}
