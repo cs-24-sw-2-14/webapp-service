@@ -1,15 +1,11 @@
 <script lang="ts">
 	import { checkHexadecimal } from '$lib/utils';
-
-	import {
-		PUBLIC_REST_API_PROTOCOL,
-		PUBLIC_REST_API_HOSTNAME,
-		PUBLIC_REST_API_PORT
-	} from '$env/static/public';
-
-	const hostname: string = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}`;
+	import { validateBoardId, createBoard } from '$lib/http';
+	import { boardId } from '$lib/stores/stateStore';
+	import type { BoardId } from '$lib/types';
 
 	let boardIdInput = '';
+	let boardIdIsValid = false;
 
 	$: {
 		boardIdInput = boardIdInput.toUpperCase();
@@ -21,43 +17,11 @@
 		}
 	}
 
-	// TODO: Kresten: Move network related functionality out of svelte components, into separate file.
-	async function validateBoard() {
-		if (boardIdInput.length !== 6) return;
-
-		try {
-			const response = await fetch(hostname + '/v1/board/validate', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				},
-				body: JSON.stringify({ boardId: boardIdInput })
-			});
-
-			if (response.ok) {
-				window.location.href = window.location.href + boardIdInput;
-			}
-		} catch (error) {
-			console.error('Request Error:', error);
+		if (boardIdIsValid) {
 		}
 	}
 
-	async function createBoard() {
-		try {
-			const response = await fetch(hostname + '/v1/board/create', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json'
-				}
-			});
-
-			if (response.ok) {
-				let body = await response.json();
-				window.location.href = window.location.href + body.boardId;
-			}
-		} catch (error) {
-			console.error('Request Error:', error);
-		}
+		$boardId = await createBoard();
 	}
 </script>
 
