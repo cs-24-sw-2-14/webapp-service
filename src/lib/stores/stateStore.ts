@@ -20,6 +20,23 @@ export const currentPage = writable(Page.InitializationPage);
 export const viewChat = writable(false);
 
 export const toggleGrid = writable(true);
+// CURSOR
+export const cursorDown = writable(false);
+export const cursorEvents = {
+	down: () => cursorDown.set(true),
+	up: () => cursorDown.set(false),
+	move: (event: MouseEvent | TouchEvent) => {
+		if (event instanceof MouseEvent) {
+			cursorPosition.set({ x: event.clientX, y: event.clientY });
+		} else {
+			cursorPosition.set({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+		}
+	}
+};
+export const cursorPosition = writable<CanvasCoordinateSet>({
+	x: 0,
+	y: 0
+});
 
 export const canvasView = writable<CanvasView>({
 	position: { x: 0, y: 0 },
@@ -44,25 +61,5 @@ export const user = writable<User>({
 	position: { x: 0, y: 0 },
 	drawColor: '#000000'
 });
-
-export const canvasTouched = writable(false);
-
-export const touchEvents = {
-	start: () => canvasTouched.set(true),
-	move: (event: TouchEvent) =>
-		cursorPosition.update(() => {
-			return { x: event.touches[0].clientX, y: event.touches[0].clientY };
-		}),
-	end: () => canvasTouched.set(false)
-};
-
-export const mouseEvents = {
-	down: () => canvasTouched.set(true),
-	move: (event: MouseEvent) =>
-		cursorPosition.update(() => {
-			return { x: event.clientX, y: event.clientY };
-		}),
-	up: () => canvasTouched.set(false)
-};
 
 export const commandIdsUnderCursor = writable<CommandId[]>([]);
