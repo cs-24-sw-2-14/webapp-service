@@ -32,8 +32,8 @@
 			'startMove',
 			{
 				movedCommandId: $commandIdsUnderCursor[0],
-				position: $canvasCursorPosition,
-				username: $username
+				position: { x: 0, y: 0 },
+				username: $username!
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
