@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { colorMap } from '$lib/color';
-	import { Color } from '$lib/types';
+	import { Color, type User, type Username } from '$lib/types';
 	import { otherUsers } from '$lib/stores/socketioStore';
 	export let colorPicked: Color | null = null;
 
-	function isDisabledByOtherUser(color: Color): boolean {
-		for (const [_, user] of $otherUsers) {
+	function isDisabledByOtherUser(color: Color, otherUsers: Map<Username, User>): boolean {
+		for (const [_, user] of otherUsers) {
 			if (user.color === color) {
 				return true;
 			}
@@ -19,18 +19,16 @@
 
 <div class="grid grid-cols-5 gap-3 place-content-center p-5">
 	{#each colorMap as [colorName, color]}
-		{#key $otherUsers}
-			<div class="justify-center">
-				<button
-					style={`background-color: ${color.primary}; border-color: ${color.secondary}; ${colorPicked === colorName ? 'border-width: 0.45em;' : ''}`}
-					disabled={isDisabledByOtherUser(colorName)}
-					on:click={() => {
-						colorPicked = colorName;
-					}}
-				>
-				</button>
-			</div>
-		{/key}
+		<div class="justify-center">
+			<button
+				style={`background-color: ${color.primary}; border-color: ${color.secondary}; ${colorPicked === colorName ? 'border-width: 0.45em;' : ''}`}
+				disabled={isDisabledByOtherUser(colorName, $otherUsers)}
+				on:click={() => {
+					colorPicked = colorName;
+				}}
+			>
+			</button>
+		</div>
 	{/each}
 </div>
 

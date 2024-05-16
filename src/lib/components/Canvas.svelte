@@ -41,7 +41,7 @@
 
 	$: {
 		if ($username !== null && $color !== null) {
-			$boardSocket?.emit('userChange', {
+			$boardSocket?.volatile.emit('userChange', {
 				username: $username,
 				color: $color,
 				position: $canvasCursorPosition
@@ -102,16 +102,16 @@
 
 	<!-- Render the Drawings -->
 	{#each $svgs as [commandId, svg]}
-		{#key svg}
-			{#if svg.display}
+		{#if svg.display}
+			{#key svg}
 				<g
 					transform={`translate(${svg.position.x}, ${svg.position.y})`}
 					use:setBoundingBox={commandId}
 				>
 					{@html svg.svgString}
 				</g>
-			{/if}
-		{/key}
+			{/key}
+		{/if}
 	{/each}
 
 	<!-- Mouse Cursor (local and remote) -->
