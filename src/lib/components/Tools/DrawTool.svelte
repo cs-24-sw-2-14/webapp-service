@@ -36,7 +36,7 @@
 
 	function doDraw() {
 		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId === null) return;
-		$boardSocket?.emit('doDraw', {
+		$boardSocket?.volatile.emit('doDraw', {
 			position: $canvasCursorPosition,
 			commandId: $currentCommandId
 		});
