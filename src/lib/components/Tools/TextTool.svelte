@@ -9,7 +9,6 @@
 
 	let currentCommandId = writable<number | null>(null);
 
-
 	canvasCursorPosition.subscribe(startText);
 	cursorDown.subscribe(startText);
 
