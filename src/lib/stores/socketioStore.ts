@@ -30,30 +30,31 @@ export function connectToBoardSocket(
 	boardId: BoardId,
 	successCallback: () => void
 ) {
-	boardSocket.set(
-		io(SOCKET_ENDPOINT + `/${boardId}`, {
-			auth: {
-				username: username,
-				color: color
-			}
-		})
-	);
-	get(boardSocket)?.on('userChange', handleUserChange);
-	get(boardSocket)?.on('userRemove', handleUserRemove);
-	get(boardSocket)?.on('edit', handleEdit);
-	get(boardSocket)?.on('remove', handleRemove);
-	get(boardSocket)?.on('connect', () => {
-		get(boardSocket)?.off('connect');
+	const newSocket = io(SOCKET_ENDPOINT + `/${boardId}`, {
+		auth: {
+			username: username,
+			color: color
+		}
+	});
+
+	newSocket.on('userChange', handleUserChange);
+	newSocket.on('userRemove', handleUserRemove);
+	newSocket.on('edit', handleEdit);
+	newSocket.on('remove', handleRemove);
+	newSocket.on('connect', () => {
+		newSocket.off('connect');
+		boardSocket.set(newSocket);
 		successCallback();
 	});
 }
 
 export function connectToInitSocket(boardId: BoardId, successCallback: () => void) {
-	initSocket.set(io(SOCKET_ENDPOINT + `/${boardId}_init`));
-	get(initSocket)?.on('userChange', handleUserChange);
-	get(initSocket)?.on('userRemove', handleUserRemove);
-	get(initSocket)?.on('connect', () => {
-		get(initSocket)?.off('connect');
+	const newSocket = io(SOCKET_ENDPOINT + `/${boardId}_init`);
+	newSocket.on('userChange', handleUserChange);
+	newSocket.on('userRemove', handleUserRemove);
+	newSocket.on('connect', () => {
+		newSocket.off('connect');
+		initSocket.set(newSocket);
 		successCallback();
 	});
 }

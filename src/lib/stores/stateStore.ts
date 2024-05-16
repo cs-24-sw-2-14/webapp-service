@@ -7,9 +7,13 @@ import {
 	type CanvasCoordinateSet,
 	type ColorString,
 	type Username,
-	type Color
+	type Color,
+	type BoardId
 } from '$lib/types';
 import { getCommandIdsUnderCursor, viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
+import { browser } from '$app/environment';
+
+export const boardId = writable<BoardId | null>(null);
 
 // TOOLSTATE
 export const toggleGrid = writable(true);
@@ -17,11 +21,33 @@ export const drawColor = writable<ColorString>('#000000');
 export const chosenTool = writable<ToolState>(ToolState.pan);
 
 // USERS
-export const username = writable<Username>();
-export const color = writable<Color>();
+export const username = writable<Username | null>(null);
+export const color = writable<Color | null>(null);
+
+boardId.subscribe((boardId) => {
+	if (browser && boardId) {
+		const usernameKey = boardId + 'username';
+		const colorKey = boardId + 'color';
+
+		username.set(localStorage.getItem(usernameKey) ?? null);
+		const colorString = localStorage.getItem(colorKey);
+		color.set(colorString ? parseInt(colorString) : null);
+
+		username.subscribe((username) => {
+			if (!username) return;
+			localStorage.setItem(usernameKey, username!);
+		});
+
+		color.subscribe((color) => {
+			if (color === null) return;
+			localStorage.setItem(colorKey, color!.toString());
+		});
+	}
+});
 
 // CURSOR
 export const cursorDown = writable(false);
+
 export const cursorEvents = {
 	down: () => cursorDown.set(true),
 	up: () => cursorDown.set(false),
@@ -55,7 +81,6 @@ export const canvasCursorPosition = derived(
 	}
 );
 
-export const boardId = writable('');
 export const currentPage = writable(Page.InitializationPage);
 export const viewChat = writable(false);
 

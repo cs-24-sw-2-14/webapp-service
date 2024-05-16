@@ -3,17 +3,17 @@
 	import { currentPage, username, boardId, color } from '$lib/stores/stateStore';
 	import { connectToBoardSocket, connectToInitSocket, initSocket } from '$lib/stores/socketioStore';
 	import { onMount } from 'svelte';
-	import { Page, type Color } from '$lib/types';
+	import { Page, type Color, type Username } from '$lib/types';
 	let dialog: HTMLDialogElement;
 
 	onMount(() => {
-		connectToInitSocket($boardId, () => {
+		connectToInitSocket($boardId!, function onSuccess() {
 			console.log('connected to initsocket!');
 		});
 	});
 
-	function handleSubmit(username: string, color: Color) {
-		connectToBoardSocket(username, color, $boardId, () => {
+	function handleSubmit(username: Username, color: Color) {
+		connectToBoardSocket(username, color, $boardId!, function onSuccess() {
 			$initSocket?.disconnect();
 			$username = username;
 			$color = color;
@@ -33,6 +33,8 @@
 		{handleSubmit}
 		closable={false}
 		boardId={$boardId}
+		colorPicked={$color}
+		fieldDefaultValue={$username ?? ''}
 	/>
 </main>
 
