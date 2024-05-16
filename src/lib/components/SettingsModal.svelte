@@ -3,12 +3,18 @@
 	import { boardId, color, username } from '$lib/stores/stateStore';
 	import MenuButton from './Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
+	import { boardSocket, connectToBoardSocket } from '$lib/stores/socketioStore';
+	import type { Color, Username } from '$lib/types';
 
 	let dialog: HTMLDialogElement;
 
-	function handleSubmit(username: string) {
-		dialog.close();
-		$username = username;
+	function handleSubmit(username: Username, color: Color) {
+		$boardSocket?.disconnect();
+		connectToBoardSocket(username, color, $boardId!, function onSuccess() {
+			dialog.close();
+			$username = username;
+			$color = color;
+		});
 	}
 </script>
 
