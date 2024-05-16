@@ -5,7 +5,7 @@
 		chosenTool,
 		cursorDown,
 		commandIdsUnderCursor,
-		canvasCursorPosition,
+		cursorPosition,
 		username
 	} from '$lib/stores/stateStore';
 	import { boardSocket } from '$lib/stores/socketioStore';
@@ -14,7 +14,7 @@
 	let currentCommandId = writable<number | null>(null);
 
 	cursorDown.subscribe(startMove);
-	canvasCursorPosition.subscribe(doMove);
+	cursorPosition.subscribe(doMove);
 	cursorDown.subscribe(stopDraw);
 
 	let startPosition: CanvasCoordinateSet | null = null;
@@ -27,7 +27,7 @@
 			$currentCommandId !== null
 		)
 			return;
-		startPosition = $canvasCursorPosition;
+		startPosition = $cursorPosition;
 		$boardSocket?.emit(
 			'startMove',
 			{
@@ -48,8 +48,8 @@
 			return;
 		$boardSocket?.emit('doMove', {
 			position: {
-				x: $canvasCursorPosition.x - startPosition.x,
-				y: $canvasCursorPosition.y - startPosition.y
+				x: $cursorPosition.x - startPosition.x,
+				y: $cursorPosition.y - startPosition.y
 			},
 			commandId: $currentCommandId
 		});
