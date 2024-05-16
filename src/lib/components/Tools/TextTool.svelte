@@ -23,15 +23,15 @@
 			},
 			(commandId: CommandId) => {
 				$currentCommandId = commandId;
-				updateCurrentText(commandId, 'TEST');
+				updateText(commandId, 'TEST');
 			}
 		);
 	}
 
-	function updateCurrentText(content: string) {
-		$boardSocket.emit('doText', {
+	function updateText(commandId: CommandId, content: string) {
+		$boardSocket?.emit('doText', {
 			content: content,
-			commandId: $currentCommandId
+			commandId: commandId
 		});
 	}
 </script>
