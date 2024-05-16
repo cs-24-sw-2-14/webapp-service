@@ -11,60 +11,76 @@ const VALIDATE_USERNAME_ENDPOINT: string = `${PUBLIC_REST_API_PROTOCOL}://${PUBL
 const VALIDATE_COLOR_ENDPOINT: string = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}/v1/board/validateColor`;
 
 export async function createBoard() {
-	const response = await fetch(CREATE_BOARD_ENDPOINT, {
-		method: 'POST'
-	});
-	if (response.ok) {
-		return (await response.json()).boardId;
+	try {
+		const response = await fetch(CREATE_BOARD_ENDPOINT, {
+			method: 'POST'
+		});
+		if (response.ok) {
+			return (await response.json()).boardId;
+		}
+		throw new Error('Create board failed');
+	} catch (err) {
+		throw new Error('Create board failed');
 	}
-	throw new Error('Create board failed');
 }
 export async function validateBoardId(boardId: BoardId) {
-	const response = await fetch(VALIDATE_BOARDID_ENDPOINT, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			boardId: boardId
-		})
-	});
-	if (response.ok) {
-		return true;
+	try {
+		const response = await fetch(VALIDATE_BOARDID_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				boardId: boardId
+			})
+		});
+		if (response.ok) {
+			return true;
+		}
+		return false;
+	} catch (err) {
+		throw new Error('Validate BoardId failed');
 	}
-	return false;
 }
 
 export async function validateUsername(boardId: BoardId, username: Username) {
-	const response = await fetch(VALIDATE_USERNAME_ENDPOINT, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			boardId: boardId,
-			username: username
-		})
-	});
-	if (response.ok) {
-		return true;
+	try {
+		const response = await fetch(VALIDATE_USERNAME_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				boardId: boardId,
+				username: username
+			})
+		});
+		if (response.ok) {
+			return true;
+		}
+		return false;
+	} catch (err) {
+		throw new Error('Validate Username failed');
 	}
-	return false;
 }
 
 export async function validateColor(boardId: BoardId, color: Color) {
-	const response = await fetch(VALIDATE_COLOR_ENDPOINT, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		body: JSON.stringify({
-			boardId: boardId,
-			color: color
-		})
-	});
-	if (response.ok) {
-		return true;
+	try {
+		const response = await fetch(VALIDATE_COLOR_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				boardId: boardId,
+				color: color
+			})
+		});
+		if (response.ok) {
+			return true;
+		}
+		return false;
+	} catch (err) {
+		throw new Error('Validate Color failed');
 	}
-	return false;
 }

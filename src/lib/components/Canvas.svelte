@@ -102,7 +102,7 @@
 
 	<!-- Render the Drawings -->
 	{#each $svgs as [commandId, svg]}
-		{#key svg.svgString}
+		{#key svg}
 			{#if svg.display}
 				<g
 					transform={`translate(${svg.position.x}, ${svg.position.y})`}
