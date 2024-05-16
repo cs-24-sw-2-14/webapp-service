@@ -103,12 +103,14 @@
 	<!-- Render the Drawings -->
 	{#each $svgs as [commandId, svg]}
 		{#if svg.display}
-			<g
-				transform={`translate(${svg.position.x}, ${svg.position.y})`}
-				use:setBoundingBox={commandId}
-			>
-				{@html svg.svgString}
-			</g>
+			{#key svg}
+				<g
+					transform={`translate(${svg.position.x}, ${svg.position.y})`}
+					use:setBoundingBox={commandId}
+				>
+					{@html svg.svgString}
+				</g>
+			{/key}
 		{/if}
 	{/each}
 
