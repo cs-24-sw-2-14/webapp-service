@@ -34,7 +34,7 @@
 				position: $canvasCursorPosition,
 				commandIdsUnderCursor: $commandIdsUnderCursor,
 				threshold: THRESHOLD_DISTANCE,
-				username: $username
+				username: $username!
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);

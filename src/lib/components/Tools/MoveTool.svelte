@@ -46,7 +46,7 @@
 			startPosition === null
 		)
 			return;
-		$boardSocket?.emit('doMove', {
+		$boardSocket?.volatile.emit('doMove', {
 			position: {
 				x: $canvasCursorPosition.x - startPosition.x,
 				y: $canvasCursorPosition.y - startPosition.y

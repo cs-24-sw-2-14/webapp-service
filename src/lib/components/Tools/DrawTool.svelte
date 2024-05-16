@@ -28,7 +28,7 @@
 				stroke: $drawColor,
 				fill: 'transparent',
 				strokeWidth: STROKE_WIDTH,
-				username: $username
+				username: $username!
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
@@ -36,7 +36,7 @@
 
 	function doDraw() {
 		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId === null) return;
-		$boardSocket?.emit('doDraw', {
+		$boardSocket?.volatile.emit('doDraw', {
 			position: $canvasCursorPosition,
 			commandId: $currentCommandId
 		});
