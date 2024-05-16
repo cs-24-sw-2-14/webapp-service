@@ -1,20 +1,17 @@
 <script lang="ts">
 	import {
-		toolState,
+		chosenTool,
 		canvasView,
-		touchEvents,
-		mouseEvents,
-		drawingsUnderCursor,
-		cursorPosition,
+		cursorEvents,
 		toggleGrid,
-		user
+		username,
+		color,
+		canvasCursorPosition
 	} from '$lib/stores/stateStore';
-	import { ToolState } from '$lib/types';
+	import { ToolState, type CommandId } from '$lib/types';
 	import { onMount } from 'svelte';
-	import { svgs } from '$lib/stores/svgStore.js';
-	import type { ViewportCoordinates } from '$lib/types';
+	import { svgs, boardSocket } from '$lib/stores/socketioStore';
 	import MouseCursors from './MouseCursors.svelte';
-	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
 	onMount(() => {
 		resizeCanvas();
@@ -28,36 +25,36 @@
 		};
 	}
 
-	cursorPosition.subscribe(removeElements);
-
-	// TODO: Get SVG elements under cursor by bounding box instead, Mads.
-	function removeElements(pos: ViewportCoordinates) {
-		if (!$drawingsUnderCursor) return;
-		$drawingsUnderCursor.filter((drawing) => {
-			const node = drawing.eventTarget as HTMLElement;
-			const svgRect = node.getBoundingClientRect();
-			if (
-				pos.x < svgRect.left ||
-				pos.x > svgRect.right ||
-				pos.y < svgRect.top ||
-				pos.y > svgRect.bottom
-			) {
-				return false;
+	function setBoundingBox(element: SVGGraphicsElement, commandId: CommandId) {
+		const bbox = element.getBBox();
+		if (!$svgs.has(commandId)) return;
+		const oldSvg = $svgs.get(commandId)!;
+		$svgs.set(commandId, {
+			...oldSvg,
+			boundingBox: {
+				position: { x: bbox.x, y: bbox.y },
+				width: bbox.width,
+				height: bbox.height
 			}
-			return true;
 		});
 	}
 
-	cursorPosition.subscribe(() => {
-		$user.position = viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
-	});
+	$: {
+		if ($username !== null && $color !== null) {
+			$boardSocket?.emit('userChange', {
+				username: $username,
+				color: $color,
+				position: $canvasCursorPosition
+			});
+		}
+	}
 </script>
 
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <svg
-	class:draw={$toolState === ToolState.draw}
-	class:draggable={$toolState === ToolState.pan}
+	class:draw={$chosenTool === ToolState.draw}
+	class:draggable={$chosenTool === ToolState.pan}
 	role="application"
 	aria-label="Interactive infinite whiteboard with draggable grid"
 	xmlns="http://www.w3.org/2000/svg"
@@ -69,14 +66,14 @@
   ${$canvasView.size.width / ($canvasView.scale / 100)}
   ${$canvasView.size.height / ($canvasView.scale / 100)}
 `}
-	on:mousedown={mouseEvents.down}
-	on:mousemove={mouseEvents.move}
-	on:mouseup={mouseEvents.up}
-	on:mouseleave={mouseEvents.up}
-	on:touchstart={touchEvents.start}
-	on:touchmove={touchEvents.move}
-	on:touchend={touchEvents.end}
-	on:touchcancel={touchEvents.end}
+	on:mousedown={cursorEvents.down}
+	on:mousemove={cursorEvents.move}
+	on:mouseup={cursorEvents.up}
+	on:mouseleave={cursorEvents.up}
+	on:touchstart={cursorEvents.down}
+	on:touchmove={cursorEvents.move}
+	on:touchend={cursorEvents.up}
+	on:touchcancel={cursorEvents.up}
 	on:resize={resizeCanvas}
 >
 	<!-- Define the pattern for the dotted background -->
@@ -104,21 +101,17 @@
 	{/if}
 
 	<!-- Render the Drawings -->
-	{#each $svgs as svg}
-		<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-		<!-- svelte-ignore a11y-no-static-element-interactions -->
-		<g
-			transform={`translate(${svg.placement.x}, ${svg.placement.y})`}
-			on:mouseover={(event) => {
-				if (!event.target) return;
-				$drawingsUnderCursor.push({
-					commandId: svg.commandId,
-					eventTarget: event.target
-				});
-			}}
-		>
-			{@html svg.svgString}
-		</g>
+	{#each $svgs as [commandId, svg]}
+		{#key svg}
+			{#if svg.display}
+				<g
+					transform={`translate(${svg.position.x}, ${svg.position.y})`}
+					use:setBoundingBox={commandId}
+				>
+					{@html svg.svgString}
+				</g>
+			{/if}
+		{/key}
 	{/each}
 
 	<!-- Mouse Cursor (local and remote) -->

@@ -1,27 +1,70 @@
-// Store to handle global state
-import { Socket } from 'socket.io-client';
-
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
+import { svgs } from '$lib/stores/socketioStore';
 import {
 	type CanvasView,
-	Color,
-	type OtherUser,
 	Page,
 	ToolState,
-	type User,
-	type ViewportCoordinates
+	type CanvasCoordinateSet,
+	type ColorString,
+	type Username,
+	type Color,
+	type BoardId
 } from '$lib/types';
+import { getCommandIdsUnderCursor, viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
+import { browser } from '$app/environment';
 
-export const boardId = writable('');
+export const boardId = writable<BoardId | null>(null);
 
-export const currentPage = writable(Page.InitializationPage);
-
-export const socket = writable<Socket>();
-
-export const viewChat = writable(false);
-
+// TOOLSTATE
 export const toggleGrid = writable(true);
+export const drawColor = writable<ColorString>('#000000');
+export const chosenTool = writable<ToolState>(ToolState.pan);
 
+// USERS
+export const username = writable<Username | null>(null);
+export const color = writable<Color | null>(null);
+
+boardId.subscribe((boardId) => {
+	if (browser && boardId) {
+		const usernameKey = boardId + 'username';
+		const colorKey = boardId + 'color';
+
+		username.set(localStorage.getItem(usernameKey) ?? null);
+		const colorString = localStorage.getItem(colorKey);
+		color.set(colorString ? parseInt(colorString) : null);
+
+		username.subscribe((username) => {
+			if (!username) return;
+			localStorage.setItem(usernameKey, username!);
+		});
+
+		color.subscribe((color) => {
+			if (color === null) return;
+			localStorage.setItem(colorKey, color!.toString());
+		});
+	}
+});
+
+// CURSOR
+export const cursorDown = writable(false);
+
+export const cursorEvents = {
+	down: () => cursorDown.set(true),
+	up: () => cursorDown.set(false),
+	move: (event: MouseEvent | TouchEvent) => {
+		if (event instanceof MouseEvent) {
+			cursorPosition.set({ x: event.clientX, y: event.clientY });
+		} else {
+			cursorPosition.set({ x: event.touches[0].clientX, y: event.touches[0].clientY });
+		}
+	}
+};
+export const cursorPosition = writable<CanvasCoordinateSet>({
+	x: 0,
+	y: 0
+});
+
+// SVG CANVAS
 export const canvasView = writable<CanvasView>({
 	position: { x: 0, y: 0 },
 	size: {
@@ -31,95 +74,19 @@ export const canvasView = writable<CanvasView>({
 	scale: 100
 });
 
-export const toolState = writable<ToolState>(ToolState.pan);
-
-export const cursorPosition = writable<ViewportCoordinates>({
-	x: 0,
-	y: 0
-});
-
-export const otherUsers = writable<OtherUser[]>([
-	{
-		name: 'Elma Vukicevic',
-		color: Color.red,
-		position: { x: -50, y: 50 },
-		drawColor: '#a4eb34',
-		isOnline: true
-	},
-	{
-		name: 'Amalie Jensen',
-		color: Color.orange,
-		position: { x: -100, y: 100 },
-		drawColor: '#a4eb34',
-		isOnline: true
-	},
-	{
-		name: 'Cecilie Lassen',
-		color: Color.yellow,
-		position: { x: -150, y: 150 },
-		drawColor: '#000000',
-		isOnline: true
-	},
-	{
-		name: 'Kresten Sckerl',
-		color: Color.lime,
-		position: { x: -200, y: 200 },
-		drawColor: '#000000',
-		isOnline: true
-	},
-	{
-		name: 'Mads Fagerlund',
-		color: Color.green,
-		position: { x: -250, y: 250 },
-		drawColor: '#000000',
-		isOnline: true
-	},
-	{
-		name: 'Marc Nygaard',
-		color: Color.teal,
-		position: { x: -300, y: 300 },
-		drawColor: '#000000',
-		isOnline: true
-	},
-	{
-		name: 'Thorbjørn Larsen',
-		color: Color.brown,
-		position: { x: -350, y: 350 },
-		drawColor: '#000000',
-		isOnline: true
+export const canvasCursorPosition = derived(
+	[cursorPosition, canvasView],
+	([$cursorPosition, $canvasView]) => {
+		return viewportToCanvasCoordinatesFromCanvasView($cursorPosition, $canvasView);
 	}
-]);
+);
 
-export const user = writable<User>({
-	name: 'Marc', // Empty string as the default Username
-	color: Color.pink, // Default user color set to pink, BECAUSE WHY NOT!
-	position: { x: 0, y: 0 },
-	drawColor: '#000000'
-});
+export const currentPage = writable(Page.InitializationPage);
+export const viewChat = writable(false);
 
-export const canvasTouched = writable(false);
-
-export const touchEvents = {
-	start: () => canvasTouched.set(true),
-	move: (event: TouchEvent) =>
-		cursorPosition.update(() => {
-			return { x: event.touches[0].clientX, y: event.touches[0].clientY };
-		}),
-	end: () => canvasTouched.set(false)
-};
-
-export const mouseEvents = {
-	down: () => canvasTouched.set(true),
-	move: (event: MouseEvent) =>
-		cursorPosition.update(() => {
-			return { x: event.clientX, y: event.clientY };
-		}),
-	up: () => canvasTouched.set(false)
-};
-
-export interface DrawingUnderCursor {
-	commandId: number;
-	eventTarget: EventTarget;
-}
-
-export const drawingsUnderCursor = writable<DrawingUnderCursor[]>([]);
+export const commandIdsUnderCursor = derived(
+	[canvasCursorPosition, svgs],
+	([$canvasCursorPosition, $svgs]) => {
+		return getCommandIdsUnderCursor($canvasCursorPosition, $svgs);
+	}
+);

@@ -1,0 +1,30 @@
+name: Update Docker on server
+
+on:
+  workflow_run:
+    workflows: ["Publish Docker image"]
+    types:
+      - completed
+  workflow_dispatch:
+
+env:
+  IMAGE: ${{ secrets.DOCKER_USERNAME }}/${{ vars.IMAGE_NAME }}
+
+jobs:
+  update:
+    name: Run Docker commands
+    runs-on: ubuntu-latest
+    steps:
+    - name: Executing Docker commands
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ vars.SSH_IP }}
+        username: ${{ secrets.SSH_USERNAME }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ vars.SSH_PORT }}
+        script: |
+          docker stop ${{ vars.IMAGE_NAME }}
+          docker rm ${{ vars.IMAGE_NAME }}
+          docker rmi ${{ env.IMAGE }}
+          docker run -d -p ${{ vars.SERVICE_PORT }}:3000 --name ${{ vars.IMAGE_NAME }} ${{ env.IMAGE }}:latest
+

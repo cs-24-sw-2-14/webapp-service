@@ -1,14 +1,26 @@
 <script lang="ts">
 	import UserModal from './UserModal.svelte';
-	import { currentPage, user } from '$lib/stores/stateStore';
-	import { Page } from '$lib/types';
-
+	import { currentPage, username, boardId, color } from '$lib/stores/stateStore';
+	import { connectToBoardSocket, connectToInitSocket, initSocket } from '$lib/stores/socketioStore';
+	import { onMount } from 'svelte';
+	import { Page, type Color, type Username } from '$lib/types';
 	let dialog: HTMLDialogElement;
 
-	function handleSubmit(username: string) {
-		$user.name = username;
-		$currentPage = Page.CanvasPage;
+	onMount(() => {
+		connectToInitSocket($boardId!, function onSuccess() {
+			console.log('connected to initsocket!');
+		});
+	});
+
+	function handleSubmit(username: Username, color: Color) {
+		connectToBoardSocket(username, color, $boardId!, function onSuccess() {
+			$initSocket?.disconnect();
+			$username = username;
+			$color = color;
+			$currentPage = Page.CanvasPage;
+		});
 	}
+
 	$: if (dialog) dialog.showModal();
 </script>
 
@@ -20,6 +32,9 @@
 		submitButtonName="Continue"
 		{handleSubmit}
 		closable={false}
+		boardId={$boardId}
+		colorPicked={$color}
+		fieldDefaultValue={$username ?? ''}
 	/>
 </main>
 
