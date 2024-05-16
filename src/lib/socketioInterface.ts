@@ -79,7 +79,6 @@ export interface DoEraseEvent {
 
 export interface StartMoveEvent {
 	movedCommandId: CommandId;
-	position: CanvasCoordinateSet;
 	username: Username;
 }
 
