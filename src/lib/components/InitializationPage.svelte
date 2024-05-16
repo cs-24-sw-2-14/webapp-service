@@ -7,13 +7,13 @@
 	let dialog: HTMLDialogElement;
 
 	onMount(() => {
-		connectToInitSocket($boardId, () => {
+		connectToInitSocket($boardId!, function onSuccess() {
 			console.log('connected to initsocket!');
 		});
 	});
 
-	function handleSubmit(username: string, color: Color) {
-		connectToBoardSocket(username, color, $boardId, () => {
+	function handleSubmit(username: Username, color: Color) {
+		connectToBoardSocket(username, color, $boardId!, function onSuccess() {
 			$initSocket?.disconnect();
 			$username = username;
 			$color = color;
