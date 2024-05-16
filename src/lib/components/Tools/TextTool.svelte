@@ -4,30 +4,28 @@
 	import { cursorDown, chosenTool, username, canvasCursorPosition } from '$lib/stores/stateStore';
 	import { boardSocket } from '$lib/stores/socketioStore';
 	import { ToolState } from '$lib/types';
-	import { onMount } from 'svelte';
-	import type { ToolSuccess } from '$lib/types';
+	import type { CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 
 	let currentCommandId = writable<number | null>(null);
 
-	onMount(() => {
-		if ($boardSocket === undefined) return;
-		$boardSocket.on('startTextSuccess', (data: ToolSuccess) => {
-			if (data.username !== $username) return;
-			$currentCommandId = data.commandId;
-			updateCurrentText('TEST');
-		});
-	});
 
 	canvasCursorPosition.subscribe(startText);
 	cursorDown.subscribe(startText);
 
 	function startText() {
 		if (!$cursorDown || $chosenTool !== ToolState.text || $currentCommandId !== null) return;
-		$boardSocket.emit('startText', {
-			placement: $user.position,
-			username: $user.name
-		});
+		$boardSocket?.emit(
+			'startText',
+			{
+				position: $canvasCursorPosition,
+				username: $username!
+			},
+			(commandId: CommandId) => {
+				$currentCommandId = commandId;
+				updateCurrentText(commandId, 'TEST');
+			}
+		);
 	}
 
 	function updateCurrentText(content: string) {
