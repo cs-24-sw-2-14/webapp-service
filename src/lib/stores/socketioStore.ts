@@ -54,7 +54,7 @@ export function connectToInitSocket(boardId: BoardId, successCallback: () => voi
 	newSocket.on('userRemove', handleUserRemove);
 	newSocket.on('connect', () => {
 		newSocket.off('connect');
-		initSocket.set(io(SOCKET_ENDPOINT + `/${boardId}_init`));
+		initSocket.set(newSocket);
 		successCallback();
 	});
 }
