@@ -28,7 +28,7 @@
 				stroke: $drawColor,
 				fill: 'transparent',
 				strokeWidth: STROKE_WIDTH,
-				username: $username
+				username: $username!
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
