@@ -41,7 +41,7 @@
 
 	$: {
 		if ($username !== null && $color !== null) {
-			$boardSocket?.emit('userChange', {
+			$boardSocket?.volatile.emit('userChange', {
 				username: $username,
 				color: $color,
 				position: $canvasCursorPosition

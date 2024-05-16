@@ -6,12 +6,12 @@
 
 	function undo() {
 		$boardSocket?.emit('undo', {
-			username: $username
+			username: $username!
 		});
 	}
 	function redo() {
 		$boardSocket?.emit('redo', {
-			username: $username
+			username: $username!
 		});
 	}
 </script>
