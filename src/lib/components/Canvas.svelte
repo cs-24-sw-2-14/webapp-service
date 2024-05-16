@@ -102,16 +102,14 @@
 
 	<!-- Render the Drawings -->
 	{#each $svgs as [commandId, svg]}
-		{#key svg}
-			{#if svg.display}
-				<g
-					transform={`translate(${svg.position.x}, ${svg.position.y})`}
-					use:setBoundingBox={commandId}
-				>
-					{@html svg.svgString}
-				</g>
-			{/if}
-		{/key}
+		{#if svg.display}
+			<g
+				transform={`translate(${svg.position.x}, ${svg.position.y})`}
+				use:setBoundingBox={commandId}
+			>
+				{@html svg.svgString}
+			</g>
+		{/if}
 	{/each}
 
 	<!-- Mouse Cursor (local and remote) -->
