@@ -15,7 +15,7 @@
 
 	cursorDown.subscribe(startMove);
 	canvasCursorPosition.subscribe(doMove);
-	cursorDown.subscribe(stopDraw);
+	cursorDown.subscribe(stopMove);
 
 	let startPosition: CanvasCoordinateSet | null = null;
 
@@ -55,7 +55,8 @@
 		});
 	}
 
-	function stopDraw() {
+	//....?
+	function stopMove() {
 		if ($cursorDown || $chosenTool !== ToolState.move) return;
 		$currentCommandId = null;
 	}
