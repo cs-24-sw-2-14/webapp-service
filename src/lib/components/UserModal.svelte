@@ -16,8 +16,8 @@
 	let usernameField = fieldDefaultValue;
 	export let colorPicked: Color | null = null;
 
-	$: usernameIsValid = userExists(boardId, usernameField);
-	$: colorIsValid = colorPicked !== null ? colorExists(boardId, colorPicked) : false;
+	$: usernameIsValid = !userExists(boardId, usernameField);
+	$: colorIsValid = colorPicked !== null ? !colorExists(boardId, colorPicked) : false;
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
