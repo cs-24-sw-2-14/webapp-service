@@ -16,8 +16,9 @@
 	let usernameField = fieldDefaultValue;
 	export let colorPicked: Color | null = null;
 
-	$: usernameIsValid = userExists(boardId, usernameField);
-	$: colorIsValid = colorPicked !== null ? colorExists(boardId, colorPicked) : false;
+	$: usernameIsValid = userExists(boardId, usernameField).then(exists => !exists);
+	$: colorIsValid = colorPicked !== null ? colorExists(boardId, colorPicked).then(exists => !exists) : new Promise(() => false);
+
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -51,7 +52,7 @@
 
 		<button
 			class="mt-4 px-4 py-2 bg-yellow-500 rounded shadow hover:bg-yellow-600 disabled:bg-yellow-600 w-full"
-			disabled={!usernameIsValid || !colorIsValid}
+			disabled={!(await usernameIsValid && await colorIsValid)}
 			on:click={() => {
 				if (colorPicked === null) return;
 				handleSubmit(usernameField, colorPicked);
