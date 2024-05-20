@@ -5,10 +5,11 @@ import {
 } from '$env/static/public';
 import type { BoardId, Color, Username } from './types';
 
-const CREATE_BOARD_ENDPOINT: string = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}/v1/board/create`;
-const VALIDATE_BOARDID_ENDPOINT: string = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}/v1/board/validateBoardId`;
-const VALIDATE_USERNAME_ENDPOINT: string = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}/v1/board/validateUsername`;
-const VALIDATE_COLOR_ENDPOINT: string = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}/v1/board/validateColor`;
+const ENDPOINT = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}`
+const CREATE_BOARD_ENDPOINT: string = `${ENDPOINT}/v1/board/create`;
+const VALIDATE_BOARDID_ENDPOINT: string = `${ENDPOINT}/v1/board/exists`;
+const VALIDATE_USERNAME_ENDPOINT: string = `${ENDPOINT}/v1/user/exists`;
+const VALIDATE_COLOR_ENDPOINT: string = `${ENDPOINT}/v1/color/exists`;
 
 export async function createBoard() {
 	try {
@@ -16,7 +17,7 @@ export async function createBoard() {
 			method: 'POST'
 		});
 		if (response.ok) {
-			return (await response.json()).boardId;
+			return (await response.json()).board_id;
 		}
 		throw new Error('Create board failed');
 	} catch (err) {
@@ -25,7 +26,7 @@ export async function createBoard() {
 }
 export async function validateBoardId(boardId: BoardId) {
 	try {
-		const response = await fetch(`${VALIDATE_BOARDID_ENDPOINT}/?boardId=${boardId}`, {
+		const response = await fetch(`${VALIDATE_BOARDID_ENDPOINT}/?board_id=${boardId}`, {
 			method: 'GET'
 		});
 		if (response.ok) {
@@ -40,7 +41,7 @@ export async function validateBoardId(boardId: BoardId) {
 export async function validateUsername(boardId: BoardId, username: Username) {
 	try {
 		const response = await fetch(
-			`${VALIDATE_USERNAME_ENDPOINT}/?boardId=${encodeURIComponent(boardId)}&username=${encodeURIComponent(username)}`,
+			`${VALIDATE_USERNAME_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&username=${encodeURIComponent(username)}`,
 			{
 				method: 'GET'
 			}
@@ -57,7 +58,7 @@ export async function validateUsername(boardId: BoardId, username: Username) {
 export async function validateColor(boardId: BoardId, color: Color) {
 	try {
 		const response = await fetch(
-			`${VALIDATE_COLOR_ENDPOINT}/?boardId=${encodeURIComponent(boardId)}&color=${encodeURIComponent(color)}`,
+			`${VALIDATE_COLOR_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&color=${encodeURIComponent(color)}`,
 			{
 				method: 'GET'
 			}
