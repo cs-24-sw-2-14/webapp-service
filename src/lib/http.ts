@@ -13,7 +13,8 @@ const EXISTS_COLOR_ENDPOINT: string = `${ENDPOINT}/v1/color/exists`;
 
 export async function createBoard() {
 	const response = await fetch(CREATE_BOARD_ENDPOINT, {
-		method: 'POST'
+		method: 'POST',
+		cache: 'no-store'
 	});
 
 	const res = (await response.json());
@@ -26,7 +27,8 @@ export async function createBoard() {
 }
 export async function boardExists(boardId: BoardId) {
 	const response = await fetch(`${EXISTS_BOARD_ENDPOINT}/?board_id=${boardId}`, {
-		method: 'GET'
+		method: 'GET',
+		cache: 'no-store'
 	});
 
 	const res = (await response.json());
@@ -42,7 +44,8 @@ export async function userExists(boardId: BoardId, username: Username) {
 	const response = await fetch(
 		`${EXISTS_USER_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&username=${encodeURIComponent(username)}`,
 		{
-			method: 'GET'
+			method: 'GET',
+			cache: 'no-store'
 		}
 	);
 
@@ -59,7 +62,8 @@ export async function colorExists(boardId: BoardId, color: Color) {
 	const response = await fetch(
 		`${EXISTS_COLOR_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&color=${encodeURIComponent(color)}`,
 		{
-			method: 'GET'
+			method: 'GET',
+			cache: 'no-store'
 		}
 	);
 
