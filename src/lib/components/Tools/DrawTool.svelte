@@ -14,13 +14,15 @@
 
 	const STROKE_WIDTH = 7;
 	let currentCommandId = writable<number | null>(null);
+	let isDrawing = false;
 
 	canvasCursorPosition.subscribe(startDraw);
 	canvasCursorPosition.subscribe(doDraw);
 	cursorDown.subscribe(stopDraw);
 
 	function startDraw() {
-		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId !== null) return;
+		if (!$cursorDown || $chosenTool !== ToolState.draw || isDrawing) return;
+		isDrawing = true;
 		$boardSocket?.emit(
 			'startDraw',
 			{
@@ -35,7 +37,14 @@
 	}
 
 	function doDraw() {
-		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId === null) return;
+		if (
+			!$cursorDown ||
+			$chosenTool !== ToolState.draw ||
+			$currentCommandId === null ||
+			!isDrawing
+		) {
+			return;
+		}
 		$boardSocket?.volatile.emit('doDraw', {
 			position: $canvasCursorPosition,
 			commandId: $currentCommandId
@@ -43,8 +52,7 @@
 	}
 
 	function stopDraw() {
-		if ($cursorDown || $chosenTool !== ToolState.draw) return;
-		$currentCommandId = null;
+		if ($cursorDown || $chosenTool !== ToolState.draw || !isDrawing) return;
 	}
 </script>
 

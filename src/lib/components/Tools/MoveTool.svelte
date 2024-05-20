@@ -18,13 +18,15 @@
 	cursorDown.subscribe(stopDraw);
 
 	let startPosition: CanvasCoordinateSet | null = null;
+	let isMoving = false;
 
 	function startMove() {
 		if (
 			!$cursorDown ||
 			$chosenTool !== ToolState.move ||
 			$commandIdsUnderCursor.length === 0 ||
-			$currentCommandId !== null
+			$currentCommandId !== null ||
+			isMoving
 		)
 			return;
 		startPosition = $canvasCursorPosition;
@@ -36,6 +38,7 @@
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
+		isMoving = true;
 	}
 
 	function doMove() {
@@ -43,7 +46,8 @@
 			!$cursorDown ||
 			$chosenTool !== ToolState.move ||
 			$currentCommandId === null ||
-			startPosition === null
+			startPosition === null ||
+			!isMoving
 		)
 			return;
 		$boardSocket?.volatile.emit('doMove', {
@@ -56,8 +60,9 @@
 	}
 
 	function stopDraw() {
-		if ($cursorDown || $chosenTool !== ToolState.move) return;
+		if ($cursorDown || $chosenTool !== ToolState.move || !isMoving) return;
 		$currentCommandId = null;
+		isMoving = false;
 	}
 </script>
 
