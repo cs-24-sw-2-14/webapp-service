@@ -12,62 +12,62 @@ const VALIDATE_USERNAME_ENDPOINT: string = `${ENDPOINT}/v1/user/exists`;
 const VALIDATE_COLOR_ENDPOINT: string = `${ENDPOINT}/v1/color/exists`;
 
 export async function createBoard() {
-	try {
-		const response = await fetch(CREATE_BOARD_ENDPOINT, {
-			method: 'POST'
-		});
-		if (response.ok) {
-			return (await response.json()).board_id;
-		}
-		throw new Error('Create board failed');
-	} catch (err) {
-		throw new Error('Create board failed');
+	const response = await fetch(CREATE_BOARD_ENDPOINT, {
+		method: 'POST'
+	});
+
+	const res = (await response.json());
+
+	if (!response.ok) {
+		throw new Error(res);
 	}
+
+	return res.board_id;
 }
 export async function validateBoardId(boardId: BoardId) {
-	try {
-		const response = await fetch(`${VALIDATE_BOARDID_ENDPOINT}/?board_id=${boardId}`, {
-			method: 'GET'
-		});
-		if (response.ok) {
-			return true;
-		}
-		return false;
-	} catch (err) {
-		throw new Error('Validate BoardId failed');
+	const response = await fetch(`${VALIDATE_BOARDID_ENDPOINT}/?board_id=${boardId}`, {
+		method: 'GET'
+	});
+
+	const res = (await response.json());
+
+	if(!response.ok){
+		throw new Error(res);
 	}
+
+	return res == true;
 }
 
 export async function validateUsername(boardId: BoardId, username: Username) {
-	try {
-		const response = await fetch(
-			`${VALIDATE_USERNAME_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&username=${encodeURIComponent(username)}`,
-			{
-				method: 'GET'
-			}
-		);
-		if (response.ok) {
-			return true;
+	const response = await fetch(
+		`${VALIDATE_USERNAME_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&username=${encodeURIComponent(username)}`,
+		{
+			method: 'GET'
 		}
-		return false;
-	} catch (err) {
-		throw new Error('Validate Username failed');
+	);
+
+	const res = (await response.json());
+
+	if (!response.ok){
+		throw new Error(res);
 	}
+
+	return res == true;
 }
 
 export async function validateColor(boardId: BoardId, color: Color) {
-	try {
-		const response = await fetch(
-			`${VALIDATE_COLOR_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&color=${encodeURIComponent(color)}`,
-			{
-				method: 'GET'
-			}
-		);
-		if (response.ok) {
-			return true;
+	const response = await fetch(
+		`${VALIDATE_COLOR_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&color=${encodeURIComponent(color)}`,
+		{
+			method: 'GET'
 		}
-		return false;
-	} catch (err) {
-		throw new Error('Validate Color failed');
+	);
+
+	const res = (await response.json());
+
+	if (!response.ok){
+		throw new Error(res);
 	}
+
+	return res == true;
 }
