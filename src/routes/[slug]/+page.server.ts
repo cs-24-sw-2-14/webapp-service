@@ -1,8 +1,8 @@
 import { error } from '@sveltejs/kit';
-import { validateBoardId } from '$lib/http';
+import { boardExists } from '$lib/http';
 
 export async function load({ params }) {
-	if (await validateBoardId(params.slug)) {
+	if (await boardExists(params.slug)) {
 		return {
 			slug: params.slug
 		};

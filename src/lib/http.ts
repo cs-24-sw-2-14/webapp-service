@@ -7,9 +7,9 @@ import type { BoardId, Color, Username } from './types';
 
 const ENDPOINT = `${PUBLIC_REST_API_PROTOCOL}://${PUBLIC_REST_API_HOSTNAME}:${PUBLIC_REST_API_PORT}`
 const CREATE_BOARD_ENDPOINT: string = `${ENDPOINT}/v1/board/create`;
-const VALIDATE_BOARDID_ENDPOINT: string = `${ENDPOINT}/v1/board/exists`;
-const VALIDATE_USERNAME_ENDPOINT: string = `${ENDPOINT}/v1/user/exists`;
-const VALIDATE_COLOR_ENDPOINT: string = `${ENDPOINT}/v1/color/exists`;
+const EXISTS_BOARD_ENDPOINT: string = `${ENDPOINT}/v1/board/exists`;
+const EXISTS_USER_ENDPOINT: string = `${ENDPOINT}/v1/user/exists`;
+const EXISTS_COLOR_ENDPOINT: string = `${ENDPOINT}/v1/color/exists`;
 
 export async function createBoard() {
 	const response = await fetch(CREATE_BOARD_ENDPOINT, {
@@ -24,8 +24,8 @@ export async function createBoard() {
 
 	return res.board_id;
 }
-export async function validateBoardId(boardId: BoardId) {
-	const response = await fetch(`${VALIDATE_BOARDID_ENDPOINT}/?board_id=${boardId}`, {
+export async function boardExists(boardId: BoardId) {
+	const response = await fetch(`${EXISTS_BOARD_ENDPOINT}/?board_id=${boardId}`, {
 		method: 'GET'
 	});
 
@@ -38,9 +38,9 @@ export async function validateBoardId(boardId: BoardId) {
 	return res == true;
 }
 
-export async function validateUsername(boardId: BoardId, username: Username) {
+export async function userExists(boardId: BoardId, username: Username) {
 	const response = await fetch(
-		`${VALIDATE_USERNAME_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&username=${encodeURIComponent(username)}`,
+		`${EXISTS_USER_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&username=${encodeURIComponent(username)}`,
 		{
 			method: 'GET'
 		}
@@ -55,9 +55,9 @@ export async function validateUsername(boardId: BoardId, username: Username) {
 	return res == true;
 }
 
-export async function validateColor(boardId: BoardId, color: Color) {
+export async function colorExists(boardId: BoardId, color: Color) {
 	const response = await fetch(
-		`${VALIDATE_COLOR_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&color=${encodeURIComponent(color)}`,
+		`${EXISTS_COLOR_ENDPOINT}/?board_id=${encodeURIComponent(boardId)}&color=${encodeURIComponent(color)}`,
 		{
 			method: 'GET'
 		}

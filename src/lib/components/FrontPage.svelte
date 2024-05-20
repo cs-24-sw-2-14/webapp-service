@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { checkHexadecimal } from '$lib/utils';
-	import { validateBoardId, createBoard } from '$lib/http';
+	import { boardExists, createBoard } from '$lib/http';
 	import { boardId } from '$lib/stores/stateStore';
 	import type { BoardId } from '$lib/types';
 
@@ -9,7 +9,7 @@
 
 	$: {
 		boardIdInput = sanitizeBoardId(boardIdInput);
-		validateBoardId(boardIdInput).then((isValid) => (boardIdIsValid = isValid));
+		boardExists(boardIdInput).then((isValid) => (boardIdIsValid = isValid));
 	}
 
 	function sanitizeBoardId(boardId: BoardId) {

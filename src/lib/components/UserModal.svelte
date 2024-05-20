@@ -2,7 +2,7 @@
 	import ColorPicker from './Input/ColorPicker.svelte';
 	import Modal from './Modal.svelte';
 	import type { Color, Username } from '$lib/types';
-	import { validateUsername, validateColor } from '$lib/http';
+	import { userExists, colorExists } from '$lib/http';
 
 	export let dialog: HTMLDialogElement;
 	export let title;
@@ -16,8 +16,8 @@
 	let usernameField = fieldDefaultValue;
 	export let colorPicked: Color | null = null;
 
-	$: usernameIsValid = validateUsername(boardId, usernameField);
-	$: colorIsValid = colorPicked !== null ? validateColor(boardId, colorPicked) : false;
+	$: usernameIsValid = userExists(boardId, usernameField);
+	$: colorIsValid = colorPicked !== null ? colorExists(boardId, colorPicked) : false;
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
