@@ -22,6 +22,7 @@
 
 	function startDraw() {
 		if (!$cursorDown || $chosenTool !== ToolState.draw || isDrawing) return;
+		isDrawing = true;
 		$boardSocket?.emit(
 			'startDraw',
 			{
@@ -33,12 +34,17 @@
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
-		isDrawing = true;
 	}
 
 	function doDraw() {
-		if (!$cursorDown || $chosenTool !== ToolState.draw || $currentCommandId === null || !isDrawing)
+		if (
+			!$cursorDown ||
+			$chosenTool !== ToolState.draw ||
+			$currentCommandId === null ||
+			!isDrawing
+		) {
 			return;
+		}
 		$boardSocket?.volatile.emit('doDraw', {
 			position: $canvasCursorPosition,
 			commandId: $currentCommandId
@@ -47,8 +53,6 @@
 
 	function stopDraw() {
 		if ($cursorDown || $chosenTool !== ToolState.draw || !isDrawing) return;
-		$currentCommandId = null;
-		isDrawing = false;
 	}
 </script>
 
