@@ -55,7 +55,6 @@
 		});
 	}
 
-	//....?
 	function stopMove() {
 		if ($cursorDown || $chosenTool !== ToolState.move) return;
 		$currentCommandId = null;
