@@ -2,7 +2,7 @@
 	import ColorPicker from './Input/ColorPicker.svelte';
 	import Modal from './Modal.svelte';
 	import type { Color, Username } from '$lib/types';
-	import { validateUsername, validateColor } from '$lib/http';
+	import { userExists, colorExists } from '$lib/http';
 
 	export let dialog: HTMLDialogElement;
 	export let title;
@@ -16,8 +16,20 @@
 	let usernameField = fieldDefaultValue;
 	export let colorPicked: Color | null = null;
 
-	$: usernameIsValid = validateUsername(boardId, usernameField);
-	$: colorIsValid = colorPicked !== null ? validateColor(boardId, colorPicked) : false;
+	let usernameIsValid: boolean;
+	let colorIsValid: boolean;
+
+	$: userExists(boardId, usernameField)
+		.then(exists => usernameIsValid = !exists);
+	$: {
+		if (colorPicked === null) {
+			colorIsValid = false;
+		}else{
+			colorExists(boardId, colorPicked)
+				.then(exists => colorIsValid = !exists)
+		}
+	}
+
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -51,7 +63,7 @@
 
 		<button
 			class="mt-4 px-4 py-2 bg-yellow-500 rounded shadow hover:bg-yellow-600 disabled:bg-yellow-600 w-full"
-			disabled={!usernameIsValid || !colorIsValid}
+			disabled={!(usernameIsValid && colorIsValid)}
 			on:click={() => {
 				if (colorPicked === null) return;
 				handleSubmit(usernameField, colorPicked);
