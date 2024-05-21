@@ -53,6 +53,8 @@
 
 	function stopDraw() {
 		if ($cursorDown || $chosenTool !== ToolState.draw || !isDrawing) return;
+		$currentCommandId = null;
+		isDrawing = false;
 	}
 </script>
 
