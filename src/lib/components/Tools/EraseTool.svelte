@@ -15,6 +15,7 @@
 	const THRESHOLD_DISTANCE = 10;
 
 	let currentCommandId = writable<number | null>(null);
+	let isErasing = false;
 
 	cursorDown.subscribe(startErase);
 	canvasCursorPosition.subscribe(doErase);
@@ -25,7 +26,8 @@
 			!$cursorDown ||
 			$chosenTool !== ToolState.erase ||
 			$commandIdsUnderCursor.length === 0 ||
-			$currentCommandId !== null
+			$currentCommandId !== null ||
+			isErasing
 		)
 			return;
 		$boardSocket?.emit(
@@ -38,6 +40,7 @@
 			},
 			(commandId: CommandId) => currentCommandId.set(commandId)
 		);
+		isErasing = true;
 	}
 
 	function doErase() {
@@ -45,7 +48,8 @@
 			!$cursorDown ||
 			$chosenTool !== ToolState.erase ||
 			$commandIdsUnderCursor.length === 0 ||
-			$currentCommandId === null
+			$currentCommandId === null ||
+			!isErasing
 		)
 			return;
 		$boardSocket?.emit('doErase', {
@@ -56,8 +60,9 @@
 	}
 
 	function stopErase() {
-		if ($cursorDown || $chosenTool !== ToolState.erase) return;
+		if ($cursorDown || $chosenTool !== ToolState.erase || !isErasing) return;
 		$currentCommandId = null;
+		isErasing = false;
 	}
 </script>
 

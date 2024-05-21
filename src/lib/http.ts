@@ -25,14 +25,8 @@ export async function createBoard() {
 }
 export async function validateBoardId(boardId: BoardId) {
 	try {
-		const response = await fetch(VALIDATE_BOARDID_ENDPOINT, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				boardId: boardId
-			})
+		const response = await fetch(`${VALIDATE_BOARDID_ENDPOINT}/?boardId=${boardId}`, {
+			method: 'GET'
 		});
 		if (response.ok) {
 			return true;
@@ -45,16 +39,12 @@ export async function validateBoardId(boardId: BoardId) {
 
 export async function validateUsername(boardId: BoardId, username: Username) {
 	try {
-		const response = await fetch(VALIDATE_USERNAME_ENDPOINT, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				boardId: boardId,
-				username: username
-			})
-		});
+		const response = await fetch(
+			`${VALIDATE_USERNAME_ENDPOINT}/?boardId=${encodeURIComponent(boardId)}&username=${encodeURIComponent(username)}`,
+			{
+				method: 'GET'
+			}
+		);
 		if (response.ok) {
 			return true;
 		}
@@ -66,16 +56,12 @@ export async function validateUsername(boardId: BoardId, username: Username) {
 
 export async function validateColor(boardId: BoardId, color: Color) {
 	try {
-		const response = await fetch(VALIDATE_COLOR_ENDPOINT, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				boardId: boardId,
-				color: color
-			})
-		});
+		const response = await fetch(
+			`${VALIDATE_COLOR_ENDPOINT}/?boardId=${encodeURIComponent(boardId)}&color=${encodeURIComponent(color)}`,
+			{
+				method: 'GET'
+			}
+		);
 		if (response.ok) {
 			return true;
 		}
