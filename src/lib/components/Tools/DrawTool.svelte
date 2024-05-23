@@ -13,6 +13,7 @@
 	import { ToolState, type CommandId } from '$lib/types';
 
 	const STROKE_WIDTH = 7;
+	const FILL = 'transparent';
 	let currentCommandId = writable<number | null>(null);
 	let isDrawing = false;
 
@@ -28,7 +29,7 @@
 			{
 				position: $canvasCursorPosition,
 				stroke: $drawColor,
-				fill: 'transparent',
+				fill: FILL,
 				strokeWidth: STROKE_WIDTH,
 				username: $username!
 			},
