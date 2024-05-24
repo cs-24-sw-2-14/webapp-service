@@ -45,7 +45,7 @@
 		) {
 			return;
 		}
-		$boardSocket?.volatile.emit('doDraw', {
+		$boardSocket?.emit('doDraw', {
 			position: $canvasCursorPosition,
 			commandId: $currentCommandId
 		});
