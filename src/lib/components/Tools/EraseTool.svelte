@@ -12,7 +12,7 @@
 	import { ToolState, type CommandId } from '$lib/types';
 	import { writable } from 'svelte/store';
 
-	const THRESHOLD_DISTANCE = 10;
+	const THRESHOLD_DISTANCE = 20;
 
 	let currentCommandId = writable<number | null>(null);
 	let isErasing = false;
