@@ -66,7 +66,10 @@ export function centerCoordinatesInRect(coordinates: CoordinateSet, rect: Rectan
 	return translateCoordinates(coordinates, negativeOffset);
 }
 
-export function translateCoordinates(coordinates: CoordinateSet, offset: CoordinateSet): CoordinateSet {
+export function translateCoordinates(
+	coordinates: CoordinateSet,
+	offset: CoordinateSet
+): CoordinateSet {
 	return {
 		x: coordinates.x + offset.x,
 		y: coordinates.y + offset.y
@@ -80,16 +83,12 @@ export function scaleCoordinates(coordinates: CoordinateSet, scale: ScaleFactor)
 	};
 }
 
-function isCoordinateInBoundingBox(
-	coordinate: CanvasCoordinateSet,
-	boundingBox: BoundingBox,
-	offset: CanvasCoordinateSet
-) {
+function isCoordinateInBoundingBox(coordinate: CanvasCoordinateSet, boundingBox: BoundingBox) {
 	return (
-		coordinate.x >= boundingBox.position.x + offset.x &&
-		coordinate.x <= boundingBox.position.x + offset.x + boundingBox.width &&
-		coordinate.y >= boundingBox.position.y + offset.y &&
-		coordinate.y <= boundingBox.position.y + offset.y + boundingBox.width
+		coordinate.x >= boundingBox.position.x &&
+		coordinate.x <= boundingBox.position.x + boundingBox.width &&
+		coordinate.y >= boundingBox.position.y &&
+		coordinate.y <= boundingBox.position.y + boundingBox.height
 	);
 }
 
@@ -100,7 +99,7 @@ export function getCommandIdsUnderCursor(
 	const commandIdsUnderCursor: CommandId[] = [];
 	svgs.forEach((svg) => {
 		if (!svg.boundingBox) return;
-		if (isCoordinateInBoundingBox(cursorPosition, svg.boundingBox, svg.position)) {
+		if (isCoordinateInBoundingBox(cursorPosition, svg.boundingBox)) {
 			commandIdsUnderCursor.push(svg.commandId);
 		}
 	});
