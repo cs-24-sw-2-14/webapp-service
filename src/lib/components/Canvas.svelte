@@ -6,9 +6,7 @@
 		toggleGrid,
 		username,
 		color,
-		canvasCursorPosition,
-		cursorPosition,
-		commandIdsUnderCursor
+		canvasCursorPosition
 	} from '$lib/stores/stateStore';
 	import { ToolState, type CommandId } from '$lib/types';
 	import { onMount } from 'svelte';
