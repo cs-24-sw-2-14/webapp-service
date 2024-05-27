@@ -9,7 +9,7 @@
 
 	$: {
 		boardIdInput = sanitizeBoardId(boardIdInput);
-		boardExists(boardIdInput).then((exists) => (boardIdIsValid = !exists));
+		boardExists(boardIdInput).then((exists) => (boardIdIsValid = exists));
 	}
 
 	function sanitizeBoardId(boardId: BoardId) {
