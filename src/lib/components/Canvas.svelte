@@ -12,6 +12,7 @@
 	import { onMount } from 'svelte';
 	import { svgs, boardSocket } from '$lib/stores/socketioStore';
 	import MouseCursors from './MouseCursors.svelte';
+	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
 	onMount(() => {
 		resizeCanvas();
@@ -25,16 +26,20 @@
 		};
 	}
 
-	function setBoundingBox(element: SVGGraphicsElement, commandId: CommandId) {
-		const bbox = element.getBBox();
+	function setBoundingBox(element: Element, commandId: CommandId) {
+		const rect = element.getBoundingClientRect();
 		if (!$svgs.has(commandId)) return;
 		const oldSvg = $svgs.get(commandId)!;
+		const coords = viewportToCanvasCoordinatesFromCanvasView(
+			{ x: rect.left, y: rect.top },
+			$canvasView
+		);
 		$svgs.set(commandId, {
 			...oldSvg,
 			boundingBox: {
-				position: { x: bbox.x, y: bbox.y },
-				width: bbox.width,
-				height: bbox.height
+				position: { x: coords.x, y: coords.y },
+				width: rect.width,
+				height: rect.height
 			}
 		});
 	}
