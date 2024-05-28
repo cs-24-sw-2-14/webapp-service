@@ -5,6 +5,7 @@
 	import PanTool from '$lib/components/Tools/PanTool.svelte';
 	import MoveTool from '$lib/components/Tools/MoveTool.svelte';
 	import DrawTool from '$lib/components/Tools/DrawTool.svelte';
+	import TextTool from '$lib/components/Tools/TextTool.svelte';
 	import UndoRedoTool from '$lib/components/Tools/UndoRedoTool.svelte';
 	import EraseTool from '$lib/components/Tools/EraseTool.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
@@ -43,7 +44,7 @@
 	<MenuButton icon={Icons.image}></MenuButton>
 
 	<!-- Button for inserting text -->
-	<MenuButton icon={Icons.text}></MenuButton>
+	<TextTool />
 
 	<!-- Button for inserting shapes -->
 	<MenuButton icon={Icons.shape}></MenuButton>

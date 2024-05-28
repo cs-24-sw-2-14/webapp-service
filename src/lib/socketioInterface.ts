@@ -29,7 +29,7 @@ export interface ClientToServerEvents {
 	startMove: (data: StartMoveEvent, callback: StartAck) => void;
 	doMove: (data: DoMoveEvent) => void;
 	startText: (data: StartTextEvent, callback: StartAck) => void;
-	doText: (data: DoTextEvent, callback: StartAck) => void;
+	doText: (data: DoTextEvent) => void;
 	undo: (data: UndoEvent) => void;
 	redo: (data: RedoEvent) => void;
 	userChange: (data: UserChangeEvent) => void;
