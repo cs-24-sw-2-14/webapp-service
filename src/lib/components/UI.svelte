@@ -25,7 +25,6 @@
 
 <!-- <ChatButton></ChatButton> -->
 
-<!-- TODO: Marc fix plz. Contain in single component, ask Mads. Implement serverchat, ask Mads. -->
 {#if $viewChat}
 	<Chat></Chat>
 {/if}
