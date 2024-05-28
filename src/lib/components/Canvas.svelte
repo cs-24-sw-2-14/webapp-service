@@ -18,7 +18,6 @@
 		resizeCanvas();
 	});
 
-	// TODO: Thorbjørn, fix zoom
 	function resizeCanvas() {
 		$canvasView.size = {
 			width: window.innerWidth,

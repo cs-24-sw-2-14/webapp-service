@@ -1,5 +1,3 @@
-<!-- TODO: NOT DONE, NEED OPTIMIZATION... -->
-
 <div class="items-start mx-2 my-2" data-id="3">
 	<div class="rounded-lg bg-gray-100 dark:bg-gray-100 p-4 text-sm" data-id="4">
 		<div class="font-semibold" data-id="5">Marc Nygaard</div>

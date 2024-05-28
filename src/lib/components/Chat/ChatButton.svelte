@@ -16,5 +16,4 @@
 </div>
 
 <!-- Small ping to indicate a new message -->
-<!-- TODO: Only visuable when new message -->
 <Ping></Ping>
