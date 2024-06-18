@@ -12,11 +12,15 @@
 	function handleGridToggle() {
 		$toggleGrid = !$toggleGrid;
 	}
+
+	import { boardId } from '$lib/stores/stateStore';
+	let uiColor = `#${$boardId}`;
 </script>
 
 <!-- Menu bar at the center bottom -->
 <div
-	class="fixed bottom-0 z-10 flex items-center gap-2 p-2 mb-4 transform -translate-x-1/2 rounded-lg left-1/2 bg-zinc-800"
+	class="fixed bottom-0 z-10 flex items-center gap-2 p-2 mb-4 transform -translate-x-1/2 rounded-lg left-1/2"
+	style="background-color: {uiColor}"
 >
 	<input type="color" id="hs-color-input" class="mx-2" bind:value={$drawColor} />
 
