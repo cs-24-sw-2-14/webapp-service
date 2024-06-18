@@ -2,10 +2,14 @@
 	import MenuButton from './Navbar/MenuButton.svelte';
 	import Icons from '$lib/icons/MenuIcons.json';
 	import { canvasView } from '$lib/stores/stateStore';
+
+	import { boardId } from '$lib/stores/stateStore';
+	let uiColor = `#${$boardId}`;
 </script>
 
 <div
-	class="fixed top-0 left-0 m-4 mt-20 h-[56px] rounded-lg bg-zinc-800 z-10 flex items-center justify-center gap-2 p-2 text-white font-mono font-semibold"
+	class="fixed top-0 left-0 m-4 mt-20 h-[56px] rounded-lg z-10 flex items-center justify-center gap-2 p-2 text-white font-mono font-semibold"
+	style="background-color: {uiColor}"
 >
 	<MenuButton
 		icon={Icons.origo}

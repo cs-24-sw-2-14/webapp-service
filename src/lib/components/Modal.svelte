@@ -1,6 +1,9 @@
 <script lang="ts">
 	export let closable = true;
 	export let dialog: HTMLDialogElement;
+
+	import { boardId } from '$lib/stores/stateStore';
+	let uiColor = `#${$boardId}`;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
@@ -10,13 +13,13 @@
 		if (!closable) return;
 		dialog.close();
 	}}
-	class="bg-zinc-800"
+	style="background-color: {uiColor}"
 >
 	<!-- svelte-ignore a11y-no-static-element-interactions -->
 	<div on:click|stopPropagation>
 		{#if closable}
 			<button
-				class="w-8 h-8 font-semibold text-white absolute top-4 right-5 hover:bg-red-600"
+				class="absolute w-8 h-8 font-semibold text-white top-4 right-5 hover:bg-red-600"
 				on:click={() => {
 					dialog.close();
 				}}
