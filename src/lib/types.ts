@@ -36,6 +36,7 @@ export enum ToolState {
 	erase,
 	pan,
 	move
+	text
 }
 
 export interface Rectangle {
