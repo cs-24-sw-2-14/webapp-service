@@ -1,6 +1,6 @@
 <script lang="ts">
 // Chosing the language of the file. 
-    import TextInput from '../Input/TextInput.svelte';
+    import TextModal from '../Input/TextModal.svelte';
     import MenuButton from '$lib/components/Navbar/MenuButton.svelte';
     import Icons from '$lib/icons/MenuIcons.json';
     import {
@@ -10,15 +10,22 @@
             canvasCursorPosition 
      } from '$lib/stores/stateStore';
     import { boardSocket } from '$lib/stores/socketioStore';
-    import { ToolState, type CommandId } from '$lib/types';
+    import { ToolState, type CommandId, type TextString} from '$lib/types';
     import { writable } from 'svelte/store';
+	import { textString } from '$lib/stores/stateStore';
+
+	let dialog: HTMLDialogElement;
     let currentCommandId = writable<number | null>(null);
  
 
-    function contentChanged(){
-        
-     }
-    
+	 function submit(textString: TextString){
+		$textString = textString;
+        console.log($textString);
+		
+		
+		dialog.close();
+		$textString = '';
+	} 
 
     canvasCursorPosition.subscribe(startText);
 	cursorDown.subscribe(startText);
@@ -46,10 +53,12 @@
 	}
 </script>
 
-<TextInput
-	title={$username}
+<TextModal
+	bind:dialog
+	title={'Text to put on canvas'}
 	placeholder='Text'
-    {contentChanged}
+	{submit}
+	contentField = {$textString ?? ''}
 />
 
 <MenuButton
@@ -57,6 +66,7 @@
 	icon={Icons.text}
 	on:click={() => {
 		$chosenTool = ToolState.text;
+		dialog.showModal();
 	}}
 ></MenuButton>
 <!-- isActive is a boolean. Deafault is false. To check if user is active (has chosen the tool). --> 

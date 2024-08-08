@@ -58,6 +58,7 @@ export type ScaleFactor100 = number;
 export type StrokeWidth = number;
 export type Threshold = number;
 export type BoardId = string;
+export type TextString = string; 
 
 export enum Page {
 	InitializationPage,
@@ -69,6 +70,7 @@ export type CommandId = number;
 
 export interface BoundingBox extends Rectangle {
 	position: CanvasCoordinateSet;
+	// position is of the type CanvasCoordinateSet. 
 }
 
 export type Svg = {

@@ -9,6 +9,7 @@ import {
 	type Username,
 	type Color,
 	type BoardId
+	type TextString
 } from '$lib/types';
 import { getCommandIdsUnderCursor, viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 import { browser } from '$app/environment';
@@ -23,6 +24,9 @@ export const chosenTool = writable<ToolState>(ToolState.pan);
 // USERS
 export const username = writable<Username | null>(null);
 export const color = writable<Color | null>(null);
+export const textString = writable<TextString | null>(null);
+// Creating a writable store named textString with a parameter the type of either TextString or null. Default is null. 
+
 
 boardId.subscribe((boardId) => {
 	if (browser && boardId) {
