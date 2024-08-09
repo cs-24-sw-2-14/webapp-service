@@ -17,19 +17,17 @@
 	let dialog: HTMLDialogElement;
     let currentCommandId = writable<number | null>(null);
  
-
-	 function submit(textString: TextString){
+	function submit(textString: TextString){
 		$textString = textString;
         console.log($textString);
-		
-		
 		dialog.close();
+		
 		$textString = '';
+		
 	} 
-
     canvasCursorPosition.subscribe(startText);
 	cursorDown.subscribe(startText);
-
+	
 	function startText() {
 		if (!$cursorDown || $chosenTool !== ToolState.text || $currentCommandId !== null) return;
 		$boardSocket?.emit(
@@ -51,6 +49,7 @@
 			commandId: commandId
 		});
 	}
+
 </script>
 
 <TextModal

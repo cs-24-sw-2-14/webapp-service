@@ -1,18 +1,14 @@
 <script lang="ts">
 	import Modal from '../Modal.svelte';
 	import type { TextString } from '$lib/types';
-
 	export let title;
 	export let placeholder;
 	export let dialog: HTMLDialogElement;
 	export let closable = true;
 	export let submit: (content: TextString) => void;
 	
-
 	export let contentField = '';
-
 	
-
 </script>
 
 <Modal bind:dialog {closable}>
