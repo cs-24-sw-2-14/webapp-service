@@ -24,6 +24,7 @@
 	<div class="lower-box">
 		<textarea
 			id="content"
+			rows="4"
 			bind:value={contentField}
 			{placeholder}
 			class="mt-1 p-2 border rounded w-full placeholder-zinc-300 bg-zinc-500 border-none focus:outline-none focus:ring-0 focus:border-none text-zinc-300"

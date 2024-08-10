@@ -35,6 +35,7 @@
 	<!-- SPACE -->
 	<div class="border-white border-r-[1.5px] h-6 mx-2"></div>
 
+	<!-- Buttons for undo/redo elements -->
 	<UndoRedoTool />
 
 	<!-- SPACE -->
