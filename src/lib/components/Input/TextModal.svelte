@@ -35,7 +35,7 @@
 				if (contentField === '') return;
 				submit(contentField);
 			}}
-			>Submit Text
+			>Submit and place the text
 		</button>
 	</div>
 </Modal>

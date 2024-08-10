@@ -12,12 +12,14 @@
 
 	let dialog: HTMLDialogElement;
 	let currentCommandId = writable<number | null>(null);
+	let isTexting = false; 
 
 	// canvasCursorPosition.subscribe(startText);
 	cursorDown.subscribe(Call);
+	cursorDown.subscribe(stopText);
 
-	function submit(textString: TextString) {
-		$textString = textString;
+	function submit(contentField: TextString) {
+		$textString = contentField;
 		//console.log($textString);
 		console.log("Cursor position", $canvasCursorPosition);
 		dialog.close();
@@ -31,6 +33,7 @@
 
 	function startText() {
 		if (!$cursorDown || $chosenTool !== ToolState.text || $currentCommandId !== null) return;
+		isTexting = true; 
 
 		const obj = {
 			position: $canvasCursorPosition,
@@ -45,7 +48,7 @@
 			(commandId: CommandId) => {
 				$currentCommandId = commandId;
 				console.log("Received ACK for Text", $currentCommandId);
-				updateText($currentCommandId!, 'tjek');
+				updateText($currentCommandId!, $textString!);
 			}
 		);
 	}
@@ -58,6 +61,13 @@
 
 		$boardSocket?.emit('doText', obj);
 		console.log("UpdateText sent content", obj);
+	}
+
+	function stopText() {
+		if ($cursorDown || $chosenTool !== ToolState.text || !isTexting) return;
+		$currentCommandId = null;
+		isTexting = false;
+		console.log('Tjek when stopText kører'); 
 	}
 </script>
 
