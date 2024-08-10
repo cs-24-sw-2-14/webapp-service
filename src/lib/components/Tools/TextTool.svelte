@@ -13,45 +13,51 @@
 	let dialog: HTMLDialogElement;
 	let currentCommandId = writable<number | null>(null);
 
+	// canvasCursorPosition.subscribe(startText);
+	cursorDown.subscribe(Call);
+
 	function submit(textString: TextString) {
 		$textString = textString;
-		console.log($textString);
-		console.log($canvasCursorPosition);
+		//console.log($textString);
+		console.log("Cursor position", $canvasCursorPosition);
 		dialog.close();
-		console.log($svgs);
-
-		// canvasCursorPosition.subscribe(startText);
-		cursorDown.subscribe(Call);
+		console.log("SVGs", $svgs);
 	}
 
 	function Call(){
 		if (!$cursorDown || $chosenTool !== ToolState.text || $currentCommandId !== null) return;
 		startText();
-		updateText($currentCommandId!, 'tjek');
 	}
 
 	function startText() {
 		if (!$cursorDown || $chosenTool !== ToolState.text || $currentCommandId !== null) return;
-		console.log($canvasCursorPosition);
+
+		const obj = {
+			position: $canvasCursorPosition,
+			username: $username!
+		};
+
+		console.log("StartText sent content", obj);
+
 		$boardSocket?.emit(
 			'startText',
-			{
-				position: $canvasCursorPosition,
-				username: $username!
-			},
+			obj,
 			(commandId: CommandId) => {
 				$currentCommandId = commandId;
-				console.log($textString);
+				console.log("Received ACK for Text", $currentCommandId);
+				updateText($currentCommandId!, 'tjek');
 			}
 		);
 	}
 
 	function updateText(commandId: CommandId, content: string) {
-		$boardSocket?.emit('doText', {
+		const obj = {
 			content: content,
 			commandId: commandId
-		});
-		console.log(content);
+		};
+
+		$boardSocket?.emit('doText', obj);
+		console.log("UpdateText sent content", obj);
 	}
 </script>
 
