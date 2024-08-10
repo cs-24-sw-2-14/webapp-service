@@ -8,6 +8,7 @@
 	import { ToolState, type CommandId, type TextString } from '$lib/types';
 	import { writable } from 'svelte/store';
 	import { textString } from '$lib/stores/stateStore';
+	import { svgs } from '$lib/stores/socketioStore';
 
 	let dialog: HTMLDialogElement;
 	let currentCommandId = writable<number | null>(null);
@@ -15,41 +16,43 @@
 	function submit(textString: TextString) {
 		$textString = textString;
 		console.log($textString);
-		
+		console.log($canvasCursorPosition);
 		dialog.close();
+		console.log($svgs);
 
 		// canvasCursorPosition.subscribe(startText);
-		// cursorDown.subscribe(startText);
-		startText();
-		updateText($currentCommandId!, 'hello');
-
-		function startText() {
-			if (!$cursorDown || $chosenTool !== ToolState.text || $currentCommandId !== null) return;
-			$boardSocket?.emit(
-				'startText',
-				{
-					position: $canvasCursorPosition,
-					username: $username!
-				},
-				(commandId: CommandId) => {
-					$currentCommandId = commandId;
-					console.log($textString);
-				}
-			);
-			console.log($canvasCursorPosition);
-		}
-
-		function updateText(commandId: CommandId, content: string) {
-			$boardSocket?.emit('doText', {
-				content: content,
-				commandId: commandId
-				
-			});
-			console.log($textString);
-		}
-		
+		cursorDown.subscribe(Call);
 	}
 
+	function Call(){
+		if (!$cursorDown || $chosenTool !== ToolState.text || $currentCommandId !== null) return;
+		startText();
+		updateText($currentCommandId!, 'tjek');
+	}
+
+	function startText() {
+		if (!$cursorDown || $chosenTool !== ToolState.text || $currentCommandId !== null) return;
+		console.log($canvasCursorPosition);
+		$boardSocket?.emit(
+			'startText',
+			{
+				position: $canvasCursorPosition,
+				username: $username!
+			},
+			(commandId: CommandId) => {
+				$currentCommandId = commandId;
+				console.log($textString);
+			}
+		);
+	}
+
+	function updateText(commandId: CommandId, content: string) {
+		$boardSocket?.emit('doText', {
+			content: content,
+			commandId: commandId
+		});
+		console.log(content);
+	}
 </script>
 
 <TextModal
