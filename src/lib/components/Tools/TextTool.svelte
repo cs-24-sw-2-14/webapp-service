@@ -8,7 +8,6 @@
 	import { ToolState, type CommandId, type TextString } from '$lib/types';
 	import { writable } from 'svelte/store';
 	import { textString } from '$lib/stores/stateStore';
-	import { svgs } from '$lib/stores/socketioStore';
 
 	let dialog: HTMLDialogElement;
 	let currentCommandId = writable<number | null>(null);
