@@ -14,60 +14,41 @@
 	let currentCommandId = writable<number | null>(null);
 	let isTexting = false; 
 
-	// canvasCursorPosition.subscribe(startText);
-	cursorDown.subscribe(Call);
+	cursorDown.subscribe(startText);
 	cursorDown.subscribe(stopText);
 
 	function submit(contentField: TextString) {
 		$textString = contentField;
-		//console.log($textString);
-		console.log("Cursor position", $canvasCursorPosition);
 		dialog.close();
-		console.log("SVGs", $svgs);
-	}
-
-	function Call(){
-		if (!$cursorDown || $chosenTool !== ToolState.text || $currentCommandId !== null) return;
-		startText();
 	}
 
 	function startText() {
 		if (!$cursorDown || $chosenTool !== ToolState.text || $currentCommandId !== null) return;
 		isTexting = true; 
-
-		const obj = {
-			position: $canvasCursorPosition,
-			username: $username!
-		};
-
-		console.log("StartText sent content", obj);
-
 		$boardSocket?.emit(
 			'startText',
-			obj,
+			{
+			position: $canvasCursorPosition,
+			username: $username!
+			},
 			(commandId: CommandId) => {
 				$currentCommandId = commandId;
-				console.log("Received ACK for Text", $currentCommandId);
 				updateText($currentCommandId!, $textString!);
 			}
 		);
 	}
 
 	function updateText(commandId: CommandId, content: string) {
-		const obj = {
+		$boardSocket?.emit('doText', {
 			content: content,
 			commandId: commandId
-		};
-
-		$boardSocket?.emit('doText', obj);
-		console.log("UpdateText sent content", obj);
+		});
 	}
 
 	function stopText() {
 		if ($cursorDown || $chosenTool !== ToolState.text || !isTexting) return;
 		$currentCommandId = null;
-		isTexting = false;
-		console.log('Tjek when stopText kører'); 
+		isTexting = false; 
 	}
 </script>
 

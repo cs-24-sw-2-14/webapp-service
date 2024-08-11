@@ -137,5 +137,6 @@
 	svg {
 		overscroll-behavior: none;
 		touch-action: pan-down;
+		user-select: none; /* Standard syntax */
 	}
 </style>

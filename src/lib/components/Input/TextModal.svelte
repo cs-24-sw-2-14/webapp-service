@@ -52,7 +52,7 @@
 		/*transform: translateY(0%);*/
 	}
 	hr {
-		border-color: rgb(255, 255, 255);
+		border-color: #ffffff;
 		margin-bottom: 1rem;
 	}
 
@@ -61,7 +61,7 @@
 		line-height: 1em;
 		margin-top: 0.25rem;
 		margin-bottom: 0.25rem;
-		color: rgb(212 212 216);
+		color: #d4d4d8;
 		text-align: center;
 		margin-bottom: 1rem;
 	}
