@@ -6,19 +6,29 @@ import type {
 	Threshold,
 	Username,
 	SvgString,
-	Color
+	Color,
+	TextString
 } from './types';
+// Imported all of the above types from the file types. 
 
 export interface InitServerToClientEvents {
+	// The interface InitServerToClientEvents consists of userChange and userRemove.  
 	userChange: (data: UserChangeEvent) => void;
+	// userChange consists of the interface UserChangeEvent and is an arrow function that returns void. 
 	userRemove: (data: UserRemoveEvent) => void;
+	// userRemove consists of the interface UserRemoveEvent and is an arrow function that returns void. 
 }
 
 export interface ServerToClientEvents {
+	// The interface ServerToClientEvents consists of edit, remove, userChange and userRemove.  
 	edit: (data: EditEvent) => void;
+	// 
 	remove: (data: RemoveEvent) => void;
+	// 
 	userChange: (data: UserChangeEvent) => void;
+	// 
 	userRemove: (data: UserRemoveEvent) => void;
+	// 
 }
 
 export interface ClientToServerEvents {
@@ -29,7 +39,7 @@ export interface ClientToServerEvents {
 	startMove: (data: StartMoveEvent, callback: StartAck) => void;
 	doMove: (data: DoMoveEvent) => void;
 	startText: (data: StartTextEvent, callback: StartAck) => void;
-	doText: (data: DoTextEvent, callback: StartAck) => void;
+	doText: (data: DoTextEvent) => void;
 	undo: (data: UndoEvent) => void;
 	redo: (data: RedoEvent) => void;
 	userChange: (data: UserChangeEvent) => void;
@@ -94,7 +104,7 @@ export interface StartTextEvent {
 
 export interface DoTextEvent {
 	commandId: CommandId;
-	content: string;
+	content: TextString;
 }
 
 export interface StartSuccessEvent {
@@ -111,9 +121,13 @@ export interface RedoEvent {
 }
 
 export interface EditEvent {
+	// EditEvent objects will need to have the properties svgString, position and commandId. 
 	svgString?: SvgString;
+	// Is either of the type SvgString or null. 
 	position?: CanvasCoordinateSet;
+	// Is either of the type CanvasCoordinateSet or null. 
 	commandId: CommandId;
+	// Is of the type CommandId. 
 }
 
 export interface RemoveEvent {

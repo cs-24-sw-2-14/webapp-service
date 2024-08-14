@@ -14,6 +14,7 @@
 	import MouseCursors from './MouseCursors.svelte';
 	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
+
 	onMount(() => {
 		resizeCanvas();
 	});
@@ -137,5 +138,6 @@
 	svg {
 		overscroll-behavior: none;
 		touch-action: pan-down;
+		user-select: none; /* Standard syntax */
 	}
 </style>

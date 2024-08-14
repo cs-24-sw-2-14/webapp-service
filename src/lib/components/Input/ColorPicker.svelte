@@ -1,8 +1,13 @@
-<script lang="ts">
-	import { colorMap } from '$lib/color';
-	import { Color, type User, type Username } from '$lib/types';
-	import { otherUsers } from '$lib/stores/socketioStore';
+<script lang="ts"> // The language is TypeScript 
+	import { colorMap } from '$lib/color'; 
+	// colorMap is imported from the file color in the lib folder 
+	import { Color, type User, type Username } from '$lib/types'; 
+	// Color, User and Username are imported from the file types in the lib folder 
+	import { otherUsers } from '$lib/stores/socketioStore'; 
+	// otherUsers is imported from the file 
 	export let colorPicked: Color | null = null;
+	// export the colorPicker. colorPicker is either a color or null. 
+	// Color is from types filen. 
 
 	function isDisabledByOtherUser(color: Color, otherUsers: Map<Username, User>): boolean {
 		for (const [_, user] of otherUsers) {

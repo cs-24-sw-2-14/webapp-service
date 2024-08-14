@@ -1,3 +1,4 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/* This is how to include Tailwind in the css for the project. It is just how it is done*/
