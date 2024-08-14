@@ -14,6 +14,7 @@
 	import MouseCursors from './MouseCursors.svelte';
 	import { viewportToCanvasCoordinatesFromCanvasView } from '$lib/utils';
 
+
 	onMount(() => {
 		resizeCanvas();
 	});

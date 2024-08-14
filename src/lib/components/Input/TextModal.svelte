@@ -6,7 +6,6 @@
 	export let dialog: HTMLDialogElement;
 	export let closable = true;
 	export let submit: (content: TextString) => void;
-	
 	export let contentField = '';
 	
 </script>
