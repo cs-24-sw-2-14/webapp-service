@@ -2,10 +2,13 @@
 	import Logo from './Logo.svelte';
 	import UserBubbles from '$lib/components/Navbar/UserBubbles.svelte';
 	import SettingsModal from '../SettingsModal.svelte';
+
+	import { boardId } from '$lib/stores/stateStore';
+	let uiColor = `#${$boardId}`;
 </script>
 
 <!-- Navbar -->
-<div class="fixed top-0 w-full h-14 bg-zinc-800">
+<div class="fixed top-0 w-full h-14" style="background-color: {uiColor}">
 	<!-- MagicBoard logo. Now clickable and navigates to the frontpage -->
 	<a href="/">
 		<Logo />
